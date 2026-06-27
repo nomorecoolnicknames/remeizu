@@ -358,19 +358,36 @@ class Component extends DCLogic {
         ],
       },
       {
-        name: 'Meizu M3 Note', codename: 'm681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
-        sub: { ru: 'LineageOS 14.1 · A7.1', en: 'LineageOS 14.1 · A7.1' },
+        name: 'Meizu M3 Note (M681)', codename: 'm681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
+        sub: { ru: 'LineageOS 14.1 · A7.1 · China', en: 'LineageOS 14.1 · A7.1 · China' },
         desc: {
-          ru: 'Стабильная база — ядро 3.10.72 + LineageOS 14.1 — грузится в систему: дисплей работает, камера снимает реальные фото (с шероховатостями), GPS подтверждён. Ревизия M3s (l681) идёт на той же базе. Параллельно эксперимент с ядром 3.18 (пока не загружается).',
-          en: 'The stable base — kernel 3.10.72 + LineageOS 14.1 — boots to UI: display works, the camera takes real photos (with rough edges), GPS confirmed. The M3s revision (l681) shares this base. A separate 3.18 kernel experiment is in progress (not booting yet).',
+          ru: 'Китайская версия M3 Note (M91 / m681). Стабильная база — ядро 3.10.72 + LineageOS 14.1 — грузится в систему: дисплей работает, камера снимает реальные фото (с шероховатостями), GPS подтверждён. Параллельно эксперимент с ядром 3.18 (пока не загружается).',
+          en: 'The China M3 Note (M91 / m681). Stable base — kernel 3.10.72 + LineageOS 14.1 — boots to UI: display works, camera takes real photos (rough edges), GPS confirmed. A separate 3.18 kernel experiment is in progress (not booting yet).',
         },
-        src: GH + '/android_kernel_meizu_l681',
+        src: GH + '/android_kernel_meizu_m681',
         hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
         vers: [
           { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: 'remeizu-14.1-m681 (из исходников)',
             cl: {
               ru: ['Камера ZSD делает реальные фото; авто-heal (watchdog) убирает зависания, задержка 45с→7с', 'GPS подтверждён', 'Дисплей работает на базе 3.10.72 + LineageOS 14.1', 'Задокументированы дефекты capture-P2 (фиолетовая дымка / зелёный кадр) — последний рычаг', 'Эксперимент с ядром 3.18 (m6-graft): локализована recovery-стена (initcall seq 50→100)'],
               en: ['ZSD camera takes real photos; auto-heal (watchdog) clears wedges, latency 45s→7s', 'GPS confirmed', 'Display works on the 3.10.72 + LineageOS 14.1 base', 'capture-P2 defects documented (purple haze / green frame) — the last lever', '3.18 kernel experiment (m6-graft): recovery wall localized (initcall seq 50→100)'],
+            } },
+        ],
+      },
+      {
+        name: 'Meizu M3 Note (L681)', codename: 'l681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
+        sub: { ru: 'LineageOS 14.1 · A7.1 · Global', en: 'LineageOS 14.1 · A7.1 · Global' },
+        desc: {
+          ru: 'Глобальная версия M3 Note (L91 / l681) — другая ревизия M681 на той же базе LineageOS 14.1 (ядро 3.10.72). Дисплей и камера работают как на M681; отличия — в модеме и региональных блобах.',
+          en: 'The Global M3 Note (L91 / l681) — a different revision of M681 on the same LineageOS 14.1 base (kernel 3.10.72). Display and camera work as on M681; differences are in the modem and regional blobs.',
+        },
+        src: GH + '/android_kernel_meizu_l681',
+        hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
+        vers: [
+          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: 'remeizu-14.1-l681 (из исходников)',
+            cl: {
+              ru: ['Та же база, что и M681: камера ZSD снимает реальные фото, GPS работает', 'Дисплей работает (3.10.72 + LineageOS 14.1)', 'Отдельные модемные / региональные блобы L91', 'Параллельно — эксперимент с ядром 3.18'],
+              en: ['Same base as M681: ZSD camera takes real photos, GPS works', 'Display works (3.10.72 + LineageOS 14.1)', 'Separate L91 modem / regional blobs', '3.18 kernel experiment in progress too'],
             } },
         ],
       },
@@ -412,12 +429,46 @@ class Component extends DCLogic {
         name: 'Meizu M5 Note', codename: 'm5note', s: 'planned', soc: 'MediaTek MT6755 (Helio P10)',
         sub: { ru: 'В планах', en: 'Planned' },
         desc: {
-          ru: 'В планах. Работа над портом ещё не начиналась.',
-          en: 'Planned. Porting work has not started yet.',
+          ru: 'В планах. Реально поднять на базе M3 Note — тот же Helio P10 (MT6755).',
+          en: 'Planned. Realistic to bring up on the M3 Note base — same Helio P10 (MT6755).',
         },
-        src: GH,
-        hw: {},
-        vers: [],
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M1 Note', codename: 'm1note', s: 'planned', soc: 'MediaTek MT6752',
+        sub: { ru: 'В планах', en: 'Planned' },
+        desc: {
+          ru: 'В планах. Можно поднять на базе M2 Note — близкий MediaTek (MT6752 ↔ MT6753).',
+          en: 'Planned. Can be brought up on the M2 Note base — close MediaTek (MT6752 ↔ MT6753).',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M6T', codename: 'm6t', s: 'planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'В планах', en: 'Planned' },
+        desc: {
+          ru: 'В планах. Прямой кандидат на базе Meizu M6 — тот же MediaTek MT6750.',
+          en: 'Planned. A direct candidate on the Meizu M6 base — the same MediaTek MT6750.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M5', codename: 'm5', s: 'planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'В планах', en: 'Planned' },
+        desc: {
+          ru: 'В планах. На базе Meizu M6 — тот же MT6750.',
+          en: 'Planned. On the Meizu M6 base — the same MT6750.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M5s', codename: 'm5s', s: 'planned', soc: 'MediaTek MT6753',
+        sub: { ru: 'В планах', en: 'Planned' },
+        desc: {
+          ru: 'В планах. На базе M2 Note — тот же MT6753.',
+          en: 'Planned. On the M2 Note base — the same MT6753.',
+        },
+        src: GH, hw: {}, vers: [],
       },
     ];
 
