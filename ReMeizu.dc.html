@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Manrope',system-ui,sans-serif;color:#1a1d23;background:#fff;-webkit-font-smoothing:antialiased}
+  ::selection{background:#2A6FDB;color:#fff}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideDown{from{opacity:0;max-height:0}to{opacity:1;max-height:300px}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#fff;display:flex;flex-direction:column">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #ededf0">
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:40px">
+        <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:8px;background:none;border:0;cursor:pointer;font-family:inherit;padding:0">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;color:#10131a">ReMeizu</span>
+          <span style="width:6px;height:6px;border-radius:50%;background:#2A6FDB;display:inline-block;margin-top:6px"></span>
+        </button>
+        <nav style="display:flex;align-items:center;gap:28px">
+          <button onClick="{{ goHome }}" style="{{ navFwStyle }}">{{ t.navFirmware }}</button>
+          <button onClick="{{ goGuide }}" style="{{ navGuideStyle }}">{{ t.navGuide }}</button>
+          <button onClick="{{ goCommunity }}" style="{{ navCommStyle }}">{{ t.navCommunity }}</button>
+        </nav>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="display:flex;border:1px solid #e3e5e9;border-radius:999px;padding:3px;background:#fff">
+          <button onClick="{{ setRu }}" style="{{ ruBtnStyle }}">RU</button>
+          <button onClick="{{ setEn }}" style="{{ enBtnStyle }}">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex:1">
+
+  <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
+    <div>
+      <section style="max-width:1180px;margin:0 auto;padding:60px 28px 8px;text-align:center;animation:fadeUp .6s ease both">
+        <h1 style="font-size:46px;font-weight:200;letter-spacing:-.02em;color:#10131a">{{ t.pageTitle }}</h1>
+        <p style="margin:16px auto 0;font-size:16px;color:#6b7280;font-weight:400;max-width:640px;line-height:1.55">{{ t.pageSub }}</p>
+      </section>
+
+      <div style="max-width:1180px;margin:0 auto;padding:40px 28px 0">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef0f2;padding-bottom:14px;flex-wrap:wrap;gap:14px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:14px;color:#9aa1ac;font-weight:500;margin-right:6px">{{ t.brand }}</span>
+            <button style="font-size:14px;font-weight:600;color:#fff;background:#2A6FDB;border:0;padding:8px 18px;border-radius:999px;cursor:pointer;font-family:inherit">Meizu</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#9aa1ac;font-weight:500">
+            <span style="width:7px;height:7px;border-radius:50%;background:#1f8a5b;display:inline-block"></span>{{ t.activeBuilds }}
+          </div>
+        </div>
+      </div>
+
+      <section style="max-width:1180px;margin:0 auto;padding:34px 28px 24px">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
+          <sc-for list="{{ devices }}" as="d" hint-placeholder-count="6">
+            <button onClick="{{ d.open }}" style="background:#fff;border:1px solid #ebedf0;border-radius:18px;padding:30px 18px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;cursor:pointer;font-family:inherit;transition:all .18s ease;text-align:center" style-hover="border-color:#c8d2e6;box-shadow:0 18px 40px -24px rgba(20,28,45,.3);transform:translateY(-3px)">
+              <div style="width:150px;height:200px;display:flex;align-items:center;justify-content:center">
+                <img src="{{ d.photo }}" alt="{{ d.name }}" style="max-width:100%;max-height:100%;object-fit:contain" />
+              </div>
+              <div>
+                <div style="font-size:16px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ d.name }}</div>
+                <div style="margin-top:4px;font-size:12px;color:#9aa1ac;font-weight:500">{{ d.sub }}</div>
+                <div style="margin-top:8px;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:{{ d.badgeBg }};color:{{ d.badgeFg }}">{{ d.status }}</div>
+              </div>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:center;margin-top:38px">
+          <button style="font-size:14px;font-weight:600;color:#9aa1ac;background:#fff;border:1px solid #e8eaed;padding:11px 26px;border-radius:999px;cursor:default;font-family:inherit">{{ t.loadMore }}</button>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sel }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1180px;margin:0 auto;padding:28px 28px 40px;animation:fadeUp .4s ease both">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#9aa1ac;margin-bottom:26px">
+        <button onClick="{{ goHome }}" style="background:none;border:0;cursor:pointer;font-family:inherit;font-size:13.5px;color:#2A6FDB;font-weight:600;padding:0">{{ t.firmwares }}</button>
+        <span>/</span><span>Meizu</span><span>/</span>
+        <span style="color:#5b626c;font-weight:600">{{ sel.name }}</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:32px;padding-bottom:30px;border-bottom:1px solid #eef0f2;flex-wrap:wrap">
+        <div style="width:130px;height:200px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <img src="{{ sel.photo }}" alt="{{ sel.name }}" style="max-width:100%;max-height:100%;object-fit:contain" />
+        </div>
+        <div style="flex:1;min-width:240px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <h1 style="font-size:32px;font-weight:800;letter-spacing:-.025em;color:#10131a">{{ sel.name }}</h1>
+            <span style="font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;background:{{ sel.badgeBg }};color:{{ sel.badgeFg }}">{{ sel.status }}</span>
+          </div>
+          <div style="font-family:'Space Grotesk',monospace;font-size:13px;color:#9aa1ac;margin-top:6px">codename: {{ sel.codename }} · {{ sel.soc }}</div>
+          <p style="margin-top:14px;font-size:15px;line-height:1.55;color:#6b7280;max-width:560px">{{ sel.desc }}</p>
+        </div>
+      </div>
+
+      <sc-if value="{{ sel.hasHw }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:26px">
+          <div style="font-size:12px;font-weight:700;color:#9aa1ac;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px">{{ t.hwTitle }}</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px">
+            <sc-for list="{{ sel.hw }}" as="h" hint-placeholder-count="8">
+              <div style="display:flex;align-items:center;gap:10px;border:1px solid #ebedf0;border-radius:12px;padding:11px 14px">
+                <span style="width:9px;height:9px;border-radius:50%;background:{{ h.dot }};flex-shrink:0"></span>
+                <div>
+                  <div style="font-size:13.5px;font-weight:600;color:#10131a;letter-spacing:-.01em">{{ h.label }}</div>
+                  <div style="font-size:11.5px;color:#9aa1ac">{{ h.state }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:10px;font-size:12px;color:#b0b6bf">{{ t.hwLegend }}</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;gap:8px;margin-top:28px;margin-bottom:18px">
+        <span style="font-size:14px;font-weight:700;color:#10131a;border-bottom:2px solid #2A6FDB;padding:0 4px 10px">{{ sel.branchLabel }}</span>
+        <span style="font-size:14px;font-weight:500;color:#b0b6bf;padding:0 4px 10px">{{ t.archive }}</span>
+      </div>
+
+      <sc-if value="{{ sel.hasVersions }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ sel.versions }}" as="v" hint-placeholder-count="2">
+            <div style="border:1px solid #ebedf0;border-radius:16px;overflow:hidden;background:#fff">
+              <button onClick="{{ v.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left">
+                <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                  <span style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#10131a">{{ v.os }}</span>
+                  <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac">{{ v.ver }}</span>
+                  <sc-if value="{{ v.isLatest }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:#eef3fd;color:#2A6FDB;letter-spacing:.02em">{{ t.latest }}</span>
+                  </sc-if>
+                </div>
+                <div style="display:flex;align-items:center;gap:22px;flex-shrink:0">
+                  <span style="font-size:13px;color:#9aa1ac;font-weight:500">Android {{ v.android }}</span>
+                  <span style="font-size:13px;color:#9aa1ac;font-weight:500">{{ v.date }}</span>
+                  <span style="font-size:13px;color:#9aa1ac;font-weight:500">{{ v.size }}</span>
+                  <span style="font-size:13px;color:#c2c7cf;transform:{{ v.chevron }};transition:transform .2s ease;display:inline-block">▾</span>
+                </div>
+              </button>
+              <sc-if value="{{ v.expanded }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 24px 22px;border-top:1px solid #f3f4f6">
+                  <div style="font-size:12px;font-weight:700;color:#9aa1ac;text-transform:uppercase;letter-spacing:.05em;margin:18px 0 12px">{{ t.changelog }}</div>
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <sc-for list="{{ v.changelog }}" as="c" hint-placeholder-count="3">
+                      <div style="display:flex;gap:10px;align-items:flex-start">
+                        <span style="width:5px;height:5px;border-radius:50%;background:#2A6FDB;margin-top:8px;flex-shrink:0"></span>
+                        <span style="font-size:14px;line-height:1.5;color:#525862">{{ c }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+                    <sc-if value="{{ v.hasDl }}" hint-placeholder-val="{{ true }}">
+                      <a href="{{ v.dl }}" target="_blank" style="font-size:14px;font-weight:700;color:#fff;background:#2A6FDB;padding:12px 24px;border-radius:11px;text-decoration:none;box-shadow:0 8px 20px rgba(42,111,219,.26)">{{ t.dlBtn }}</a>
+                    </sc-if>
+                    <a href="{{ v.src }}" target="_blank" style="font-size:14px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:12px 24px;border-radius:11px;text-decoration:none">{{ t.srcBtn }}</a>
+                    <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac">{{ v.fileName }}</span>
+                  </div>
+                  <sc-if value="{{ v.noDl }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:12px;font-size:12.5px;color:#c2731f;font-weight:600">{{ t.noBuild }}</div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ sel.isPlanned }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed #d9dde2;border-radius:16px;padding:30px 24px;text-align:center;color:#9aa1ac;font-size:14.5px">{{ t.plannedNote }}</div>
+      </sc-if>
+
+      <p style="margin-top:24px;font-size:12.5px;color:#b0b6bf;line-height:1.55;max-width:680px">{{ t.warn }}</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isGuide }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:880px;margin:0 auto;padding:56px 28px 48px;animation:fadeUp .5s ease both">
+      <h1 style="font-size:40px;font-weight:200;letter-spacing:-.02em;color:#10131a;text-align:center">{{ guide.title }}</h1>
+      <p style="margin:16px auto 0;font-size:16px;line-height:1.6;color:#6b7280;max-width:600px;text-align:center">{{ guide.intro }}</p>
+
+      <div style="margin-top:40px;border:1px solid #ebedf0;border-radius:18px;padding:26px 28px;background:#fafbfc">
+        <div style="font-size:13px;font-weight:700;color:#9aa1ac;text-transform:uppercase;letter-spacing:.05em">{{ guide.reqTitle }}</div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <sc-for list="{{ guide.req }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <span style="width:6px;height:6px;border-radius:50%;background:#2A6FDB;margin-top:8px;flex-shrink:0"></span>
+              <span style="font-size:14.5px;line-height:1.5;color:#525862">{{ r }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:36px;display:flex;flex-direction:column;gap:14px">
+        <sc-for list="{{ guide.steps }}" as="s" hint-placeholder-count="6">
+          <div style="display:flex;gap:20px;align-items:flex-start;border:1px solid #ebedf0;border-radius:16px;padding:22px 24px;background:#fff">
+            <div style="width:38px;height:38px;border-radius:11px;background:#eef3fd;color:#2A6FDB;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0">{{ s.n }}</div>
+            <div>
+              <div style="font-size:17px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ s.h }}</div>
+              <div style="margin-top:6px;font-size:14.5px;line-height:1.6;color:#6b7280">{{ s.d }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <p style="margin-top:24px;font-size:12.5px;color:#b0b6bf;line-height:1.55;text-align:center">{{ t.warn }}</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCommunity }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:920px;margin:0 auto;padding:56px 28px 48px;animation:fadeUp .5s ease both">
+      <h1 style="font-size:40px;font-weight:200;letter-spacing:-.02em;color:#10131a;text-align:center">{{ community.title }}</h1>
+      <p style="margin:16px auto 0;font-size:16px;line-height:1.6;color:#6b7280;max-width:560px;text-align:center">{{ community.intro }}</p>
+
+      <div style="margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <sc-for list="{{ community.cards }}" as="c" hint-placeholder-count="4">
+          <a href="{{ c.url }}" target="_blank" style="text-decoration:none;border:1px solid #ebedf0;border-radius:18px;padding:26px 26px 24px;background:#fff;display:block;transition:all .18s ease" style-hover="border-color:#c8d2e6;box-shadow:0 18px 40px -24px rgba(20,28,45,.3);transform:translateY(-3px)">
+            <div style="width:42px;height:42px;border-radius:12px;background:#eef3fd;color:#2A6FDB;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center">{{ c.tag }}</div>
+            <div style="margin-top:18px;font-size:18px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ c.h }}</div>
+            <div style="margin-top:7px;font-size:14.5px;line-height:1.55;color:#6b7280">{{ c.d }}</div>
+            <div style="margin-top:16px;font-size:14px;font-weight:700;color:#2A6FDB">{{ c.cta }} →</div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+  </main>
+
+  <footer style="border-top:1px solid #f0f1f3">
+    <div style="max-width:1180px;margin:0 auto;padding:36px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;color:#10131a">ReMeizu</span>
+        <span style="width:5px;height:5px;border-radius:50%;background:#2A6FDB;margin-top:6px"></span>
+      </div>
+      <div style="font-size:12.5px;color:#9aa1ac">{{ t.footNote }}</div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'ru', page: 'firmware', selected: null, expanded: null };
+
+  renderVals() {
+    const lang = this.state.lang;
+    const setRu = () => this.setState({ lang: 'ru' });
+    const setEn = () => this.setState({ lang: 'en' });
+    const scrollTop = () => { try { window.scrollTo(0, 0); } catch (e) {} };
+    const goHome = () => { this.setState({ page: 'firmware', selected: null }); scrollTop(); };
+    const goGuide = () => { this.setState({ page: 'guide', selected: null }); scrollTop(); };
+    const goCommunity = () => { this.setState({ page: 'community', selected: null }); scrollTop(); };
+    const page = this.state.page;
+    const navStyle = (on) => "font-size:14px;font-weight:" + (on ? 600 : 500) + ";color:" + (on ? '#10131a' : '#5b626c') + ";background:none;border:0;cursor:pointer;font-family:inherit;padding:0";
+
+    const activeBtn = "border:0;background:#2A6FDB;color:#fff;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
+    const idleBtn = "border:0;background:transparent;color:#7a818c;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
+
+    const STR = {
+      ru: {
+        navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
+        pageTitle: 'Кастомные прошивки ReMeizu',
+        pageSub: 'Сборки LineageOS из исходников для старых телефонов Meizu. Это bring-up: не всё железо ещё работает — у каждого устройства честно указан статус и что именно функционирует.',
+        brand: 'Бренд:', activeBuilds: 'В активной разработке', loadMore: 'Больше устройств позже',
+        firmwares: 'Прошивки', archive: 'Архив версий', latest: 'Последняя', changelog: 'Что нового',
+        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Публичной загрузки пока нет — сборка из исходников.',
+        hwTitle: 'Что работает', hwLegend: 'Зелёный — работает, оранжевый — в работе, красный — не работает, серый — не проверено.',
+        plannedNote: 'Это устройство в планах. Работа над портом ещё не начиналась.',
+        colDate: 'Дата', colSize: 'Размер',
+        warn: 'Это неофициальные экспериментальные сборки в активной разработке (bring-up). На части устройств не работают камера, отпечаток, иногда связь или Wi-Fi — смотри статус железа у конкретной модели. Прошивка ставится на свой страх и риск: сделай бэкап и разблокируй загрузчик. Проект не связан с Meizu.',
+        footNote: 'Неофициальный проект. Не связан с Meizu. © 2026 ReMeizu',
+      },
+      en: {
+        navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
+        pageTitle: 'ReMeizu custom firmware',
+        pageSub: 'LineageOS builds from source for older Meizu phones. This is bring-up: not all hardware works yet — every device shows an honest status and exactly what functions.',
+        brand: 'Brand:', activeBuilds: 'Under active development', loadMore: 'More devices later',
+        firmwares: 'Firmware', archive: 'Version archive', latest: 'Latest', changelog: "What's new",
+        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No public download yet — build from source.',
+        hwTitle: 'What works', hwLegend: 'Green — working, orange — in progress, red — broken, grey — untested.',
+        plannedNote: 'This device is planned. Porting work has not started yet.',
+        colDate: 'Date', colSize: 'Size',
+        warn: 'These are unofficial, experimental, actively-developed bring-up builds. On some devices the camera, fingerprint, and sometimes cellular or Wi-Fi do not work — check the per-device hardware status. Flashing is at your own risk: back up your data and unlock the bootloader. Not affiliated with Meizu.',
+        footNote: 'Unofficial project. Not affiliated with Meizu. © 2026 ReMeizu',
+      }
+    };
+    const t = STR[lang];
+
+    const badge = {
+      stable:  { bg: '#e7f6ee', fg: '#1f8a5b' },
+      beta:    { bg: '#eef3fd', fg: '#2A6FDB' },
+      alpha:   { bg: '#fdf1e7', fg: '#c2731f' },
+      bringup: { bg: '#f3eefe', fg: '#7a4fd0' },
+      planned: { bg: '#f1f2f4', fg: '#9aa1ac' },
+    };
+    const statusLabel = {
+      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах' },
+      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned' },
+    };
+    const branchLabel = {
+      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах' },
+      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned' },
+    };
+
+    const hwState = {
+      ok:      { dot: '#1f8a5b', ru: 'Работает',    en: 'Working' },
+      wip:     { dot: '#c2731f', ru: 'В работе',     en: 'In progress' },
+      broken:  { dot: '#d14343', ru: 'Не работает',  en: 'Broken' },
+      unknown: { dot: '#c2c7cf', ru: 'Не проверено', en: 'Untested' },
+    };
+    const hwLabel = {
+      display: { ru: 'Дисплей', en: 'Display' },
+      touch:   { ru: 'Сенсор', en: 'Touch' },
+      wifi:    { ru: 'Wi-Fi', en: 'Wi-Fi' },
+      bt:      { ru: 'Bluetooth', en: 'Bluetooth' },
+      ril:     { ru: 'Связь/звонки', en: 'Calls & data' },
+      camera:  { ru: 'Камера', en: 'Camera' },
+      fp:      { ru: 'Отпечаток', en: 'Fingerprint' },
+      audio:   { ru: 'Звук', en: 'Audio' },
+      sensors: { ru: 'Датчики', en: 'Sensors' },
+      gps:     { ru: 'GPS', en: 'GPS' },
+      charge:  { ru: 'Зарядка', en: 'Charging' },
+    };
+    const HW_ORDER = ['display', 'touch', 'wifi', 'bt', 'ril', 'camera', 'fp', 'audio', 'sensors', 'gps', 'charge'];
+
+    const GH = 'https://github.com/nomorecoolnicknames';
+
+    const RAW = [
+      {
+        name: 'Meizu M6', codename: 'meizu_m6', s: 'alpha', soc: 'MediaTek MT6750',
+        sub: { ru: 'LineageOS 15.1 · A8.1', en: 'LineageOS 15.1 · A8.1' },
+        desc: {
+          ru: 'Самое продвинутое устройство проекта. LineageOS 15.1 грузится в систему: дисплей, Wi-Fi и сенсор работают. Камера (HAL3) и отпечаток (Goodix + TEE) — в активной доработке.',
+          en: 'The most advanced device in the project. LineageOS 15.1 boots to UI: display, Wi-Fi and touch work. Camera (HAL3) and fingerprint (Goodix + TEE) are actively being fixed.',
+        },
+        src: GH + '/android_kernel_meizu_m6',
+        hw: { display: 'ok', touch: 'ok', wifi: 'ok', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
+        vers: [
+          { os: 'LineageOS 15.1', ver: '15.1-20260622', android: '8.1', date: '22 Jun 2026', size: '570 MB', file: 'lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip', dl: 'https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/meizu_m6-lineage-15.1-20260622/lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip',
+            cl: {
+              ru: ['Дисплей полностью починен: аппаратный поворот 180°, убран джиттер (GPU-композиция), без чёрного экрана', 'Wi-Fi поднят (wlan0 UP)', 'Собран полный установочный OTA (548 МБ), ставится через TWRP (sideload)', 'Камера: диагностирована цепочка HAL3, добавлены blob-ы и shim-ы (в работе)', 'Отпечаток Goodix + MicroTrust TEE: стек установлен, enroll в работе'],
+              en: ['Display fully fixed: hardware 180° rotation, jitter removed (GPU composition), no black screen', 'Wi-Fi up (wlan0 UP)', 'Full installable OTA built (548 MB), flashes via TWRP (sideload)', 'Camera: HAL3 chain diagnosed, blobs and shims added (WIP)', 'Fingerprint Goodix + MicroTrust TEE: stack installed, enroll WIP'],
+            } },
+        ],
+      },
+      {
+        name: 'Meizu M3 Note', codename: 'm681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
+        sub: { ru: 'LineageOS 14.1 · A7.1', en: 'LineageOS 14.1 · A7.1' },
+        desc: {
+          ru: 'Стабильная база — ядро 3.10.72 + LineageOS 14.1 — грузится в систему: дисплей работает, камера снимает реальные фото (с шероховатостями), GPS подтверждён. Ревизия M3s (l681) идёт на той же базе. Параллельно эксперимент с ядром 3.18 (пока не загружается).',
+          en: 'The stable base — kernel 3.10.72 + LineageOS 14.1 — boots to UI: display works, the camera takes real photos (with rough edges), GPS confirmed. The M3s revision (l681) shares this base. A separate 3.18 kernel experiment is in progress (not booting yet).',
+        },
+        src: GH + '/android_kernel_meizu_l681',
+        hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
+        vers: [
+          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: 'remeizu-14.1-m681 (из исходников)',
+            cl: {
+              ru: ['Камера ZSD делает реальные фото; авто-heal (watchdog) убирает зависания, задержка 45с→7с', 'GPS подтверждён', 'Дисплей работает на базе 3.10.72 + LineageOS 14.1', 'Задокументированы дефекты capture-P2 (фиолетовая дымка / зелёный кадр) — последний рычаг', 'Эксперимент с ядром 3.18 (m6-graft): локализована recovery-стена (initcall seq 50→100)'],
+              en: ['ZSD camera takes real photos; auto-heal (watchdog) clears wedges, latency 45s→7s', 'GPS confirmed', 'Display works on the 3.10.72 + LineageOS 14.1 base', 'capture-P2 defects documented (purple haze / green frame) — the last lever', '3.18 kernel experiment (m6-graft): recovery wall localized (initcall seq 50→100)'],
+            } },
+        ],
+      },
+      {
+        name: 'Meizu M2 Note', codename: 'm2note', s: 'bringup', soc: 'MediaTek MT6753',
+        sub: { ru: 'LineageOS 15.1 · A8.1', en: 'LineageOS 15.1 · A8.1' },
+        desc: {
+          ru: 'LineageOS 15.1 bring-up. Загружается на устройстве; идёт перенос камеры на сборку из исходников (mtkcam). Делит дерево сборки с Meizu M6.',
+          en: 'LineageOS 15.1 bring-up. Boots on device; the camera is being moved to a source build (mtkcam). Shares the build tree with Meizu M6.',
+        },
+        src: GH + '?tab=repositories&q=m2note',
+        hw: { display: 'ok', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
+        vers: [
+          { os: 'LineageOS 15.1', ver: '15.1-bringup', android: '8.1', date: '27 Jun 2026', size: '—', file: 'boot v481 (на устройстве)',
+            cl: {
+              ru: ['Загружается на устройстве (boot v481)', 'Идёт перенос камеры (mtkcam / libimageio) на сборку из исходников', 'Делит дерево сборки с Meizu M6 (LineageOS 15.1)'],
+              en: ['Boots on device (boot v481)', 'Camera (mtkcam / libimageio) being ported to a source build', 'Shares the build tree with Meizu M6 (LineageOS 15.1)'],
+            } },
+        ],
+      },
+      {
+        name: 'Meizu M5c', codename: 'm5c', s: 'bringup', soc: 'MediaTek MT6737m',
+        sub: { ru: 'LineageOS 14.1 · A7.1', en: 'LineageOS 14.1 · A7.1' },
+        desc: {
+          ru: 'LineageOS 14.1 / Nougat. Есть дерево device/vendor, патчи MTK и recovery OrangeFox. Под активной разработкой, загрузка на железе ещё не подтверждена.',
+          en: 'LineageOS 14.1 / Nougat. Device/vendor tree, MTK patches and OrangeFox recovery exist. Under active development; boot on hardware not yet confirmed.',
+        },
+        src: GH + '/android_device_meizu_m5c',
+        hw: { display: 'unknown', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'unknown', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
+        vers: [
+          { os: 'LineageOS 14.1', ver: '14.1-bringup', android: '7.1', date: '15 Jun 2026', size: '—', file: 'из исходников',
+            cl: {
+              ru: ['Дерево device + vendor + патчи MTK', 'Recovery OrangeFox', 'Под активной разработкой'],
+              en: ['Device + vendor tree + MTK patches', 'OrangeFox recovery', 'Under active development'],
+            } },
+        ],
+      },
+      {
+        name: 'Meizu M5 Note', codename: 'm5note', s: 'planned', soc: 'MediaTek MT6755 (Helio P10)',
+        sub: { ru: 'В планах', en: 'Planned' },
+        desc: {
+          ru: 'В планах. Работа над портом ещё не начиналась.',
+          en: 'Planned. Porting work has not started yet.',
+        },
+        src: GH,
+        hw: {},
+        vers: [],
+      },
+    ];
+
+    const devices = RAW.map((d, i) => ({
+      name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg', sub: d.sub[lang],
+      status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
+      open: () => { this.setState({ selected: i, expanded: d.vers.length ? i + '-0' : null }); try { window.scrollTo(0, 0); } catch (e) {} },
+    }));
+
+    let sel = null;
+    if (this.state.selected != null) {
+      const d = RAW[this.state.selected];
+      const si = this.state.selected;
+      const hwList = HW_ORDER.filter(k => d.hw[k]).map(k => ({
+        label: hwLabel[k][lang], dot: hwState[d.hw[k]].dot, state: hwState[d.hw[k]][lang],
+      }));
+      sel = {
+        name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg', soc: d.soc, desc: d.desc[lang],
+        status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
+        branchLabel: branchLabel[lang][d.s],
+        hw: hwList, hasHw: hwList.length > 0,
+        hasVersions: d.vers.length > 0, isPlanned: d.s === 'planned',
+        versions: d.vers.map((v, j) => {
+          const id = si + '-' + j;
+          const expanded = this.state.expanded === id;
+          return {
+            os: v.os, ver: v.ver, android: v.android, date: v.date, size: v.size,
+            changelog: v.cl[lang], fileName: v.file, src: d.src, dl: v.dl || '', hasDl: !!v.dl, noDl: !v.dl,
+            isLatest: j === 0, expanded,
+            chevron: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            toggle: () => this.setState(s => ({ expanded: s.expanded === id ? null : id })),
+          };
+        }),
+      };
+    }
+
+    const GUIDE = {
+      ru: {
+        title: 'Как установить ReMeizu',
+        intro: 'Сначала открой страницу своего устройства и посмотри статус и «Что работает» — на части моделей ещё нет камеры/связи. Установка занимает 10–15 минут.',
+        reqTitle: 'Что понадобится',
+        req: ['ПК с установленными adb и fastboot', 'USB-кабель и заряд телефона выше 50%', 'Разблокированный загрузчик', 'Резервная копия всех важных данных'],
+        steps: [
+          { h: 'Разблокируй загрузчик', d: 'Модели на MediaTek (M6, M3 Note, M2 Note, M5c) разблокируются утилитой mtkclient из режима BROM (выключенный телефон + зажатые кнопки громкости).' },
+          { h: 'Прошей кастомный recovery', d: 'Загрузись в fastboot и прошей TWRP / OrangeFox для своей модели.' },
+          { h: 'Сделай полный wipe', d: 'В recovery очисти разделы Data, Cache и Dalvik. При переходе со стока или другой прошивки это обязательно.' },
+          { h: 'Прошей образ ReMeizu', d: 'Установи .zip через adb sideload или прямо из recovery. Пока сборки не выложены публично — собери из исходников (ссылки на странице устройства).' },
+          { h: '(Опц.) Прошей GApps', d: 'Нужны сервисы Google — установи подходящий пакет GApps сразу после прошивки (для Android 7.1/8.1).' },
+          { h: 'Перезагрузись', d: 'Первая загрузка занимает несколько минут — это нормально.' },
+        ],
+      },
+      en: {
+        title: 'How to install ReMeizu',
+        intro: 'First open your device page and check the status and "What works" — some models still lack camera/cellular. The install takes 10–15 minutes.',
+        reqTitle: 'What you need',
+        req: ['A PC with adb and fastboot installed', 'A USB cable and phone charge above 50%', 'An unlocked bootloader', 'A backup of all important data'],
+        steps: [
+          { h: 'Unlock the bootloader', d: 'MediaTek models (M6, M3 Note, M2 Note, M5c) unlock with mtkclient from BROM mode (powered-off phone + held volume keys).' },
+          { h: 'Flash a custom recovery', d: 'Boot into fastboot and flash TWRP / OrangeFox for your model.' },
+          { h: 'Do a full wipe', d: 'In recovery wipe Data, Cache and Dalvik. Mandatory when coming from stock or another ROM.' },
+          { h: 'Flash the ReMeizu image', d: 'Install the .zip via adb sideload or straight from recovery. Builds are not published yet — build from source (links on the device page).' },
+          { h: '(Optional) Flash GApps', d: 'If you need Google services, install the matching GApps package right after flashing (for Android 7.1/8.1).' },
+          { h: 'Reboot', d: 'The first boot takes a few minutes — that is normal.' },
+        ],
+      },
+    };
+
+    const COMMUNITY = {
+      ru: {
+        title: 'Сообщество',
+        intro: 'Открытые исходники, заметки по bring-up и баг-репорты. Всё разрабатывается в открытую.',
+        cards: [
+          { tag: 'GH', h: 'Исходники', d: 'Деревья ядра/device/vendor и заметки по bring-up на GitHub.', cta: 'GitHub', url: GH },
+          { tag: 'TG', h: 'Telegram', d: 'Канал с анонсами и чат (если включён).', cta: 'Открыть', url: 'https://t.me/remeizu' },
+          { tag: 'BUG', h: 'Баг-трекер', d: 'Нашёл проблему — заведи issue в нужном репозитории на GitHub.', cta: 'Сообщить', url: GH },
+          { tag: 'FRM', h: 'Форум', d: 'Темы по устройствам на 4PDA / XDA (ссылки появятся позже).', cta: 'Скоро', url: '#' },
+        ],
+      },
+      en: {
+        title: 'Community',
+        intro: 'Open sources, bring-up notes and bug reports. Everything is developed in the open.',
+        cards: [
+          { tag: 'GH', h: 'Sources', d: 'Kernel/device/vendor trees and bring-up notes on GitHub.', cta: 'GitHub', url: GH },
+          { tag: 'TG', h: 'Telegram', d: 'Channel with announcements plus chat (if enabled).', cta: 'Open', url: 'https://t.me/remeizu' },
+          { tag: 'BUG', h: 'Bug tracker', d: 'Found a problem? File an issue in the relevant GitHub repo.', cta: 'Report', url: GH },
+          { tag: 'FRM', h: 'Forum', d: 'Per-device threads on 4PDA / XDA (links coming later).', cta: 'Soon', url: '#' },
+        ],
+      },
+    };
+
+    return {
+      t, devices, sel,
+      isGrid: page === 'firmware' && this.state.selected == null,
+      isGuide: page === 'guide',
+      isCommunity: page === 'community',
+      guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })) },
+      community: COMMUNITY[lang],
+      setRu, setEn, goHome, goGuide, goCommunity,
+      navFwStyle: navStyle(page === 'firmware'),
+      navGuideStyle: navStyle(page === 'guide'),
+      navCommStyle: navStyle(page === 'community'),
+      ruBtnStyle: lang === 'ru' ? activeBtn : idleBtn,
+      enBtnStyle: lang === 'en' ? activeBtn : idleBtn,
+    };
+  }
+}
+</script>
+</body>
+</html>
