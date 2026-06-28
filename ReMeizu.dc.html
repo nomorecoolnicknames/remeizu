@@ -223,33 +223,204 @@
         </sc-for>
       </div>
 
-            <!-- MTKClient unlock guide -->
-      <div style="margin-top:48px;border:1px solid #eef1f6;border-radius:24px;padding:32px;background:#fcfdfe">
-        <h2 style="font-size:22px;font-weight:700;color:#10131a;letter-spacing:-.015em">{{ guide.mtkUnlock.title }}</h2>
-        <p style="margin-top:8px;font-size:14.5px;line-height:1.6;color:#5b626c">{{ guide.mtkUnlock.desc }}</p>
-
-        <div style="margin-top:20px;border:1px solid #ebedf0;border-radius:14px;padding:18px 20px;background:#fff">
-          <div style="font-size:11.5px;font-weight:700;color:#9aa1ac;text-transform:uppercase;letter-spacing:.05em">{{ lang === 'ru' ? 'Что нужно:' : 'What you need:' }}</div>
-          <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
-            <sc-for list="{{ guide.mtkUnlock.reqs }}" as="req">
-              <div style="display:flex;gap:8px;align-items:flex-start">
-                <span style="width:5px;height:5px;border-radius:50%;background:#2A6FDB;margin-top:8px;flex-shrink:0"></span>
-                <span style="font-size:13.5px;line-height:1.5;color:#4a505c">{{ req }}</span>
-              </div>
-            </sc-for>
+            <!-- MTKClient interactive unlock guide -->
+      <div style="margin-top:48px;border:1px solid #eef1f6;border-radius:24px;padding:34px;background:#fcfdfe;box-shadow:0 10px 30px rgba(0,0,0,0.012);animation:fadeUp .5s ease both">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <div>
+            <h2 style="font-size:22px;font-weight:800;color:#10131a;letter-spacing:-.02em">{{ wTxt.title }}</h2>
+            <p style="margin-top:6px;font-size:14.5px;line-height:1.55;color:#6b7280;max-width:620px">{{ wTxt.desc }}</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;background:#f1f2f4;padding:4px;border-radius:999px">
+            <button onClick="{{ setOsWin }}" style="{{ wizardOsWinStyle }}">Windows</button>
+            <button onClick="{{ setOsLinux }}" style="{{ wizardOsLinuxStyle }}">Linux</button>
           </div>
         </div>
 
-        <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
-          <sc-for list="{{ guide.mtkUnlock.steps }}" as="s">
-            <div style="display:flex;gap:16px;align-items:flex-start;border:1px solid #ebedf0;border-radius:14px;padding:18px 20px;background:#fff">
-              <div style="width:24px;height:24px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">{{ s.n }}</div>
-              <div>
-                <div style="font-size:15px;font-weight:700;color:#10131a">{{ s.h }}</div>
-                <div style="margin-top:6px;font-size:13.5px;line-height:1.6;color:#6b7280;white-space:pre-line">{{ s.d }}</div>
+        <!-- Stepper -->
+        <div style="margin-top:34px;display:flex;align-items:center;gap:10px;padding-bottom:28px;border-bottom:1px solid #eef0f2">
+          <!-- Step 1 badge -->
+          <button onClick="{{ clickStep1 }}" style="{{ stepBadgeStyle(1) }};border:0;cursor:pointer">1</button>
+          <div style="{{ stepLineStyle(1) }}"></div>
+          
+          <!-- Step 2 badge -->
+          <button onClick="{{ clickStep2 }}" style="{{ stepBadgeStyle(2) }};border:0;cursor:pointer">2</button>
+          <div style="{{ stepLineStyle(2) }}"></div>
+          
+          <!-- Step 3 badge -->
+          <button onClick="{{ clickStep3 }}" style="{{ stepBadgeStyle(3) }};border:0;cursor:pointer">3</button>
+          <div style="{{ stepLineStyle(3) }}"></div>
+          
+          <!-- Step 4 badge -->
+          <button onClick="{{ clickStep4 }}" style="{{ stepBadgeStyle(4) }};border:0;cursor:pointer">4</button>
+        </div>
+
+        <!-- Step content panel -->
+        <div style="margin-top:28px;min-height:220px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h3 style="font-size:17.5px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ wTxt.stepLabel }} {{ wizardStep }}: {{ currentStepTitle }}</h3>
+            <span style="font-size:12.5px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:4px 10px;border-radius:999px">{{ wizardMethod.toUpperCase() }}</span>
+          </div>
+
+          <!-- STEP 1 DETAILS -->
+          <sc-if value="{{ wizardStep === 1 }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <sc-if value="{{ wizardOs === 'win' }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div>
+                    <b>Установите Python 3</b> с официального сайта: <a href="https://www.python.org/downloads/" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">python.org/downloads</a>.
+                    <div style="margin-top:4px;font-size:13px;color:#c2731f;font-weight:600">⚠️ Важно: при установке обязательно поставьте галочку "Add Python to PATH"!</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div>
+                    <b>Установите драйвер UsbDk</b>: <a href="https://github.com/daynix/UsbDk/releases" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
+                    <div style="margin-top:4px;font-size:13px;color:#5b626c">Это необходимо для стабильного перехвата телефона в режиме Boot ROM (BROM) на Windows.</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                  <div>
+                    <b>Установите Git</b>: <a href="https://git-scm.com/downloads" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">git-scm.com</a>.
+                    <div style="margin-top:4px;font-size:13px;color:#5b626c">Git понадобится для загрузки актуального репозитория утилиты.</div>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ wizardOs === 'linux' }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div style="flex:1">
+                    Установите Python, pip и git через ваш пакетный менеджер. Для Ubuntu/Debian:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">sudo apt update && sudo apt install python3 python3-pip git -y</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div style="flex:1">
+                    Настройте правила доступа <b>udev</b> для работы без прав root (чтобы mtkclient мог открыть USB-порт):
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- STEP 2 DETAILS -->
+          <sc-if value="{{ wizardStep === 2 }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Откройте терминал (командную строку) и склонируйте репозиторий утилиты MTKClient:
+                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Перейдите в созданную папку:
+                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                <div style="flex:1">
+                  Установите необходимые зависимости Python:
+                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                  <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">Если возникнет ошибка прав доступа, запустите команду с флагом <code>--user</code>.</div>
+                </div>
               </div>
             </div>
-          </sc-for>
+          </sc-if>
+
+          <!-- STEP 3 DETAILS -->
+          <sc-if value="{{ wizardStep === 3 }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div>
+                  Отключите телефон от кабеля и <b>полностью выключите его</b>. Дождитесь вибрации, чтобы убедиться, что питание отключено.
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div>
+                  Зажмите и удерживайте обе кнопки громкости: <b>Громкость Вверх (Vol+) + Громкость Вниз (Vol-)</b>.
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                <div>
+                  Удерживая кнопки зажатыми, подключите USB-кабель от ПК к телефону.
+                </div>
+              </div>
+              <div style="padding:12px 16px;background:#fff8eb;border-left:3px solid #c2731f;border-radius:8px;font-size:13.5px;color:#7e4c10">
+                <b>💡 Важный совет:</b> Держите кнопки нажатыми до тех пор, пока программа на следующем шаге не начнет считывать данные. Экран телефона при этом должен оставаться абсолютно черным (без логотипа Meizu/Flyme и без анимации зарядки).
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 4 DETAILS -->
+          <sc-if value="{{ wizardStep === 4 }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
+                <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
+                <div style="display:flex;gap:8px;background:#f1f2f4;padding:3px;border-radius:999px">
+                  <button onClick="{{ setMethodGui }}" style="{{ wizardMethodGuiStyle }}">GUI (Графика)</button>
+                  <button onClick="{{ setMethodCli }}" style="{{ wizardMethodCliStyle }}">CLI (Консоль)</button>
+                </div>
+              </div>
+
+              <!-- GUI method -->
+              <sc-if value="{{ wizardMethod === 'gui' }}" hint-placeholder-val="{{ true }}">
+                <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
+                  <div>1. Запустите графическую утилиту:</div>
+                  <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+                  <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+                  <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
+                  <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
+                  <div>5. Отключите USB-кабель. Зажмите кнопку питания, чтобы включить телефон. Загрузчик выдаст предупреждение, после чего телефон автоматически очистит память (Wipe) и загрузит систему.</div>
+                </div>
+              </sc-if>
+
+              <!-- CLI method -->
+              <sc-if value="{{ wizardMethod === 'cli' }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
+                  <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
+                  <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+                  <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+                  <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
+                  <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
+                  <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- Checklist -->
+        <sc-if value="{{ wizardStep < 4 }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:26px;background:#fff;border:1px solid #eef1f6;border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px">
+            <input type="checkbox" checked="{{ wizardCheckState }}" onClick="{{ toggleWizardCheck }}" style="width:18px;height:18px;cursor:pointer" />
+            <span onClick="{{ toggleWizardCheck }}" style="font-size:14px;font-weight:600;color:#10131a;cursor:pointer">{{ wTxt.chkReady }}</span>
+          </div>
+        </sc-if>
+
+        <!-- Stepper Actions -->
+        <div style="margin-top:32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #eef0f2;padding-top:20px">
+          <sc-if value="{{ wizardStep > 1 }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ prevWizardStep }}" style="{{ prevBtnStyle }}">{{ wTxt.prevBtn }}</button>
+          </sc-if>
+          <sc-if value="{{ wizardStep === 1 }}" hint-placeholder-val="{{ false }}">
+            <div></div>
+          </sc-if>
+          <sc-if value="{{ wizardStep < 4 }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ nextWizardStep }}" style="{{ nextBtnStyle }}" disabled="{{ nextBtnDisabled }}">{{ wTxt.nextBtn }}</button>
+          </sc-if>
+          <sc-if value="{{ wizardStep === 4 }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ goHome }}" style="font-size:13.5px;font-weight:700;color:#fff;background:#1f8a5b;border:0;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;">{{ lang === 'ru' ? 'Готово (На главную)' : 'Done (Go Home)' }}</button>
+          </sc-if>
         </div>
       </div>
 
@@ -529,7 +700,13 @@ class Component extends DCLogic {
       page: initialRoute.page,
       selected: initialRoute.selected,
       expanded: initialRoute.expanded,
-      socFilter: 'all'
+      socFilter: 'all',
+      wizardOs: 'win',
+      wizardMethod: 'gui',
+      wizardStep: 1,
+      wizardCheck1: false,
+      wizardCheck2: false,
+      wizardCheck3: false
     };
   }
 
@@ -711,24 +888,99 @@ class Component extends DCLogic {
       };
     }
 
+    const wizardOs = this.state.wizardOs || 'win';
+    const wizardMethod = this.state.wizardMethod || 'gui';
+    const wizardStep = this.state.wizardStep || 1;
+    const wizardCheck1 = this.state.wizardCheck1 || false;
+    const wizardCheck2 = this.state.wizardCheck2 || false;
+    const wizardCheck3 = this.state.wizardCheck3 || false;
+
+    const setOsWin = () => this.setState({ wizardOs: 'win' });
+    const setOsLinux = () => this.setState({ wizardOs: 'linux' });
+    const setMethodGui = () => this.setState({ wizardMethod: 'gui' });
+    const setMethodCli = () => this.setState({ wizardMethod: 'cli' });
+
+    const clickStep1 = () => this.setState({ wizardStep: 1 });
+    const clickStep2 = () => this.setState({ wizardStep: 2 });
+    const clickStep3 = () => this.setState({ wizardStep: 3 });
+    const clickStep4 = () => this.setState({ wizardStep: 4 });
+
+    const toggleWizardCheck1 = () => this.setState(s => ({ wizardCheck1: !s.wizardCheck1 }));
+    const toggleWizardCheck2 = () => this.setState(s => ({ wizardCheck2: !s.wizardCheck2 }));
+    const toggleWizardCheck3 = () => this.setState(s => ({ wizardCheck3: !s.wizardCheck3 }));
+
+    const pillStyle = (active) => "font-size:12.5px;font-weight:700;padding:6px 16px;border-radius:999px;cursor:pointer;font-family:inherit;border:1px solid " + (active ? '#2A6FDB' : '#e3e5e9') + ";background:" + (active ? '#eef3fd' : '#fff') + ";color:" + (active ? '#2A6FDB' : '#5b626c') + ";transition:all .15s ease;";
+    
+    const wizardOsWinStyle = pillStyle(wizardOs === 'win');
+    const wizardOsLinuxStyle = pillStyle(wizardOs === 'linux');
+    const wizardMethodGuiStyle = pillStyle(wizardMethod === 'gui');
+    const wizardMethodCliStyle = pillStyle(wizardMethod === 'cli');
+
+    const stepDone = (s) => wizardStep > s;
+    const stepActive = (s) => wizardStep === s;
+    const stepBadgeStyle = (s) => {
+      const active = stepActive(s);
+      const done = stepDone(s);
+      return "width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;" + 
+             (done ? "background:#1f8a5b;color:#fff;" : 
+              (active ? "background:#2A6FDB;color:#fff;" : "background:#f1f2f4;color:#9aa1ac;"));
+    };
+    const stepLineStyle = (s) => {
+      const done = stepDone(s);
+      return "flex:1;height:2px;" + (done ? "background:#1f8a5b;" : "background:#eef0f2;");
+    };
+
+    const nextBtnDisabled = (wizardStep === 1 && !wizardCheck1) || (wizardStep === 2 && !wizardCheck2) || (wizardStep === 3 && !wizardCheck3);
+    const nextBtnStyle = "font-size:13.5px;font-weight:700;color:#fff;background:" + (nextBtnDisabled ? '#c2c7cf' : '#2A6FDB') + ";border:0;padding:10px 22px;border-radius:12px;cursor:" + (nextBtnDisabled ? 'not-allowed' : 'pointer') + ";font-family:inherit;transition:all .2s ease;";
+    const prevBtnStyle = "font-size:13.5px;font-weight:700;color:#5b626c;background:#fff;border:1px solid #e3e5e9;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;";
+
+    const nextWizardStep = () => { if (!nextBtnDisabled) this.setState(s => ({ wizardStep: Math.min(4, s.wizardStep + 1) })); };
+    const prevWizardStep = () => this.setState(s => ({ wizardStep: Math.max(1, s.wizardStep - 1) }));
+
+    const WIZARD_TEXT_RU = {
+      title: 'Интерактивный помощник разблокировки',
+      desc: 'Пошаговый мастер настройки драйверов, окружения и запуска утилиты MTKClient для разблокировки Meizu M6, M3 Note, M2 Note, M5c и M2 Mini.',
+      osSelect: 'Операционная система компьютера:',
+      methodSelect: 'Способ выполнения:',
+      stepLabel: 'Шаг',
+      nextBtn: 'Далее',
+      prevBtn: 'Назад',
+      chkReady: 'Я выполнил этот шаг и готов продолжить',
+      step1Title: 'Установка драйверов и Python',
+      step2Title: 'Настройка MTKClient',
+      step3Title: 'Подключение в BROM',
+      step4Title: 'Запуск разблокировки',
+    };
+
+    const WIZARD_TEXT_EN = {
+      title: 'Interactive Unlock Assistant',
+      desc: 'Step-by-step wizard to configure drivers, setup environment, and launch MTKClient to unlock Meizu M6, M3 Note, M2 Note, M5c, and M2 Mini.',
+      osSelect: 'Computer OS:',
+      methodSelect: 'Unlock Method:',
+      stepLabel: 'Step',
+      nextBtn: 'Next',
+      prevBtn: 'Back',
+      chkReady: 'I have completed this step and am ready to proceed',
+      step1Title: 'Drivers & Python Setup',
+      step2Title: 'MTKClient Setup',
+      step3Title: 'Connecting in BROM',
+      step4Title: 'Run Unlock',
+    };
+
+    const wTxt = lang === 'ru' ? WIZARD_TEXT_RU : WIZARD_TEXT_EN;
+
+    let currentStepTitle = '';
+    if (wizardStep === 1) currentStepTitle = wTxt.step1Title;
+    else if (wizardStep === 2) currentStepTitle = wTxt.step2Title;
+    else if (wizardStep === 3) currentStepTitle = wTxt.step3Title;
+    else if (wizardStep === 4) currentStepTitle = wTxt.step4Title;
+
+    const wizardCheckState = wizardStep === 1 ? wizardCheck1 : (wizardStep === 2 ? wizardCheck2 : (wizardStep === 3 ? wizardCheck3 : true));
+    const toggleWizardCheck = wizardStep === 1 ? toggleWizardCheck1 : (wizardStep === 2 ? toggleWizardCheck2 : toggleWizardCheck3);
+
     const GUIDE = {
       ru: {
-                mtkUnlock: {
-          title: 'Разблокировка загрузчика через MTKClient',
-          desc: 'Для моделей Meizu M6, M3 Note, M2 Note, M5c и M2 Mini. Все действия выполняются на ваш собственный страх и риск.',
-          reqs: [
-            'Установленный Python 3 и git на компьютере (Windows/Linux)',
-            'Установленный UsbDk (для Windows) или настроенный udev (для Linux)',
-            'Качественный USB-кабель'
-          ],
-          steps: [
-            { h: 'Установите MTKClient', d: 'Склонируйте репозиторий утилиты и установите необходимые зависимости в терминале:\n\ngit clone https://github.com/bkerler/mtkclient\ncd mtkclient\npip install -r requirements.txt' },
-            { h: 'Подключите устройство в режиме BROM', d: 'Выключите телефон полностью. Зажмите обе кнопки громкости (увеличить и уменьшить) и, удерживая их, подключите кабель USB от компьютера к телефону. Если всё сделано верно, утилита определит телефон в режиме Boot ROM.' },
-            { h: 'Запустите разблокировку', d: 'В терминале выполните команду:\n\npython mtk da seccfg unlock\n\nАльтернативно вы можете запустить графический интерфейс командой: python mtk_gui (нажмите кнопку Unlock Bootloader на вкладке Flash Tools).' },
-            { h: 'Перезагрузите устройство', d: 'После успешной разблокировки отсоедините кабель и включите телефон. При первой загрузке произойдет сброс к заводским настройкам (Wipe).' }
-          ]
-        },
-        title: 'Как установить ReMeizu',
+                title: 'Как установить ReMeizu',
         intro: 'Сначала открой страницу своего устройства и посмотри статус и «Что работает» — на части моделей ещё нет камеры/связи. Установка занимает 10–15 минут.',
         reqTitle: 'Что понадобится',
         req: ['ПК с установленными adb и fastboot', 'USB-кабель и заряд телефона выше 50%', 'Разблокированный загрузчик', 'Резервная копия всех важных данных'],
@@ -742,22 +994,7 @@ class Component extends DCLogic {
         ],
       },
       en: {
-                mtkUnlock: {
-          title: 'Bootloader Unlock via MTKClient',
-          desc: 'For Meizu M6, M3 Note, M2 Note, M5c, and M2 Mini. Proceed at your own risk.',
-          reqs: [
-            'Python 3 and git installed on your PC (Windows/Linux)',
-            'UsbDk installed (Windows) or udev rules configured (Linux)',
-            'A reliable USB cable'
-          ],
-          steps: [
-            { h: 'Install MTKClient', d: 'Clone the repository and install the Python dependencies via terminal:\n\ngit clone https://github.com/bkerler/mtkclient\ncd mtkclient\npip install -r requirements.txt' },
-            { h: 'Connect in BROM Mode', d: 'Power off the phone completely. Press and hold both volume buttons (Volume Up + Volume Down), and connect the USB cable. The tool should detect your device in Boot ROM mode.' },
-            { h: 'Unlock Bootloader', d: 'Run the following command in terminal:\n\npython mtk da seccfg unlock\n\nAlternatively, start the graphical tool with command: python mtk_gui (click Unlock Bootloader on the Flash Tools tab).' },
-            { h: 'Reboot Device', d: 'After the success message, disconnect the cable and turn on your device. The bootloader will now be unlocked (it will trigger a factory reset on first boot).' }
-          ]
-        },
-        title: 'How to install ReMeizu',
+                title: 'How to install ReMeizu',
         intro: 'First open your device page and check the status and "What works" — some models still lack camera/cellular. The install takes 10–15 minutes.',
         reqTitle: 'What you need',
         req: ['A PC with adb and fastboot installed', 'A USB cable and phone charge above 50%', 'An unlocked bootloader', 'A backup of all important data'],
@@ -800,7 +1037,7 @@ class Component extends DCLogic {
       isGrid: page === 'firmware' && this.state.selected == null,
       isGuide: page === 'guide',
       isCommunity: page === 'community',
-      guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })), mtkUnlock: { ...GUIDE[lang].mtkUnlock, steps: GUIDE[lang].mtkUnlock.steps.map((s, i) => ({ ...s, n: i + 1 })) } },
+      guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })) },
       community: COMMUNITY[lang],
       setRu, setEn, goHome, goGuide, goCommunity,
       setFilterAll, setFilter6755, setFilter6753, setFilter6735, setFilter6752,
@@ -810,6 +1047,16 @@ class Component extends DCLogic {
       navCommStyle: navStyle(page === 'community'),
       ruBtnStyle: lang === 'ru' ? activeBtn : idleBtn,
       enBtnStyle: lang === 'en' ? activeBtn : idleBtn,
+
+      // Wizard exposures
+      wTxt, wizardStep, wizardOs, wizardMethod,
+      wizardCheck1, wizardCheck2, wizardCheck3, wizardCheckState, toggleWizardCheck,
+      setOsWin, setOsLinux, setMethodGui, setMethodCli,
+      wizardOsWinStyle, wizardOsLinuxStyle, wizardMethodGuiStyle, wizardMethodCliStyle,
+      stepBadgeStyle, stepLineStyle,
+      clickStep1, clickStep2, clickStep3, clickStep4,
+      currentStepTitle, nextBtnDisabled, nextBtnStyle, prevBtnStyle,
+      nextWizardStep, prevWizardStep, lang
     };
   }
 }
