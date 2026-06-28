@@ -3,6 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  window.copyToClipboard = (text, id) => {
+    navigator.clipboard.writeText(text).then(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const original = el.innerText;
+        el.innerText = 'Copied!';
+        el.style.color = '#1f8a5b';
+        setTimeout(() => {
+          el.innerText = original;
+          el.style.color = '#2A6FDB';
+        }, 1500);
+      }
+    });
+  };
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -254,12 +270,22 @@
           <button onClick="{{ clickStep4 }}" style="{{ stepBadge4Style }};border:0;cursor:pointer">4</button>
         </div>
 
-                <!-- Step content panel -->
+                        <!-- Step content panel -->
         <div style="margin-top:28px;min-height:220px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <h3 style="font-size:17.5px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ wTxt.stepLabel }} {{ wizardStep }}: {{ currentStepTitle }}</h3>
             <span style="font-size:12.5px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:4px 10px;border-radius:999px">{{ wizardMethodUpper }}</span>
           </div>
+
+          <!-- Linux Distro Selector Tabs -->
+          <sc-if value="{{ showStep1LinuxTabs }}">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:20px;padding-bottom:12px;border-bottom:1px dashed #ebedf0">
+              <span style="font-size:13px;font-weight:600;color:#6b7280">{{ lang === 'ru' ? 'Дистрибутив:' : 'Distribution:' }}</span>
+              <button onClick="{{ setDistroUbuntu }}" style="{{ wizardDistroUbuntuStyle }}">Ubuntu/Debian</button>
+              <button onClick="{{ setDistroFedora }}" style="{{ wizardDistroFedoraStyle }}">Fedora</button>
+              <button onClick="{{ setDistroArch }}" style="{{ wizardDistroArchStyle }}">Arch Linux</button>
+            </div>
+          </sc-if>
 
           <!-- STEP 1 DETAILS - Windows (RU) -->
           <sc-if value="{{ showStep1WinRu  }}">
@@ -274,7 +300,7 @@
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div>
-                  <b>Установите драйвер UsbDk</b>: <a href="https://github.com/daynix/UsbDk/releases" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
+                  <b>Установите драйвер UsbDk</b>: <a href="https://github.com/daynix/UsbDk/releases/tag/v1.00-22" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
                   <div style="margin-top:4px;font-size:13px;color:#5b626c">Это необходимо для стабильного перехвата телефона в режиме Boot ROM (BROM) на Windows.</div>
                 </div>
               </div>
@@ -301,7 +327,7 @@
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div>
-                  <b>Install UsbDk Driver</b>: <a href="https://github.com/daynix/UsbDk/releases" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
+                  <b>Install UsbDk Driver</b>: <a href="https://github.com/daynix/UsbDk/releases/tag/v1.00-22" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
                   <div style="margin-top:4px;font-size:13px;color:#5b626c">Required for stable Boot ROM (BROM) port filtering on Windows.</div>
                 </div>
               </div>
@@ -315,68 +341,193 @@
             </div>
           </sc-if>
 
-          <!-- STEP 1 DETAILS - Linux (RU) -->
-          <sc-if value="{{ showStep1LinuxRu  }}">
+          <!-- STEP 1 DETAILS - Linux Ubuntu (RU) -->
+          <sc-if value="{{ showStep1LinuxUbuntuRu }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
                 <div style="flex:1">
-                  Установите Python, pip и git через ваш пакетный менеджер. Для Ubuntu/Debian:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">sudo apt update && sudo apt install python3 python3-pip git -y</div>
+                  Установите пакеты через <b>apt</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo apt update && sudo apt install python3 python3-pip git -y</div>
+                    <button onclick="window.copyToClipboard('sudo apt update && sudo apt install python3 python3-pip git -y', 'copy-l1-1')" id="copy-l1-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div style="flex:1">
-                  Настройте правила доступа <b>udev</b> для работы без прав root (чтобы mtkclient мог открыть USB-порт):
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                  Настройте udev-правила для работы без root-прав:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-l1-2')" id="copy-l1-2" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
             </div>
           </sc-if>
 
-          <!-- STEP 1 DETAILS - Linux (EN) -->
-          <sc-if value="{{ showStep1LinuxEn  }}">
+          <!-- STEP 1 DETAILS - Linux Ubuntu (EN) -->
+          <sc-if value="{{ showStep1LinuxUbuntuEn }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
                 <div style="flex:1">
-                  Install Python, pip, and git via your package manager. For Ubuntu/Debian:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">sudo apt update && sudo apt install python3 python3-pip git -y</div>
+                  Install Python, pip, and git via <b>apt</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo apt update && sudo apt install python3 python3-pip git -y</div>
+                    <button onclick="window.copyToClipboard('sudo apt update && sudo apt install python3 python3-pip git -y', 'copy-l1-1e')" id="copy-l1-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div style="flex:1">
-                  Configure <b>udev</b> rules to allow non-root USB access for MTKClient:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                  Configure <b>udev</b> rules to allow non-root USB access:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-l1-2e')" id="copy-l1-2e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 1 DETAILS - Linux Fedora (RU) -->
+          <sc-if value="{{ showStep1LinuxFedoraRu }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Установите пакеты через <b>dnf</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo dnf install python3 python3-pip git -y</div>
+                    <button onclick="window.copyToClipboard('sudo dnf install python3 python3-pip git -y', 'copy-lf-1')" id="copy-lf-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Настройте udev-правила для работы без root-прав:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-lf-2')" id="copy-lf-2" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 1 DETAILS - Linux Fedora (EN) -->
+          <sc-if value="{{ showStep1LinuxFedoraEn }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Install Python, pip, and git via <b>dnf</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo dnf install python3 python3-pip git -y</div>
+                    <button onclick="window.copyToClipboard('sudo dnf install python3 python3-pip git -y', 'copy-lf-1e')" id="copy-lf-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Configure <b>udev</b> rules to allow non-root USB access:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-lf-2e')" id="copy-lf-2e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 1 DETAILS - Linux Arch (RU) -->
+          <sc-if value="{{ showStep1LinuxArchRu }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Установите пакеты через <b>pacman</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo pacman -S python python-pip git --noconfirm</div>
+                    <button onclick="window.copyToClipboard('sudo pacman -S python python-pip git --noconfirm', 'copy-la-1')" id="copy-la-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Настройте udev-правила для работы без root-прав:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-la-2')" id="copy-la-2" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 1 DETAILS - Linux Arch (EN) -->
+          <sc-if value="{{ showStep1LinuxArchEn }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Install Python, pip, and git via <b>pacman</b>:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">sudo pacman -S python python-pip git --noconfirm</div>
+                    <button onclick="window.copyToClipboard('sudo pacman -S python python-pip git --noconfirm', 'copy-la-1e')" id="copy-la-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Configure <b>udev</b> rules to allow non-root USB access:
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
+                    <button onclick="window.copyToClipboard('echo 'SUBSYSTEM==\&quot;usb\&quot;, ATTR{idVendor}==\&quot;0e8d\&quot;, MODE=\&quot;0660\&quot;, GROUP=\&quot;plugdev\&quot;' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules', 'copy-la-2e')" id="copy-la-2e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
             </div>
           </sc-if>
 
           <!-- STEP 2 DETAILS (RU) -->
-          <sc-if value="{{ showStep2Ru  }}">
+          <sc-if value="{{ showStep2Ru }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
                 <div style="flex:1">
                   Откройте терминал (командную строку) и склонируйте репозиторий утилиты MTKClient:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                    <button onclick="window.copyToClipboard('git clone https://github.com/bkerler/mtkclient', 'copy-s2-1')" id="copy-s2-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div style="flex:1">
                   Перейдите в созданную папку:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                    <button onclick="window.copyToClipboard('cd mtkclient', 'copy-s2-2')" id="copy-s2-2" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
                 <div style="flex:1">
                   Установите необходимые зависимости Python:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                    <button onclick="window.copyToClipboard('pip install -r requirements.txt', 'copy-s2-3')" id="copy-s2-3" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                   <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">Если возникнет ошибка прав доступа, запустите команду с флагом <code>--user</code>.</div>
                 </div>
               </div>
@@ -384,27 +535,36 @@
           </sc-if>
 
           <!-- STEP 2 DETAILS (EN) -->
-          <sc-if value="{{ showStep2En  }}">
+          <sc-if value="{{ showStep2En }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
                 <div style="flex:1">
                   Open your terminal (command prompt) and clone the MTKClient utility repository:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                    <button onclick="window.copyToClipboard('git clone https://github.com/bkerler/mtkclient', 'copy-s2-1e')" id="copy-s2-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
                 <div style="flex:1">
                   Change to the created directory:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                    <button onclick="window.copyToClipboard('cd mtkclient', 'copy-s2-2e')" id="copy-s2-2e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                 </div>
               </div>
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
                 <div style="flex:1">
                   Install the required Python dependencies:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                  <div style="position:relative;margin-top:6px">
+                    <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                    <button onclick="window.copyToClipboard('pip install -r requirements.txt', 'copy-s2-3e')" id="copy-s2-3e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+                  </div>
                   <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">If you get a permission error, run the command with the <code>--user</code> flag.</div>
                 </div>
               </div>
@@ -412,7 +572,7 @@
           </sc-if>
 
           <!-- STEP 3 DETAILS (RU) -->
-          <sc-if value="{{ showStep3Ru  }}">
+          <sc-if value="{{ showStep3Ru }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
@@ -439,7 +599,7 @@
           </sc-if>
 
           <!-- STEP 3 DETAILS (EN) -->
-          <sc-if value="{{ showStep3En  }}">
+          <sc-if value="{{ showStep3En }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
@@ -466,7 +626,7 @@
           </sc-if>
 
           <!-- STEP 4 DETAILS - GUI (RU) -->
-          <sc-if value="{{ showStep4GuiRu  }}">
+          <sc-if value="{{ showStep4GuiRu }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
                 <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
@@ -476,7 +636,10 @@
                 </div>
               </div>
               <div>1. Запустите графическую утилиту:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+              <div style="position:relative;margin-top:6px">
+                <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+                <button onclick="window.copyToClipboard('python mtk_gui', 'copy-s4g-1')" id="copy-s4g-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
               <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
               <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
@@ -485,7 +648,7 @@
           </sc-if>
 
           <!-- STEP 4 DETAILS - GUI (EN) -->
-          <sc-if value="{{ showStep4GuiEn  }}">
+          <sc-if value="{{ showStep4GuiEn }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
                 <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
@@ -495,7 +658,10 @@
                 </div>
               </div>
               <div>1. Start the graphical utility:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+              <div style="position:relative;margin-top:6px">
+                <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+                <button onclick="window.copyToClipboard('python mtk_gui', 'copy-s4g-1e')" id="copy-s4g-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>2. Connect the powered-off phone while holding volume buttons (as in Step 3).</div>
               <div>3. In the utility window, navigate to the <b>Flash Tools</b> tab.</div>
               <div>4. Click the <b>Unlock Bootloader</b> button. Wait until the progress bar fills green.</div>
@@ -504,7 +670,7 @@
           </sc-if>
 
           <!-- STEP 4 DETAILS - CLI (RU) -->
-          <sc-if value="{{ showStep4CliRu  }}">
+          <sc-if value="{{ showStep4CliRu }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
                 <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
@@ -514,16 +680,22 @@
                 </div>
               </div>
               <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+              <div style="position:relative;margin-top:6px">
+                <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+                <button onclick="window.copyToClipboard('python mtk da seccfg unlock', 'copy-s4c-1')" id="copy-s4c-1" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
               <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
-              <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
+              <div style="position:relative;margin-top:10px">
+                <div style="padding:10px 48px 10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
+                <button onclick="window.copyToClipboard('python mtk e metadata,userdata', 'copy-s4c-2')" id="copy-s4c-2" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
             </div>
           </sc-if>
 
           <!-- STEP 4 DETAILS - CLI (EN) -->
-          <sc-if value="{{ showStep4CliEn  }}">
+          <sc-if value="{{ showStep4CliEn }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
                 <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
@@ -533,10 +705,16 @@
                 </div>
               </div>
               <div>1. Run the unlock command in your terminal and press Enter:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+              <div style="position:relative;margin-top:6px">
+                <div style="background:#f4f5f7;padding:12px 64px 12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+                <button onclick="window.copyToClipboard('python mtk da seccfg unlock', 'copy-s4c-1e')" id="copy-s4c-1e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>2. Connect the powered-off phone while holding volume buttons (as in Step 3).</div>
               <div>3. The terminal will log output. Wait until it displays a success message like <code>"Unlocked successfully"</code>.</div>
-              <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Troubleshooting:</b> If the device bootloops after unlocking, format the data partitions: <code>python mtk e metadata,userdata</code></div>
+              <div style="position:relative;margin-top:10px">
+                <div style="padding:10px 48px 10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Troubleshooting:</b> If the device bootloops after unlocking, format the data partitions: <code>python mtk e metadata,userdata</code></div>
+                <button onclick="window.copyToClipboard('python mtk e metadata,userdata', 'copy-s4c-2e')" id="copy-s4c-2e" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);border:0;background:none;color:#2A6FDB;font-size:11px;font-weight:700;cursor:pointer">Copy</button>
+              </div>
               <div>4. Hold the power button to turn it on. The first boot will take longer due to factory reset.</div>
             </div>
           </sc-if>
@@ -849,6 +1027,7 @@ class Component extends DCLogic {
       expanded: initialRoute.expanded,
       socFilter: 'all',
       wizardOs: 'win',
+      wizardLinuxDistro: 'ubuntu',
       wizardMethod: 'gui',
       wizardStep: 1,
       wizardCheck1: false,
@@ -1036,6 +1215,7 @@ class Component extends DCLogic {
     }
 
     const wizardOs = this.state.wizardOs || 'win';
+    const wizardLinuxDistro = this.state.wizardLinuxDistro || 'ubuntu';
     const wizardMethod = this.state.wizardMethod || 'gui';
     const wizardStep = this.state.wizardStep || 1;
     const wizardCheck1 = this.state.wizardCheck1 || false;
@@ -1044,6 +1224,9 @@ class Component extends DCLogic {
 
     const setOsWin = () => this.setState({ wizardOs: 'win' });
     const setOsLinux = () => this.setState({ wizardOs: 'linux' });
+    const setDistroUbuntu = () => this.setState({ wizardLinuxDistro: 'ubuntu' });
+    const setDistroFedora = () => this.setState({ wizardLinuxDistro: 'fedora' });
+    const setDistroArch = () => this.setState({ wizardLinuxDistro: 'arch' });
     const setMethodGui = () => this.setState({ wizardMethod: 'gui' });
     const setMethodCli = () => this.setState({ wizardMethod: 'cli' });
 
@@ -1060,6 +1243,9 @@ class Component extends DCLogic {
     
     const wizardOsWinStyle = pillStyle(wizardOs === 'win');
     const wizardOsLinuxStyle = pillStyle(wizardOs === 'linux');
+    const wizardDistroUbuntuStyle = pillStyle(wizardLinuxDistro === 'ubuntu');
+    const wizardDistroFedoraStyle = pillStyle(wizardLinuxDistro === 'fedora');
+    const wizardDistroArchStyle = pillStyle(wizardLinuxDistro === 'arch');
     const wizardMethodGuiStyle = pillStyle(wizardMethod === 'gui');
     const wizardMethodCliStyle = pillStyle(wizardMethod === 'cli');
 
@@ -1090,8 +1276,14 @@ class Component extends DCLogic {
 
     const showStep1WinRu = wizardStep === 1 && wizardOs === 'win' && lang === 'ru';
     const showStep1WinEn = wizardStep === 1 && wizardOs === 'win' && lang === 'en';
-    const showStep1LinuxRu = wizardStep === 1 && wizardOs === 'linux' && lang === 'ru';
-    const showStep1LinuxEn = wizardStep === 1 && wizardOs === 'linux' && lang === 'en';
+    
+    const showStep1LinuxTabs = wizardStep === 1 && wizardOs === 'linux';
+    const showStep1LinuxUbuntuRu = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'ubuntu' && lang === 'ru';
+    const showStep1LinuxUbuntuEn = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'ubuntu' && lang === 'en';
+    const showStep1LinuxFedoraRu = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'fedora' && lang === 'ru';
+    const showStep1LinuxFedoraEn = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'fedora' && lang === 'en';
+    const showStep1LinuxArchRu = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'arch' && lang === 'ru';
+    const showStep1LinuxArchEn = wizardStep === 1 && wizardOs === 'linux' && wizardLinuxDistro === 'arch' && lang === 'en';
     
     const showStep2Ru = wizardStep === 2 && lang === 'ru';
     const showStep2En = wizardStep === 2 && lang === 'en';
@@ -1242,7 +1434,12 @@ class Component extends DCLogic {
       stepLine1Style, stepLine2Style, stepLine3Style,
       
       showStep1WinRu, showStep1WinEn,
-      showStep1LinuxRu, showStep1LinuxEn,
+      showStep1LinuxTabs,
+      showStep1LinuxUbuntuRu, showStep1LinuxUbuntuEn,
+      showStep1LinuxFedoraRu, showStep1LinuxFedoraEn,
+      showStep1LinuxArchRu, showStep1LinuxArchEn,
+      setDistroUbuntu, setDistroFedora, setDistroArch,
+      wizardDistroUbuntuStyle, wizardDistroFedoraStyle, wizardDistroArchStyle,
       showStep2Ru, showStep2En,
       showStep3Ru, showStep3En,
       showStep4GuiRu, showStep4GuiEn,
