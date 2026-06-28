@@ -223,6 +223,36 @@
         </sc-for>
       </div>
 
+            <!-- MTKClient unlock guide -->
+      <div style="margin-top:48px;border:1px solid #eef1f6;border-radius:24px;padding:32px;background:#fcfdfe">
+        <h2 style="font-size:22px;font-weight:700;color:#10131a;letter-spacing:-.015em">{{ guide.mtkUnlock.title }}</h2>
+        <p style="margin-top:8px;font-size:14.5px;line-height:1.6;color:#5b626c">{{ guide.mtkUnlock.desc }}</p>
+
+        <div style="margin-top:20px;border:1px solid #ebedf0;border-radius:14px;padding:18px 20px;background:#fff">
+          <div style="font-size:11.5px;font-weight:700;color:#9aa1ac;text-transform:uppercase;letter-spacing:.05em">{{ lang === 'ru' ? 'Что нужно:' : 'What you need:' }}</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ guide.mtkUnlock.reqs }}" as="req">
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:#2A6FDB;margin-top:8px;flex-shrink:0"></span>
+                <span style="font-size:13.5px;line-height:1.5;color:#4a505c">{{ req }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ guide.mtkUnlock.steps }}" as="s">
+            <div style="display:flex;gap:16px;align-items:flex-start;border:1px solid #ebedf0;border-radius:14px;padding:18px 20px;background:#fff">
+              <div style="width:24px;height:24px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">{{ s.n }}</div>
+              <div>
+                <div style="font-size:15px;font-weight:700;color:#10131a">{{ s.h }}</div>
+                <div style="margin-top:6px;font-size:13.5px;line-height:1.6;color:#6b7280;white-space:pre-line">{{ s.d }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
       <p style="margin-top:24px;font-size:12.5px;color:#b0b6bf;line-height:1.55;text-align:center">{{ t.warn }}</p>
     </div>
   </sc-if>
@@ -683,6 +713,21 @@ class Component extends DCLogic {
 
     const GUIDE = {
       ru: {
+                mtkUnlock: {
+          title: 'Разблокировка загрузчика через MTKClient',
+          desc: 'Для моделей Meizu M6, M3 Note, M2 Note, M5c и M2 Mini. Все действия выполняются на ваш собственный страх и риск.',
+          reqs: [
+            'Установленный Python 3 и git на компьютере (Windows/Linux)',
+            'Установленный UsbDk (для Windows) или настроенный udev (для Linux)',
+            'Качественный USB-кабель'
+          ],
+          steps: [
+            { h: 'Установите MTKClient', d: 'Склонируйте репозиторий утилиты и установите необходимые зависимости в терминале:\n\ngit clone https://github.com/bkerler/mtkclient\ncd mtkclient\npip install -r requirements.txt' },
+            { h: 'Подключите устройство в режиме BROM', d: 'Выключите телефон полностью. Зажмите обе кнопки громкости (увеличить и уменьшить) и, удерживая их, подключите кабель USB от компьютера к телефону. Если всё сделано верно, утилита определит телефон в режиме Boot ROM.' },
+            { h: 'Запустите разблокировку', d: 'В терминале выполните команду:\n\npython mtk da seccfg unlock\n\nАльтернативно вы можете запустить графический интерфейс командой: python mtk_gui (нажмите кнопку Unlock Bootloader на вкладке Flash Tools).' },
+            { h: 'Перезагрузите устройство', d: 'После успешной разблокировки отсоедините кабель и включите телефон. При первой загрузке произойдет сброс к заводским настройкам (Wipe).' }
+          ]
+        },
         title: 'Как установить ReMeizu',
         intro: 'Сначала открой страницу своего устройства и посмотри статус и «Что работает» — на части моделей ещё нет камеры/связи. Установка занимает 10–15 минут.',
         reqTitle: 'Что понадобится',
@@ -697,6 +742,21 @@ class Component extends DCLogic {
         ],
       },
       en: {
+                mtkUnlock: {
+          title: 'Bootloader Unlock via MTKClient',
+          desc: 'For Meizu M6, M3 Note, M2 Note, M5c, and M2 Mini. Proceed at your own risk.',
+          reqs: [
+            'Python 3 and git installed on your PC (Windows/Linux)',
+            'UsbDk installed (Windows) or udev rules configured (Linux)',
+            'A reliable USB cable'
+          ],
+          steps: [
+            { h: 'Install MTKClient', d: 'Clone the repository and install the Python dependencies via terminal:\n\ngit clone https://github.com/bkerler/mtkclient\ncd mtkclient\npip install -r requirements.txt' },
+            { h: 'Connect in BROM Mode', d: 'Power off the phone completely. Press and hold both volume buttons (Volume Up + Volume Down), and connect the USB cable. The tool should detect your device in Boot ROM mode.' },
+            { h: 'Unlock Bootloader', d: 'Run the following command in terminal:\n\npython mtk da seccfg unlock\n\nAlternatively, start the graphical tool with command: python mtk_gui (click Unlock Bootloader on the Flash Tools tab).' },
+            { h: 'Reboot Device', d: 'After the success message, disconnect the cable and turn on your device. The bootloader will now be unlocked (it will trigger a factory reset on first boot).' }
+          ]
+        },
         title: 'How to install ReMeizu',
         intro: 'First open your device page and check the status and "What works" — some models still lack camera/cellular. The install takes 10–15 minutes.',
         reqTitle: 'What you need',
@@ -740,7 +800,7 @@ class Component extends DCLogic {
       isGrid: page === 'firmware' && this.state.selected == null,
       isGuide: page === 'guide',
       isCommunity: page === 'community',
-      guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })) },
+      guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })), mtkUnlock: { ...GUIDE[lang].mtkUnlock, steps: GUIDE[lang].mtkUnlock.steps.map((s, i) => ({ ...s, n: i + 1 })) } },
       community: COMMUNITY[lang],
       setRu, setEn, goHome, goGuide, goCommunity,
       setFilterAll, setFilter6755, setFilter6753, setFilter6735, setFilter6752,
