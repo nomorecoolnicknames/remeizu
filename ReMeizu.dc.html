@@ -290,7 +290,7 @@ const RAW = [
         src: GH + '/android_kernel_meizu_m681',
         hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
         vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: 'remeizu-14.1-m681 (из исходников)',
+          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: { ru: 'remeizu-14.1-m681 (из исходников)', en: 'remeizu-14.1-m681 (from sources)' },
             cl: {
               ru: ['Камера ZSD делает реальные фото; авто-heal (watchdog) убирает зависания, задержка 45с→7с', 'GPS подтверждён', 'Дисплей работает на базе 3.10.72 + LineageOS 14.1', 'Задокументированы дефекты capture-P2 (фиолетовая дымка / зелёный кадр) — последний рычаг', 'Эксперимент с ядром 3.18 (m6-graft): локализована recovery-стена (initcall seq 50→100)'],
               en: ['ZSD camera takes real photos; auto-heal (watchdog) clears wedges, latency 45s→7s', 'GPS confirmed', 'Display works on the 3.10.72 + LineageOS 14.1 base', 'capture-P2 defects documented (purple haze / green frame) — the last lever', '3.18 kernel experiment (m6-graft): recovery wall localized (initcall seq 50→100)'],
@@ -307,7 +307,7 @@ const RAW = [
         src: GH + '/android_kernel_meizu_l681',
         hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
         vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: 'remeizu-14.1-l681 (из исходников)',
+          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: { ru: 'remeizu-14.1-l681 (из исходников)', en: 'remeizu-14.1-l681 (from sources)' },
             cl: {
               ru: ['Та же база, что и M681: камера ZSD снимает реальные фото, GPS работает', 'Дисплей работает (3.10.72 + LineageOS 14.1)', 'Отдельные модемные / региональные блобы L91', 'Параллельно — эксперимент с ядром 3.18'],
               en: ['Same base as M681: ZSD camera takes real photos, GPS works', 'Display works (3.10.72 + LineageOS 14.1)', 'Separate L91 modem / regional blobs', '3.18 kernel experiment in progress too'],
@@ -324,7 +324,7 @@ const RAW = [
         src: GH + '/android_device_meizu_m2note',
         hw: { display: 'ok', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
         vers: [
-          { os: 'LineageOS 15.1', ver: '15.1-bringup', android: '8.1', date: '27 Jun 2026', size: '—', file: 'boot v481 (на устройстве)',
+          { os: 'LineageOS 15.1', ver: '15.1-bringup', android: '8.1', date: '27 Jun 2026', size: '—', file: { ru: 'boot v481 (на устройстве)', en: 'boot v481 (on device)' },
             cl: {
               ru: ['Загружается на устройстве (boot v481)', 'Идёт перенос камеры (mtkcam / libimageio) на сборку из исходников', 'Делит дерево сборки с Meizu M6 (LineageOS 15.1)'],
               en: ['Boots on device (boot v481)', 'Camera (mtkcam / libimageio) being ported to a source build', 'Shares the build tree with Meizu M6 (LineageOS 15.1)'],
@@ -341,7 +341,7 @@ const RAW = [
         src: GH + '/android_device_meizu_m5c',
         hw: { display: 'unknown', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'unknown', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
         vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-bringup', android: '7.1', date: '15 Jun 2026', size: '—', file: 'из исходников',
+          { os: 'LineageOS 14.1', ver: '14.1-bringup', android: '7.1', date: '15 Jun 2026', size: '—', file: { ru: 'из исходников', en: 'from sources' },
             cl: {
               ru: ['Дерево device + vendor + патчи MTK', 'Recovery OrangeFox', 'Под активной разработкой'],
               en: ['Device + vendor tree + MTK patches', 'OrangeFox recovery', 'Under active development'],
@@ -449,17 +449,17 @@ const RAW = [
               ru: ['Дерево сборки TWRP 3.3.1-0 с поддержкой Treble от XRedCubeX на GitHub', 'Используется для переразметки разделов и прошивки GSI'],
               en: ['TWRP 3.3.1-0 device tree with Treble support by XRedCubeX on GitHub', 'Used for partition re-layout and GSI flashing'],
             } },
-          { os: 'Дерево устройства (Device Tree)', ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_device_meizu_meilan2', dl: 'https://github.com/divis1969/android_device_meizu_meilan2', src: 'https://github.com/divis1969/android_device_meizu_meilan2',
+          { os: { ru: 'Дерево устройства (Device Tree)', en: 'Device Tree' }, ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_device_meizu_meilan2', dl: 'https://github.com/divis1969/android_device_meizu_meilan2', src: 'https://github.com/divis1969/android_device_meizu_meilan2',
             cl: {
               ru: ['Репозиторий дерева устройства device/meizu/meilan2 от divis1969', 'Основа для сборки CyanogenMod / LineageOS'],
               en: ['Device tree repository device/meizu/meilan2 by divis1969', 'Base for building CyanogenMod / LineageOS'],
             } },
-          { os: 'Ядро (Kernel Source)', ver: '3.10.x', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_kernel_meizu_meilan2', dl: 'https://github.com/divis1969/android_kernel_meizu_meilan2', src: 'https://github.com/divis1969/android_kernel_meizu_meilan2',
+          { os: { ru: 'Ядро (Kernel Source)', en: 'Kernel Source' }, ver: '3.10.x', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_kernel_meizu_meilan2', dl: 'https://github.com/divis1969/android_kernel_meizu_meilan2', src: 'https://github.com/divis1969/android_kernel_meizu_meilan2',
             cl: {
               ru: ['Исходный код ядра Linux 3.10 для Meizu M2 Mini от divis1969'],
               en: ['Linux 3.10 kernel source code for Meizu M2 Mini by divis1969'],
             } },
-          { os: 'Вендорские блобы (Vendor Blobs)', ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_vendor_meizu_meilan2', dl: 'https://github.com/divis1969/android_vendor_meizu_meilan2', src: 'https://github.com/divis1969/android_vendor_meizu_meilan2',
+          { os: { ru: 'Вендорские блобы (Vendor Blobs)', en: 'Vendor Blobs' }, ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_vendor_meizu_meilan2', dl: 'https://github.com/divis1969/android_vendor_meizu_meilan2', src: 'https://github.com/divis1969/android_vendor_meizu_meilan2',
             cl: {
               ru: ['Проприетарные библиотеки и бинарники vendor/meizu/meilan2 от divis1969'],
               en: ['Proprietary blobs and binaries vendor/meizu/meilan2 by divis1969'],
@@ -669,8 +669,8 @@ class Component extends DCLogic {
             srcBtnText = lang === 'ru' ? 'Ссылка' : 'Link';
           }
           return {
-            os: v.os, ver: v.ver, android: v.android, date: v.date, size: v.size,
-            changelog: v.cl[lang], fileName: v.file, src: srcUrl, dl: v.dl || '',
+            os: typeof v.os === 'object' ? v.os[lang] : v.os, ver: v.ver, android: v.android, date: v.date, size: v.size,
+            changelog: v.cl[lang], fileName: typeof v.file === 'object' ? v.file[lang] : v.file, src: srcUrl, dl: v.dl || '',
             hasDl: !!v.dl && v.dl !== srcUrl, noDl: !v.dl || v.dl === srcUrl,
             srcBtnText,
             isLatest: j === 0, expanded,
