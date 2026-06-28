@@ -308,58 +308,109 @@
             </div>
           </sc-if>
 
-          <!-- STEP 2 DETAILS -->
+                    <!-- STEP 2 DETAILS -->
           <sc-if value="{{ showStep2 }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
-                <div style="flex:1">
-                  Откройте терминал (командную строку) и склонируйте репозиторий утилиты MTKClient:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+              <sc-if value="{{ lang === 'ru' }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div style="flex:1">
+                    Откройте терминал (командную строку) и склонируйте репозиторий утилиты MTKClient:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                  </div>
                 </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
-                <div style="flex:1">
-                  Перейдите в созданную папку:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div style="flex:1">
+                    Перейдите в созданную папку:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                  </div>
                 </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
-                <div style="flex:1">
-                  Установите необходимые зависимости Python:
-                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
-                  <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">Если возникнет ошибка прав доступа, запустите команду с флагом <code>--user</code>.</div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                  <div style="flex:1">
+                    Установите необходимые зависимости Python:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                    <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">Если возникнет ошибка прав доступа, запустите команду с флагом <code>--user</code>.</div>
+                  </div>
                 </div>
-              </div>
+              </sc-if>
+              <sc-if value="{{ lang === 'en' }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div style="flex:1">
+                    Open your terminal (command prompt) and clone the MTKClient utility repository:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">git clone https://github.com/bkerler/mtkclient</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div style="flex:1">
+                    Change to the created directory:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">cd mtkclient</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                  <div style="flex:1">
+                    Install the required Python dependencies:
+                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">pip install -r requirements.txt</div>
+                    <div style="margin-top:4px;font-size:12.5px;color:#b0b6bf">If you get a permission error, run the command with the <code>--user</code> flag.</div>
+                  </div>
+                </div>
+              </sc-if>
             </div>
           </sc-if>
 
           <!-- STEP 3 DETAILS -->
           <sc-if value="{{ showStep3 }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
-                <div>
-                  Отключите телефон от кабеля и <b>полностью выключите его</b>. Дождитесь вибрации, чтобы убедиться, что питание отключено.
+              <sc-if value="{{ lang === 'ru' }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div>
+                    Отключите телефон от кабеля и <b>полностью выключите его</b>. Дождитесь вибрации, чтобы убедиться, что питание отключено.
+                  </div>
                 </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
-                <div>
-                  Зажмите и удерживайте обе кнопки громкости: <b>Громкость Вверх (Vol+) + Громкость Вниз (Vol-)</b>.
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div>
+                    Зажмите кнопки громкости. Обычно на Meizu требуется зажать обе кнопки: <b>Громкость Вверх (Vol+) + Громкость Вниз (Vol-)</b>. Однако на некоторых моделях (или ревизиях материнских плат) может сработать только <b>Громкость Вниз (Vol-)</b>, только <b>Громкость Вверх (Vol+)</b> или даже просто подключение кабеля к выключенному телефону без зажатия каких-либо кнопок.
+                  </div>
                 </div>
-              </div>
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
-                <div>
-                  Удерживая кнопки зажатыми, подключите USB-кабель от ПК к телефону.
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                  <div>
+                    Удерживая выбранную комбинацию кнопок, подключите USB-кабель от ПК к телефону.
+                  </div>
                 </div>
-              </div>
-              <div style="padding:12px 16px;background:#fff8eb;border-left:3px solid #c2731f;border-radius:8px;font-size:13.5px;color:#7e4c10">
-                <b>💡 Важный совет:</b> Держите кнопки нажатыми до тех пор, пока программа на следующем шаге не начнет считывать данные. Экран телефона при этом должен оставаться абсолютно черным (без логотипа Meizu/Flyme и без анимации зарядки).
-              </div>
+                <div style="padding:12px 16px;background:#fff8eb;border-left:3px solid #c2731f;border-radius:8px;font-size:13.5px;color:#7e4c10">
+                  <b>💡 Важный совет:</b> Держите кнопки нажатыми до тех пор, пока программа на следующем шаге не начнет считывать данные. Экран телефона при этом должен оставаться абсолютно черным (без логотипа Meizu/Flyme и без анимации зарядки).
+                </div>
+              </sc-if>
+              <sc-if value="{{ lang === 'en' }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                  <div>
+                    Disconnect the USB cable and <b>power off your phone completely</b>. Wait for the vibration to confirm it is off.
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                  <div>
+                    Hold the volume buttons. Typically on Meizu, you need to hold both: <b>Volume Up (Vol+) + Volume Down (Vol-)</b>. However, on some models (or board revisions), it might only require <b>Volume Down (Vol-)</b>, only <b>Volume Up (Vol+)</b>, or even plugging in the cable with no buttons held.
+                  </div>
+                </div>
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                  <div>
+                    While holding the buttons, connect the USB cable from the PC to the phone.
+                  </div>
+                </div>
+                <div style="padding:12px 16px;background:#fff8eb;border-left:3px solid #c2731f;border-radius:8px;font-size:13.5px;color:#7e4c10">
+                  <b>💡 Hot Tip:</b> Hold the buttons until the software in the next step begins reading data. The phone screen must remain completely black (no Meizu/Flyme logo, no charging indicator).
+                </div>
+              </sc-if>
             </div>
           </sc-if>
 
@@ -373,12 +424,22 @@
                   <button onClick="{{ setMethodCli }}" style="{{ wizardMethodCliStyle }}">CLI (Консоль)</button>
                 </div>
               </div>
-              <div>1. Запустите графическую утилиту:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
-              <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
-              <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
-              <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
-              <div>5. Отключите USB-кабель. Зажмите кнопку питания, чтобы включить телефон. Загрузчик выдаст предупреждение, после чего телефон автоматически очистит память (Wipe) и загрузит систему.</div>
+              <sc-if value="{{ lang === 'ru' }}" hint-placeholder-val="{{ true }}">
+                <div>1. Запустите графическую утилиту:</div>
+                <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+                <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+                <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
+                <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
+                <div>5. Отключите USB-кабель. Зажмите кнопку питания, чтобы включить телефон. Загрузчик выдаст предупреждение, после чего телефон автоматически очистит память (Wipe) и загрузит систему.</div>
+              </sc-if>
+              <sc-if value="{{ lang === 'en' }}" hint-placeholder-val="{{ false }}">
+                <div>1. Start the graphical utility:</div>
+                <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+                <div>2. Connect the powered-off phone while holding volume buttons (as in Step 3).</div>
+                <div>3. In the utility window, navigate to the <b>Flash Tools</b> tab.</div>
+                <div>4. Click the <b>Unlock Bootloader</b> button. Wait until the progress bar fills green.</div>
+                <div>5. Disconnect the USB cable. Hold the power button to boot. The bootloader will warn you, then automatically wipe the userdata partition and boot.</div>
+              </sc-if>
             </div>
           </sc-if>
 
@@ -392,12 +453,22 @@
                   <button onClick="{{ setMethodCli }}" style="{{ wizardMethodCliStyle }}">CLI (Консоль)</button>
                 </div>
               </div>
-              <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
-              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
-              <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
-              <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
-              <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
-              <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
+              <sc-if value="{{ lang === 'ru' }}" hint-placeholder-val="{{ true }}">
+                <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
+                <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+                <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+                <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
+                <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
+                <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
+              </sc-if>
+              <sc-if value="{{ lang === 'en' }}" hint-placeholder-val="{{ false }}">
+                <div>1. Run the unlock command in your terminal and press Enter:</div>
+                <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+                <div>2. Connect the powered-off phone while holding volume buttons (as in Step 3).</div>
+                <div>3. The terminal will log output. Wait until it displays a success message like <code>"Unlocked successfully"</code>.</div>
+                <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Troubleshooting:</b> If the device bootloops after unlocking, format the data partitions: <code>python mtk e metadata,userdata</code></div>
+                <div>4. Hold the power button to turn it on. The first boot will take longer due to factory reset.</div>
+              </sc-if>
             </div>
           </sc-if>
         </div>
