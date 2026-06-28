@@ -239,26 +239,26 @@
         <!-- Stepper -->
         <div style="margin-top:34px;display:flex;align-items:center;gap:10px;padding-bottom:28px;border-bottom:1px solid #eef0f2">
           <!-- Step 1 badge -->
-          <button onClick="{{ clickStep1 }}" style="{{ stepBadgeStyle(1) }};border:0;cursor:pointer">1</button>
-          <div style="{{ stepLineStyle(1) }}"></div>
+          <button onClick="{{ clickStep1 }}" style="{{ stepBadge1Style }};border:0;cursor:pointer">1</button>
+          <div style="{{ stepLine1Style }}"></div>
           
           <!-- Step 2 badge -->
-          <button onClick="{{ clickStep2 }}" style="{{ stepBadgeStyle(2) }};border:0;cursor:pointer">2</button>
-          <div style="{{ stepLineStyle(2) }}"></div>
+          <button onClick="{{ clickStep2 }}" style="{{ stepBadge2Style }};border:0;cursor:pointer">2</button>
+          <div style="{{ stepLine2Style }}"></div>
           
           <!-- Step 3 badge -->
-          <button onClick="{{ clickStep3 }}" style="{{ stepBadgeStyle(3) }};border:0;cursor:pointer">3</button>
-          <div style="{{ stepLineStyle(3) }}"></div>
+          <button onClick="{{ clickStep3 }}" style="{{ stepBadge3Style }};border:0;cursor:pointer">3</button>
+          <div style="{{ stepLine3Style }}"></div>
           
           <!-- Step 4 badge -->
-          <button onClick="{{ clickStep4 }}" style="{{ stepBadgeStyle(4) }};border:0;cursor:pointer">4</button>
+          <button onClick="{{ clickStep4 }}" style="{{ stepBadge4Style }};border:0;cursor:pointer">4</button>
         </div>
 
         <!-- Step content panel -->
         <div style="margin-top:28px;min-height:220px">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
             <h3 style="font-size:17.5px;font-weight:700;color:#10131a;letter-spacing:-.01em">{{ wTxt.stepLabel }} {{ wizardStep }}: {{ currentStepTitle }}</h3>
-            <span style="font-size:12.5px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:4px 10px;border-radius:999px">{{ wizardMethod.toUpperCase() }}</span>
+            <span style="font-size:12.5px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:4px 10px;border-radius:999px">{{ wizardMethodUpper }}</span>
           </div>
 
           <!-- STEP 1 DETAILS -->
@@ -400,26 +400,29 @@
         </div>
 
         <!-- Checklist -->
-        <sc-if value="{{ wizardStep < 4 }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ wizardStep !== 4 }}" hint-placeholder-val="{{ true }}">
           <div style="margin-top:26px;background:#fff;border:1px solid #eef1f6;border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px">
-            <input type="checkbox" checked="{{ wizardCheckState }}" onClick="{{ toggleWizardCheck }}" style="width:18px;height:18px;cursor:pointer" />
+            <input type="checkbox" checked="{{ wizardCheckState }}" onChange="{{ toggleWizardCheck }}" style="width:18px;height:18px;cursor:pointer" />
             <span onClick="{{ toggleWizardCheck }}" style="font-size:14px;font-weight:600;color:#10131a;cursor:pointer">{{ wTxt.chkReady }}</span>
           </div>
         </sc-if>
 
         <!-- Stepper Actions -->
         <div style="margin-top:32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #eef0f2;padding-top:20px">
-          <sc-if value="{{ wizardStep > 1 }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ wizardStep !== 1 }}" hint-placeholder-val="{{ true }}">
             <button onClick="{{ prevWizardStep }}" style="{{ prevBtnStyle }}">{{ wTxt.prevBtn }}</button>
           </sc-if>
           <sc-if value="{{ wizardStep === 1 }}" hint-placeholder-val="{{ false }}">
             <div></div>
           </sc-if>
-          <sc-if value="{{ wizardStep < 4 }}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{ wizardStep !== 4 }}" hint-placeholder-val="{{ true }}">
             <button onClick="{{ nextWizardStep }}" style="{{ nextBtnStyle }}" disabled="{{ nextBtnDisabled }}">{{ wTxt.nextBtn }}</button>
           </sc-if>
           <sc-if value="{{ wizardStep === 4 }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ goHome }}" style="font-size:13.5px;font-weight:700;color:#fff;background:#1f8a5b;border:0;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;">{{ lang === 'ru' ? 'Готово (На главную)' : 'Done (Go Home)' }}</button>
+            <button onClick="{{ goHome }}" style="font-size:13.5px;font-weight:700;color:#fff;background:#1f8a5b;border:0;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;">
+              <sc-if value="{{ lang === 'ru' }}">Готово (На главную)</sc-if>
+              <sc-if value="{{ lang === 'en' }}">Done (Go Home)</sc-if>
+            </button>
           </sc-if>
         </div>
       </div>
@@ -930,6 +933,17 @@ class Component extends DCLogic {
       return "flex:1;height:2px;" + (done ? "background:#1f8a5b;" : "background:#eef0f2;");
     };
 
+    const wizardMethodUpper = wizardMethod.toUpperCase();
+
+    const stepBadge1Style = stepBadgeStyle(1);
+    const stepBadge2Style = stepBadgeStyle(2);
+    const stepBadge3Style = stepBadgeStyle(3);
+    const stepBadge4Style = stepBadgeStyle(4);
+
+    const stepLine1Style = stepLineStyle(1);
+    const stepLine2Style = stepLineStyle(2);
+    const stepLine3Style = stepLineStyle(3);
+
     const nextBtnDisabled = (wizardStep === 1 && !wizardCheck1) || (wizardStep === 2 && !wizardCheck2) || (wizardStep === 3 && !wizardCheck3);
     const nextBtnStyle = "font-size:13.5px;font-weight:700;color:#fff;background:" + (nextBtnDisabled ? '#c2c7cf' : '#2A6FDB') + ";border:0;padding:10px 22px;border-radius:12px;cursor:" + (nextBtnDisabled ? 'not-allowed' : 'pointer') + ";font-family:inherit;transition:all .2s ease;";
     const prevBtnStyle = "font-size:13.5px;font-weight:700;color:#5b626c;background:#fff;border:1px solid #e3e5e9;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;";
@@ -1056,7 +1070,11 @@ class Component extends DCLogic {
       stepBadgeStyle, stepLineStyle,
       clickStep1, clickStep2, clickStep3, clickStep4,
       currentStepTitle, nextBtnDisabled, nextBtnStyle, prevBtnStyle,
-      nextWizardStep, prevWizardStep, lang
+      nextWizardStep, prevWizardStep, lang,
+      
+      wizardMethodUpper,
+      stepBadge1Style, stepBadge2Style, stepBadge3Style, stepBadge4Style,
+      stepLine1Style, stepLine2Style, stepLine3Style
     };
   }
 }
