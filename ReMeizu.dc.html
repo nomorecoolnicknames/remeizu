@@ -261,53 +261,55 @@
             <span style="font-size:12.5px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:4px 10px;border-radius:999px">{{ wizardMethodUpper }}</span>
           </div>
 
-          <!-- STEP 1 DETAILS -->
-          <sc-if value="{{ wizardStep === 1 }}" hint-placeholder-val="{{ true }}">
+          <!-- STEP 1 DETAILS - Windows -->
+          <sc-if value="{{ showStep1Win }}" hint-placeholder-val="{{ true }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
-              <sc-if value="{{ wizardOs === 'win' }}" hint-placeholder-val="{{ true }}">
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
-                  <div>
-                    <b>Установите Python 3</b> с официального сайта: <a href="https://www.python.org/downloads/" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">python.org/downloads</a>.
-                    <div style="margin-top:4px;font-size:13px;color:#c2731f;font-weight:600">⚠️ Важно: при установке обязательно поставьте галочку "Add Python to PATH"!</div>
-                  </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div>
+                  <b>Установите Python 3</b> с официального сайта: <a href="https://www.python.org/downloads/" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">python.org/downloads</a>.
+                  <div style="margin-top:4px;font-size:13px;color:#c2731f;font-weight:600">⚠️ Важно: при установке обязательно поставьте галочку "Add Python to PATH"!</div>
                 </div>
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
-                  <div>
-                    <b>Установите драйвер UsbDk</b>: <a href="https://github.com/daynix/UsbDk/releases" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
-                    <div style="margin-top:4px;font-size:13px;color:#5b626c">Это необходимо для стабильного перехвата телефона в режиме Boot ROM (BROM) на Windows.</div>
-                  </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div>
+                  <b>Установите драйвер UsbDk</b>: <a href="https://github.com/daynix/UsbDk/releases" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">daynix/UsbDk Releases</a>.
+                  <div style="margin-top:4px;font-size:13px;color:#5b626c">Это необходимо для стабильного перехвата телефона в режиме Boot ROM (BROM) на Windows.</div>
                 </div>
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
-                  <div>
-                    <b>Установите Git</b>: <a href="https://git-scm.com/downloads" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">git-scm.com</a>.
-                    <div style="margin-top:4px;font-size:13px;color:#5b626c">Git понадобится для загрузки актуального репозитория утилиты.</div>
-                  </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">3</span>
+                <div>
+                  <b>Установите Git</b>: <a href="https://git-scm.com/downloads" target="_blank" style="color:#2A6FDB;font-weight:600;text-decoration:none">git-scm.com</a>.
+                  <div style="margin-top:4px;font-size:13px;color:#5b626c">Git понадобится для загрузки актуального репозитория утилиты.</div>
                 </div>
-              </sc-if>
-              <sc-if value="{{ wizardOs === 'linux' }}" hint-placeholder-val="{{ false }}">
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
-                  <div style="flex:1">
-                    Установите Python, pip и git через ваш пакетный менеджер. Для Ubuntu/Debian:
-                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">sudo apt update && sudo apt install python3 python3-pip git -y</div>
-                  </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- STEP 1 DETAILS - Linux -->
+          <sc-if value="{{ showStep1Linux }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
+                <div style="flex:1">
+                  Установите Python, pip и git через ваш пакетный менеджер. Для Ubuntu/Debian:
+                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">sudo apt update && sudo apt install python3 python3-pip git -y</div>
                 </div>
-                <div style="display:flex;gap:12px;align-items:flex-start">
-                  <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
-                  <div style="flex:1">
-                    Настройте правила доступа <b>udev</b> для работы без прав root (чтобы mtkclient мог открыть USB-порт):
-                    <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
-                  </div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">2</span>
+                <div style="flex:1">
+                  Настройте правила доступа <b>udev</b> для работы без прав root (чтобы mtkclient мог открыть USB-порт):
+                  <div style="margin-top:6px;background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9;white-space:pre-wrap;word-break:break-all">echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="0e8d", MODE="0660", GROUP="plugdev"' | sudo tee /etc/udev/rules.d/51-edl.rules && sudo udevadm control --reload-rules</div>
                 </div>
-              </sc-if>
+              </div>
             </div>
           </sc-if>
 
           <!-- STEP 2 DETAILS -->
-          <sc-if value="{{ wizardStep === 2 }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ showStep2 }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
@@ -335,7 +337,7 @@
           </sc-if>
 
           <!-- STEP 3 DETAILS -->
-          <sc-if value="{{ wizardStep === 3 }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ showStep3 }}" hint-placeholder-val="{{ false }}">
             <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;gap:12px;align-items:flex-start">
                 <span style="width:20px;height:20px;border-radius:50%;background:#eef3fd;color:#2A6FDB;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">1</span>
@@ -361,9 +363,9 @@
             </div>
           </sc-if>
 
-          <!-- STEP 4 DETAILS -->
-          <sc-if value="{{ wizardStep === 4 }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;flex-direction:column;gap:16px">
+          <!-- STEP 4 DETAILS - GUI -->
+          <sc-if value="{{ showStep4Gui }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
               <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
                 <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
                 <div style="display:flex;gap:8px;background:#f1f2f4;padding:3px;border-radius:999px">
@@ -371,30 +373,31 @@
                   <button onClick="{{ setMethodCli }}" style="{{ wizardMethodCliStyle }}">CLI (Консоль)</button>
                 </div>
               </div>
+              <div>1. Запустите графическую утилиту:</div>
+              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
+              <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+              <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
+              <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
+              <div>5. Отключите USB-кабель. Зажмите кнопку питания, чтобы включить телефон. Загрузчик выдаст предупреждение, после чего телефон автоматически очистит память (Wipe) и загрузит систему.</div>
+            </div>
+          </sc-if>
 
-              <!-- GUI method -->
-              <sc-if value="{{ wizardMethod === 'gui' }}" hint-placeholder-val="{{ true }}">
-                <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
-                  <div>1. Запустите графическую утилиту:</div>
-                  <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk_gui</div>
-                  <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
-                  <div>3. В открывшемся окне перейдите на вкладку <b>Flash Tools</b> (Инструменты прошивки).</div>
-                  <div>4. Нажмите кнопку <b>Unlock Bootloader</b>. Дождитесь, пока шкала прогресса заполнится зеленым цветом.</div>
-                  <div>5. Отключите USB-кабель. Зажмите кнопку питания, чтобы включить телефон. Загрузчик выдаст предупреждение, после чего телефон автоматически очистит память (Wipe) и загрузит систему.</div>
+          <!-- STEP 4 DETAILS - CLI -->
+          <sc-if value="{{ showStep4Cli }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;justify-content:space-between;background:#f8fafc;padding:12px 18px;border-radius:12px;border:1px solid #eef0f2">
+                <span style="font-size:13.5px;color:#525862;font-weight:600">{{ wTxt.methodSelect }}</span>
+                <div style="display:flex;gap:8px;background:#f1f2f4;padding:3px;border-radius:999px">
+                  <button onClick="{{ setMethodGui }}" style="{{ wizardMethodGuiStyle }}">GUI (Графика)</button>
+                  <button onClick="{{ setMethodCli }}" style="{{ wizardMethodCliStyle }}">CLI (Консоль)</button>
                 </div>
-              </sc-if>
-
-              <!-- CLI method -->
-              <sc-if value="{{ wizardMethod === 'cli' }}" hint-placeholder-val="{{ false }}">
-                <div style="font-size:14.5px;color:#525862;line-height:1.6;display:flex;flex-direction:column;gap:12px">
-                  <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
-                  <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
-                  <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
-                  <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
-                  <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
-                  <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
-                </div>
-              </sc-if>
+              </div>
+              <div>1. Введите в терминале команду разблокировки и нажмите Enter:</div>
+              <div style="background:#f4f5f7;padding:12px 16px;border-radius:10px;font-family:monospace;font-size:13px;color:#10131a;border:1px solid #e3e5e9">python mtk da seccfg unlock</div>
+              <div>2. Подключите выключенный телефон с зажатыми громкостями (как в Шаге 3).</div>
+              <div>3. В консоли побегут строки логов. Дождитесь завершающей строки с текстом вроде <code>"Unlocked successfully"</code>.</div>
+              <div style="padding:10px 14px;background:#f3f7fd;border-left:3px solid #2A6FDB;border-radius:4px;font-size:13px;color:#1d4a8f"><b>Полезно:</b> Если после разблокировки телефон зависает на заставке (bootloop), очистите разделы: <code>python mtk e metadata,userdata</code></div>
+              <div>4. Включите телефон зажатием кнопки питания. Первая загрузка будет идти дольше обычного из-за сброса данных.</div>
             </div>
           </sc-if>
         </div>
@@ -944,6 +947,18 @@ class Component extends DCLogic {
     const stepLine2Style = stepLineStyle(2);
     const stepLine3Style = stepLineStyle(3);
 
+    const showStep1Win = wizardStep === 1 && wizardOs === 'win';
+    const showStep1Linux = wizardStep === 1 && wizardOs === 'linux';
+    const showStep2 = wizardStep === 2;
+    const showStep3 = wizardStep === 3;
+    const showStep4Gui = wizardStep === 4 && wizardMethod === 'gui';
+    const showStep4Cli = wizardStep === 4 && wizardMethod === 'cli';
+
+    const showChecklist = wizardStep !== 4;
+    const showPrevBtn = wizardStep !== 1;
+    const showNextBtn = wizardStep !== 4;
+    const showDoneBtn = wizardStep === 4;
+
     const nextBtnDisabled = (wizardStep === 1 && !wizardCheck1) || (wizardStep === 2 && !wizardCheck2) || (wizardStep === 3 && !wizardCheck3);
     const nextBtnStyle = "font-size:13.5px;font-weight:700;color:#fff;background:" + (nextBtnDisabled ? '#c2c7cf' : '#2A6FDB') + ";border:0;padding:10px 22px;border-radius:12px;cursor:" + (nextBtnDisabled ? 'not-allowed' : 'pointer') + ";font-family:inherit;transition:all .2s ease;";
     const prevBtnStyle = "font-size:13.5px;font-weight:700;color:#5b626c;background:#fff;border:1px solid #e3e5e9;padding:10px 22px;border-radius:12px;cursor:pointer;font-family:inherit;";
@@ -1074,7 +1089,12 @@ class Component extends DCLogic {
       
       wizardMethodUpper,
       stepBadge1Style, stepBadge2Style, stepBadge3Style, stepBadge4Style,
-      stepLine1Style, stepLine2Style, stepLine3Style
+      stepLine1Style, stepLine2Style, stepLine3Style,
+      
+      showStep1Win, showStep1Linux,
+      showStep2, showStep3,
+      showStep4Gui, showStep4Cli,
+      showChecklist, showPrevBtn, showNextBtn, showDoneBtn
     };
   }
 }
