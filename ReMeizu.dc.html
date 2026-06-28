@@ -55,9 +55,13 @@
 
       <div style="max-width:1180px;margin:0 auto;padding:40px 28px 0">
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef0f2;padding-bottom:14px;flex-wrap:wrap;gap:14px">
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-size:14px;color:#9aa1ac;font-weight:500;margin-right:6px">{{ t.brand }}</span>
-            <button style="font-size:14px;font-weight:600;color:#fff;background:#2A6FDB;border:0;padding:8px 18px;border-radius:999px;cursor:pointer;font-family:inherit">Meizu</button>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-size:14px;color:#9aa1ac;font-weight:500;margin-right:6px">{{ t.socFamily }}</span>
+            <button onClick="{{ setFilterAll }}" style="{{ filterStyleAll }}">{{ t.filterAll }}</button>
+            <button onClick="{{ setFilter6755 }}" style="{{ filterStyle6755 }}">MT6750 / MT6755</button>
+            <button onClick="{{ setFilter6753 }}" style="{{ filterStyle6753 }}">MT6753</button>
+            <button onClick="{{ setFilter6735 }}" style="{{ filterStyle6735 }}">MT6735 / MT6737</button>
+            <button onClick="{{ setFilter6752 }}" style="{{ filterStyle6752 }}">MT6752</button>
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#9aa1ac;font-weight:500">
             <span style="width:7px;height:7px;border-radius:50%;background:#1f8a5b;display:inline-block"></span>{{ t.activeBuilds }}
@@ -166,7 +170,7 @@
                     <sc-if value="{{ v.hasDl }}" hint-placeholder-val="{{ true }}">
                       <a href="{{ v.dl }}" target="_blank" style="font-size:14px;font-weight:700;color:#fff;background:#2A6FDB;padding:12px 24px;border-radius:11px;text-decoration:none;box-shadow:0 8px 20px rgba(42,111,219,.26)">{{ t.dlBtn }}</a>
                     </sc-if>
-                    <a href="{{ v.src }}" target="_blank" style="font-size:14px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:12px 24px;border-radius:11px;text-decoration:none">{{ t.srcBtn }}</a>
+                    <a href="{{ v.src }}" target="_blank" style="font-size:14px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:12px 24px;border-radius:11px;text-decoration:none">{{ v.srcBtnText }}</a>
                     <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac">{{ v.fileName }}</span>
                   </div>
                   <sc-if value="{{ v.noDl }}" hint-placeholder-val="{{ false }}">
@@ -181,6 +185,9 @@
 
       <sc-if value="{{ sel.isPlanned }}" hint-placeholder-val="{{ false }}">
         <div style="border:1px dashed #d9dde2;border-radius:16px;padding:30px 24px;text-align:center;color:#9aa1ac;font-size:14.5px">{{ t.plannedNote }}</div>
+      </sc-if>
+      <sc-if value="{{ sel.isNotPlanned }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed #d9dde2;border-radius:16px;padding:30px 24px;text-align:center;color:#9aa1ac;font-size:14.5px">{{ t.notPlannedNote }}</div>
       </sc-if>
 
       <p style="margin-top:24px;font-size:12.5px;color:#b0b6bf;line-height:1.55;max-width:680px">{{ t.warn }}</p>
@@ -253,93 +260,9 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  state = { lang: 'ru', page: 'firmware', selected: null, expanded: null };
+const GH = 'https://github.com/nomorecoolnicknames';
 
-  renderVals() {
-    const lang = this.state.lang;
-    const setRu = () => this.setState({ lang: 'ru' });
-    const setEn = () => this.setState({ lang: 'en' });
-    const scrollTop = () => { try { window.scrollTo(0, 0); } catch (e) {} };
-    const goHome = () => { this.setState({ page: 'firmware', selected: null }); scrollTop(); };
-    const goGuide = () => { this.setState({ page: 'guide', selected: null }); scrollTop(); };
-    const goCommunity = () => { this.setState({ page: 'community', selected: null }); scrollTop(); };
-    const page = this.state.page;
-    const navStyle = (on) => "font-size:14px;font-weight:" + (on ? 600 : 500) + ";color:" + (on ? '#10131a' : '#5b626c') + ";background:none;border:0;cursor:pointer;font-family:inherit;padding:0";
-
-    const activeBtn = "border:0;background:#2A6FDB;color:#fff;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
-    const idleBtn = "border:0;background:transparent;color:#7a818c;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
-
-    const STR = {
-      ru: {
-        navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
-        pageTitle: 'Кастомные прошивки ReMeizu',
-        pageSub: 'Сборки LineageOS из исходников для старых телефонов Meizu. Это bring-up: не всё железо ещё работает — у каждого устройства честно указан статус и что именно функционирует.',
-        brand: 'Бренд:', activeBuilds: 'В активной разработке', loadMore: 'Больше устройств позже',
-        firmwares: 'Прошивки', archive: 'Архив версий', latest: 'Последняя', changelog: 'Что нового',
-        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Публичной загрузки пока нет — сборка из исходников.',
-        hwTitle: 'Что работает', hwLegend: 'Зелёный — работает, оранжевый — в работе, красный — не работает, серый — не проверено.',
-        plannedNote: 'Это устройство в планах. Работа над портом ещё не начиналась.',
-        colDate: 'Дата', colSize: 'Размер',
-        warn: 'Это неофициальные экспериментальные сборки в активной разработке (bring-up). На части устройств не работают камера, отпечаток, иногда связь или Wi-Fi — смотри статус железа у конкретной модели. Прошивка ставится на свой страх и риск: сделай бэкап и разблокируй загрузчик. Проект не связан с Meizu.',
-        footNote: 'Неофициальный проект. Не связан с Meizu. © 2026 ReMeizu',
-      },
-      en: {
-        navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
-        pageTitle: 'ReMeizu custom firmware',
-        pageSub: 'LineageOS builds from source for older Meizu phones. This is bring-up: not all hardware works yet — every device shows an honest status and exactly what functions.',
-        brand: 'Brand:', activeBuilds: 'Under active development', loadMore: 'More devices later',
-        firmwares: 'Firmware', archive: 'Version archive', latest: 'Latest', changelog: "What's new",
-        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No public download yet — build from source.',
-        hwTitle: 'What works', hwLegend: 'Green — working, orange — in progress, red — broken, grey — untested.',
-        plannedNote: 'This device is planned. Porting work has not started yet.',
-        colDate: 'Date', colSize: 'Size',
-        warn: 'These are unofficial, experimental, actively-developed bring-up builds. On some devices the camera, fingerprint, and sometimes cellular or Wi-Fi do not work — check the per-device hardware status. Flashing is at your own risk: back up your data and unlock the bootloader. Not affiliated with Meizu.',
-        footNote: 'Unofficial project. Not affiliated with Meizu. © 2026 ReMeizu',
-      }
-    };
-    const t = STR[lang];
-
-    const badge = {
-      stable:  { bg: '#e7f6ee', fg: '#1f8a5b' },
-      beta:    { bg: '#eef3fd', fg: '#2A6FDB' },
-      alpha:   { bg: '#fdf1e7', fg: '#c2731f' },
-      bringup: { bg: '#f3eefe', fg: '#7a4fd0' },
-      planned: { bg: '#f1f2f4', fg: '#9aa1ac' },
-    };
-    const statusLabel = {
-      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах' },
-      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned' },
-    };
-    const branchLabel = {
-      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах' },
-      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned' },
-    };
-
-    const hwState = {
-      ok:      { dot: '#1f8a5b', ru: 'Работает',    en: 'Working' },
-      wip:     { dot: '#c2731f', ru: 'В работе',     en: 'In progress' },
-      broken:  { dot: '#d14343', ru: 'Не работает',  en: 'Broken' },
-      unknown: { dot: '#c2c7cf', ru: 'Не проверено', en: 'Untested' },
-    };
-    const hwLabel = {
-      display: { ru: 'Дисплей', en: 'Display' },
-      touch:   { ru: 'Сенсор', en: 'Touch' },
-      wifi:    { ru: 'Wi-Fi', en: 'Wi-Fi' },
-      bt:      { ru: 'Bluetooth', en: 'Bluetooth' },
-      ril:     { ru: 'Связь/звонки', en: 'Calls & data' },
-      camera:  { ru: 'Камера', en: 'Camera' },
-      fp:      { ru: 'Отпечаток', en: 'Fingerprint' },
-      audio:   { ru: 'Звук', en: 'Audio' },
-      sensors: { ru: 'Датчики', en: 'Sensors' },
-      gps:     { ru: 'GPS', en: 'GPS' },
-      charge:  { ru: 'Зарядка', en: 'Charging' },
-    };
-    const HW_ORDER = ['display', 'touch', 'wifi', 'bt', 'ril', 'camera', 'fp', 'audio', 'sensors', 'gps', 'charge'];
-
-    const GH = 'https://github.com/nomorecoolnicknames';
-
-    const RAW = [
+const RAW = [
       {
         name: 'Meizu M6', codename: 'meizu_m6', s: 'alpha', soc: 'MediaTek MT6750',
         sub: { ru: 'LineageOS 15.1 · A8.1', en: 'LineageOS 15.1 · A8.1' },
@@ -398,7 +321,7 @@ class Component extends DCLogic {
           ru: 'LineageOS 15.1 bring-up. Загружается на устройстве; идёт перенос камеры на сборку из исходников (mtkcam). Делит дерево сборки с Meizu M6.',
           en: 'LineageOS 15.1 bring-up. Boots on device; the camera is being moved to a source build (mtkcam). Shares the build tree with Meizu M6.',
         },
-        src: GH + '?tab=repositories&q=m2note',
+        src: GH + '/android_device_meizu_m2note',
         hw: { display: 'ok', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
         vers: [
           { os: 'LineageOS 15.1', ver: '15.1-bringup', android: '8.1', date: '27 Jun 2026', size: '—', file: 'boot v481 (на устройстве)',
@@ -444,39 +367,279 @@ class Component extends DCLogic {
         src: GH, hw: {}, vers: [],
       },
       {
-        name: 'Meizu M6T', codename: 'm6t', s: 'planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'В планах', en: 'Planned' },
+        name: 'Meizu M6T', codename: 'm6t', s: 'not_planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
         desc: {
-          ru: 'В планах. Прямой кандидат на базе Meizu M6 — тот же MediaTek MT6750.',
-          en: 'Planned. A direct candidate on the Meizu M6 base — the same MediaTek MT6750.',
+          ru: 'Не в планах. Прямой кандидат на базе Meizu M6 — тот же MediaTek MT6750.',
+          en: 'Not planned. A direct candidate on the Meizu M6 base — the same MediaTek MT6750.',
         },
         src: GH, hw: {}, vers: [],
       },
       {
-        name: 'Meizu M5', codename: 'm5', s: 'planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'В планах', en: 'Planned' },
+        name: 'Meizu M5', codename: 'm5', s: 'not_planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
         desc: {
-          ru: 'В планах. На базе Meizu M6 — тот же MT6750.',
-          en: 'Planned. On the Meizu M6 base — the same MT6750.',
+          ru: 'Не в планах. На базе Meizu M6 — тот же MT6750.',
+          en: 'Not planned. On the Meizu M6 base — the same MT6750.',
         },
         src: GH, hw: {}, vers: [],
       },
       {
-        name: 'Meizu M5s', codename: 'm5s', s: 'planned', soc: 'MediaTek MT6753',
-        sub: { ru: 'В планах', en: 'Planned' },
+        name: 'Meizu M5s', codename: 'm5s', s: 'not_planned', soc: 'MediaTek MT6753',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
         desc: {
-          ru: 'В планах. На базе M2 Note — тот же MT6753.',
-          en: 'Planned. On the M2 Note base — the same MT6753.',
+          ru: 'Не в планах. На базе M2 Note — тот же MT6753.',
+          en: 'Not planned. On the M2 Note base — the same MT6753.',
         },
         src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu U10', codename: 'u10', s: 'not_planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
+        desc: {
+          ru: 'Не в планах. Стеклянный аналог Meizu M3s / M5, плата идентична Meizu M6. Легко поднимется на общей кодовой базе.',
+          en: 'Not planned. Glass-back counterpart of Meizu M3s / M5, shares layout with Meizu M6. Easy to bring up on the same codebase.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu U20', codename: 'u20', s: 'not_planned', soc: 'MediaTek MT6755 (Helio P10)',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
+        desc: {
+          ru: 'Не в планах. Стеклянный аналог M3 Note на той же платформе Helio P10 (MT6755). Брингап пойдёт по следам M3 Note.',
+          en: 'Not planned. Glass-back counterpart of M3 Note on the same Helio P10 (MT6755) platform. Will follow the M3 Note bring-up path.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M3s', codename: 'm3s', s: 'not_planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
+        desc: {
+          ru: 'Не в планах. Металлическая версия M3 на MT6750. Делит платформу с Meizu M5 / M6.',
+          en: 'Not planned. Metallic version of M3 on MT6750. Shares platform with Meizu M5 / M6.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+      {
+        name: 'Meizu M3', codename: 'm3', s: 'not_planned', soc: 'MediaTek MT6750',
+        sub: { ru: 'Не в планах', en: 'Not planned' },
+        desc: {
+          ru: 'Не в планах. Пластиковый предшественник M3s на чипе MT6750. Общая платформа с Meizu M5 / M6.',
+          en: 'Not planned. Plastic predecessor to M3s running MT6750. Common platform with Meizu M5 / M6.',
+        },
+        src: GH, hw: {}, vers: [],
+      },
+
+      {
+        name: 'Meizu M2', codename: 'm2', s: 'beta', soc: 'MediaTek MT6735',
+        sub: { ru: 'LineageOS 15.1 · A8.1 · GSI (ядро 3.18)', en: 'LineageOS 15.1 · A8.1 · GSI (kernel 3.18)' },
+        desc: {
+          ru: 'Рабочий порт Project Treble с ядром 3.18 и переразметкой памяти (создание разделов system/vendor). Позволяет полноценно запускать GSI-сборки Android 9.0/10.0. Исходные репозитории удалены/архивированы, но файлы и инструкции сохранены в теме неофициальных прошивок на 4PDA.',
+          en: 'Working Project Treble port with 3.18 kernel and re-partitioning (system/vendor setup). Enables running Android 9.0/10.0 GSI builds. Original repositories are deleted/archived, but files and guides are preserved in the unofficial ROMs thread on 4PDA.',
+        },
+        src: 'https://github.com/divis1969/android_device_meizu_meilan2', hw: { display: 'ok', touch: 'ok', wifi: 'ok', bt: 'ok', ril: 'wip', camera: 'wip', fp: 'unknown', audio: 'ok', sensors: 'ok', gps: 'ok', charge: 'ok' },
+        vers: [
+          { os: 'LineageOS 16.0 / GSI (Treble)', ver: '3.18-treble', android: '9.0 / 10.0', date: '4PDA', size: '—', file: 'm2repos-lineage-16.0.zip', dl: 'https://4pda.to/forum/index.php?showtopic=710550&st=12660#entry90740547', src: 'https://4pda.to/forum/index.php?showtopic=710550&st=12660#entry90740547',
+            cl: {
+              ru: ['Неофициальная LineageOS 16.0 на ядре 3.18.119', 'Скрипт переразметки разделов и вендор-патчи для стабильного GSI', 'Прошивка выложена на Google Диск (ссылка в посте)'],
+              en: ['Unofficial LineageOS 16.0 on 3.18.119 kernel', 'Re-partition script and vendor fixes for stable GSI support', 'ROM hosted on Google Drive (link inside the post)'],
+            } },
+          { os: 'TWRP Recovery + Treble', ver: '3.3.1-0', android: '8.1 / 9.0', date: 'GitHub', size: '—', file: 'mrtwrp_device_mblu2', dl: 'https://github.com/XRedCubeX/mrtwrp_device_mblu2', src: 'https://github.com/XRedCubeX/mrtwrp_device_mblu2',
+            cl: {
+              ru: ['Дерево сборки TWRP 3.3.1-0 с поддержкой Treble от XRedCubeX на GitHub', 'Используется для переразметки разделов и прошивки GSI'],
+              en: ['TWRP 3.3.1-0 device tree with Treble support by XRedCubeX on GitHub', 'Used for partition re-layout and GSI flashing'],
+            } },
+          { os: 'Дерево устройства (Device Tree)', ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_device_meizu_meilan2', dl: 'https://github.com/divis1969/android_device_meizu_meilan2', src: 'https://github.com/divis1969/android_device_meizu_meilan2',
+            cl: {
+              ru: ['Репозиторий дерева устройства device/meizu/meilan2 от divis1969', 'Основа для сборки CyanogenMod / LineageOS'],
+              en: ['Device tree repository device/meizu/meilan2 by divis1969', 'Base for building CyanogenMod / LineageOS'],
+            } },
+          { os: 'Ядро (Kernel Source)', ver: '3.10.x', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_kernel_meizu_meilan2', dl: 'https://github.com/divis1969/android_kernel_meizu_meilan2', src: 'https://github.com/divis1969/android_kernel_meizu_meilan2',
+            cl: {
+              ru: ['Исходный код ядра Linux 3.10 для Meizu M2 Mini от divis1969'],
+              en: ['Linux 3.10 kernel source code for Meizu M2 Mini by divis1969'],
+            } },
+          { os: 'Вендорские блобы (Vendor Blobs)', ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_vendor_meizu_meilan2', dl: 'https://github.com/divis1969/android_vendor_meizu_meilan2', src: 'https://github.com/divis1969/android_vendor_meizu_meilan2',
+            cl: {
+              ru: ['Проприетарные библиотеки и бинарники vendor/meizu/meilan2 от divis1969'],
+              en: ['Proprietary blobs and binaries vendor/meizu/meilan2 by divis1969'],
+            } },
+        ],
       },
     ];
 
+class Component extends DCLogic {
+  parseHash() {
+    const hash = window.location.hash || '';
+    if (hash === '' || hash === '#' || hash === '#/') {
+      return { page: 'firmware', selected: null };
+    }
+    if (hash === '#/guide') {
+      return { page: 'guide', selected: null };
+    }
+    if (hash === '#/community') {
+      return { page: 'community', selected: null };
+    }
+    const match = hash.match(/^#\/device\/([a-zA-Z0-9_-]+)$/);
+    if (match) {
+      const codename = match[1];
+      const idx = RAW.findIndex(d => d.codename === codename);
+      if (idx !== -1) {
+        return { page: 'firmware', selected: idx, expanded: RAW[idx].vers.length ? idx + '-0' : null };
+      }
+    }
+    return { page: 'firmware', selected: null };
+  }
+
+  constructor(props) {
+    super(props);
+    const initialRoute = this.parseHash();
+    this.state = {
+      lang: 'ru',
+      page: initialRoute.page,
+      selected: initialRoute.selected,
+      expanded: initialRoute.expanded,
+      socFilter: 'all'
+    };
+  }
+
+  componentDidMount() {
+    this.onHashChange = () => {
+      const route = this.parseHash();
+      this.setState({
+        page: route.page,
+        selected: route.selected,
+        expanded: route.expanded
+      });
+      try { window.scrollTo(0, 0); } catch (e) {}
+    };
+    window.addEventListener('hashchange', this.onHashChange);
+  }
+
+  componentWillUnmount() {
+    if (this.onHashChange) {
+      window.removeEventListener('hashchange', this.onHashChange);
+    }
+  }
+
+
+  renderVals() {
+    const lang = this.state.lang;
+    const setRu = () => this.setState({ lang: 'ru' });
+    const setEn = () => this.setState({ lang: 'en' });
+    const scrollTop = () => { try { window.scrollTo(0, 0); } catch (e) {} };
+    const goHome = () => { window.location.hash = '#/'; };
+    const goGuide = () => { window.location.hash = '#/guide'; };
+    const goCommunity = () => { window.location.hash = '#/community'; };
+    const page = this.state.page;
+    const navStyle = (on) => "font-size:14px;font-weight:" + (on ? 600 : 500) + ";color:" + (on ? '#10131a' : '#5b626c') + ";background:none;border:0;cursor:pointer;font-family:inherit;padding:0";
+
+    const activeBtn = "border:0;background:#2A6FDB;color:#fff;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
+    const idleBtn = "border:0;background:transparent;color:#7a818c;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;cursor:pointer;font-family:inherit";
+
+    const STR = {
+      ru: {
+        navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
+        pageTitle: 'Кастомные прошивки ReMeizu',
+        pageSub: 'Сборки LineageOS из исходников для старых телефонов Meizu. Это bring-up: не всё железо ещё работает — у каждого устройства честно указан статус и что именно функционирует.',
+        socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'В активной разработке', loadMore: 'Больше устройств позже',
+        firmwares: 'Прошивки', archive: 'Архив версий', latest: 'Последняя', changelog: 'Что нового',
+        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Публичной загрузки пока нет — сборка из исходников.',
+        hwTitle: 'Что работает', hwLegend: 'Зелёный — работает, оранжевый — в работе, красный — не работает, серый — не проверено.',
+        plannedNote: 'Это устройство в планах. Работа над портом ещё не начиналась.',
+        notPlannedNote: 'Это устройство не в планах. Разработка под него пока не планируется.',
+        colDate: 'Дата', colSize: 'Размер',
+        warn: 'Это неофициальные экспериментальные сборки в активной разработке (bring-up). На части устройств не работают камера, отпечаток, иногда связь или Wi-Fi — смотри статус железа у конкретной модели. Прошивка ставится на свой страх и риск: сделай бэкап и разблокируй загрузчик. Проект не связан с Meizu.',
+        footNote: 'Неофициальный проект. Не связан с Meizu. © 2026 ReMeizu',
+      },
+      en: {
+        navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
+        pageTitle: 'ReMeizu custom firmware',
+        pageSub: 'LineageOS builds from source for older Meizu phones. This is bring-up: not all hardware works yet — every device shows an honest status and exactly what functions.',
+        socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Under active development', loadMore: 'More devices later',
+        firmwares: 'Firmware', archive: 'Version archive', latest: 'Latest', changelog: "What's new",
+        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No public download yet — build from source.',
+        hwTitle: 'What works', hwLegend: 'Green — working, orange — in progress, red — broken, grey — untested.',
+        plannedNote: 'This device is planned. Porting work has not started yet.',
+        notPlannedNote: 'This device is not planned. Development is not currently scheduled.',
+        colDate: 'Date', colSize: 'Size',
+        warn: 'These are unofficial, experimental, actively-developed bring-up builds. On some devices the camera, fingerprint, and sometimes cellular or Wi-Fi do not work — check the per-device hardware status. Flashing is at your own risk: back up your data and unlock the bootloader. Not affiliated with Meizu.',
+        footNote: 'Unofficial project. Not affiliated with Meizu. © 2026 ReMeizu',
+      }
+    };
+    const t = STR[lang];
+
+    const badge = {
+      stable:  { bg: '#e7f6ee', fg: '#1f8a5b' },
+      beta:    { bg: '#eef3fd', fg: '#2A6FDB' },
+      alpha:   { bg: '#fdf1e7', fg: '#c2731f' },
+      bringup: { bg: '#f3eefe', fg: '#7a4fd0' },
+      planned: { bg: '#e8f4fd', fg: '#1d63b8' },
+      not_planned: { bg: '#f1f2f4', fg: '#9aa1ac' },
+    };
+    const statusLabel = {
+      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах', not_planned: 'Не в планах' },
+      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned', not_planned: 'Not planned' },
+    };
+    const branchLabel = {
+      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах', not_planned: 'Не в планах' },
+      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned', not_planned: 'Not planned' },
+    };
+
+    const hwState = {
+      ok:      { dot: '#1f8a5b', ru: 'Работает',    en: 'Working' },
+      wip:     { dot: '#c2731f', ru: 'В работе',     en: 'In progress' },
+      broken:  { dot: '#d14343', ru: 'Не работает',  en: 'Broken' },
+      unknown: { dot: '#c2c7cf', ru: 'Не проверено', en: 'Untested' },
+    };
+    const hwLabel = {
+      display: { ru: 'Дисплей', en: 'Display' },
+      touch:   { ru: 'Сенсор', en: 'Touch' },
+      wifi:    { ru: 'Wi-Fi', en: 'Wi-Fi' },
+      bt:      { ru: 'Bluetooth', en: 'Bluetooth' },
+      ril:     { ru: 'Связь/звонки', en: 'Calls & data' },
+      camera:  { ru: 'Камера', en: 'Camera' },
+      fp:      { ru: 'Отпечаток', en: 'Fingerprint' },
+      audio:   { ru: 'Звук', en: 'Audio' },
+      sensors: { ru: 'Датчики', en: 'Sensors' },
+      gps:     { ru: 'GPS', en: 'GPS' },
+      charge:  { ru: 'Зарядка', en: 'Charging' },
+    };
+    const HW_ORDER = ['display', 'touch', 'wifi', 'bt', 'ril', 'camera', 'fp', 'audio', 'sensors', 'gps', 'charge'];
+
+    
+
+    
+
     const devices = RAW.map((d, i) => ({
-      name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg', sub: d.sub[lang],
+      name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg',
+      sub: (d.s === 'planned' || d.s === 'not_planned') ? d.soc : d.sub[lang],
       status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
-      open: () => { this.setState({ selected: i, expanded: d.vers.length ? i + '-0' : null }); try { window.scrollTo(0, 0); } catch (e) {} },
-    }));
+      soc: d.soc,
+      open: () => { window.location.hash = '#/device/' + d.codename; },
+    })).filter(d => {
+      const f = this.state.socFilter || 'all';
+      if (f === 'all') return true;
+      if (f === 'mt6755') return d.soc.includes('MT6750') || d.soc.includes('MT6755');
+      if (f === 'mt6753') return d.soc.includes('MT6753');
+      if (f === 'mt6735') return d.soc.includes('MT6735') || d.soc.includes('MT6737');
+      if (f === 'mt6752') return d.soc.includes('MT6752');
+      return true;
+    });
+
+    const socFilter = this.state.socFilter || 'all';
+    const setFilterAll = () => this.setState({ socFilter: 'all' });
+    const setFilter6755 = () => this.setState({ socFilter: 'mt6755' });
+    const setFilter6753 = () => this.setState({ socFilter: 'mt6753' });
+    const setFilter6735 = () => this.setState({ socFilter: 'mt6735' });
+    const setFilter6752 = () => this.setState({ socFilter: 'mt6752' });
+
+    const filterBtnStyle = (active) => "font-size:13px;font-weight:" + (active ? 600 : 500) + ";color:" + (active ? '#fff' : '#525862') + ";background:" + (active ? '#2A6FDB' : 'none') + ";border:" + (active ? '1px solid #2A6FDB' : '1px solid #ebedf0') + ";padding:7px 16px;border-radius:999px;cursor:pointer;font-family:inherit;transition:all 0.15s ease;";
+    const filterStyleAll = filterBtnStyle(socFilter === 'all');
+    const filterStyle6755 = filterBtnStyle(socFilter === 'mt6755');
+    const filterStyle6753 = filterBtnStyle(socFilter === 'mt6753');
+    const filterStyle6735 = filterBtnStyle(socFilter === 'mt6735');
+    const filterStyle6752 = filterBtnStyle(socFilter === 'mt6752');
 
     let sel = null;
     if (this.state.selected != null) {
@@ -490,13 +653,26 @@ class Component extends DCLogic {
         status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
         branchLabel: branchLabel[lang][d.s],
         hw: hwList, hasHw: hwList.length > 0,
-        hasVersions: d.vers.length > 0, isPlanned: d.s === 'planned',
+        hasVersions: d.vers.length > 0,
+        isPlanned: d.s === 'planned',
+        isNotPlanned: d.s === 'not_planned',
         versions: d.vers.map((v, j) => {
           const id = si + '-' + j;
           const expanded = this.state.expanded === id;
+          const srcUrl = v.src || d.src;
+          const isGh = srcUrl && srcUrl.includes('github.com');
+          const is4pda = srcUrl && srcUrl.includes('4pda.to');
+          let srcBtnText = t.srcBtn;
+          if (is4pda) {
+            srcBtnText = lang === 'ru' ? 'Тема на 4PDA' : '4PDA Thread';
+          } else if (!isGh) {
+            srcBtnText = lang === 'ru' ? 'Ссылка' : 'Link';
+          }
           return {
             os: v.os, ver: v.ver, android: v.android, date: v.date, size: v.size,
-            changelog: v.cl[lang], fileName: v.file, src: d.src, dl: v.dl || '', hasDl: !!v.dl, noDl: !v.dl,
+            changelog: v.cl[lang], fileName: v.file, src: srcUrl, dl: v.dl || '',
+            hasDl: !!v.dl && v.dl !== srcUrl, noDl: !v.dl || v.dl === srcUrl,
+            srcBtnText,
             isLatest: j === 0, expanded,
             chevron: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
             toggle: () => this.setState(s => ({ expanded: s.expanded === id ? null : id })),
@@ -567,6 +743,8 @@ class Component extends DCLogic {
       guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })) },
       community: COMMUNITY[lang],
       setRu, setEn, goHome, goGuide, goCommunity,
+      setFilterAll, setFilter6755, setFilter6753, setFilter6735, setFilter6752,
+      filterStyleAll, filterStyle6755, filterStyle6753, filterStyle6735, filterStyle6752,
       navFwStyle: navStyle(page === 'firmware'),
       navGuideStyle: navStyle(page === 'guide'),
       navCommStyle: navStyle(page === 'community'),
