@@ -1,9 +1,14 @@
 # ReMeizu
 
-Custom LineageOS firmware for older Meizu phones (bring-up). Live site via GitHub Pages.
+LineageOS and Linux development for older Meizu phones, with shared chipset
+support and device-specific ports.
 
-Unofficial, not affiliated with Meizu.
+[Project website](https://nomorecoolnicknames.github.io/remeizu/ReMeizu.dc.html) ·
+[Device status](PROJECT_STATUS.md) · [Source repositories](SOURCE_INDEX.md) ·
+[Open-component roadmap](OPEN_COMPONENTS_ROADMAP.md) · [Build infrastructure](BUILD_INFRASTRUCTURE.md)
 
-## Development status
+Maintained by [Vladislav](https://github.com/nomorecoolnicknames), with
+[M5c contributions from Dekompilyator](https://github.com/Dekompilyator).
+Updates: [Telegram](https://t.me/remeizu).
 
-[Progress and roadmap](PROJECT_STATUS.md) · [Published source index](SOURCE_INDEX.md) · [Open-component roadmap](OPEN_COMPONENTS_ROADMAP.md)
+Unofficial; not affiliated with Meizu, LineageOS or postmarketOS.

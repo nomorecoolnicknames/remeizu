@@ -1,67 +1,35 @@
 # Open-component roadmap
 
-This is a development plan, not a report of completed replacements. It covers
-the same 17-board registry as the ReMeizu project: M2 Mini, M5c, M2 Note, M5s,
-M1 Note, M3, M3s, M5, M5 Note, M6, M6T, U10, U20, M3 Note M681/L681, MX6 and
-M6 Note M1721. New boards enter the plan after hardware identity is established.
+ReMeizu aims to replace closed host drivers and Android HALs with maintainable,
+open implementations where practical. Upstream Linux and existing open projects
+are the starting point. This is planned work; a complete open stack is not yet
+available for these devices.
 
-## Work in useful increments
-
-| Area | First useful result | Later work |
+| Area | First milestone | Later work |
 |---|---|---|
-| Dependency inventory | Hashed, classified components with consumers, ABI and known source alternatives | Coverage of all selected images and board revisions |
-| Lights, vibration and power | Small source-built HALs with observable hardware behavior | Power/thermal and suspend regression tests |
-| Sensors and touch | Open host drivers, accurate events and a thin HAL | Batching, wakeup, fusion and controller-specific behavior |
-| Audio | Open PCM playback/capture and documented routing | Call audio, effects, offload and quality validation |
-| Graphics | Reuse DRM/Mesa support where hardware and API requirements match | Display integration, buffer/fence ownership, performance and power |
-| Wi-Fi, Bluetooth, FM and GNSS | Open host transport/services with concrete connectivity tests | Coexistence, power management and advanced features |
-| Telephony | Open host-side IPC/RIL with SIM/data tests | Voice, dual-SIM and IMS, tested as separate milestones |
-| Camera | Sensor control and the first repeatable RAW/YUV capture | ISP processing, exposure/white balance/focus, tuning and Android HAL integration |
-| Video codecs | Correct source-built playback/encode baseline | Hardware acceleration and associated power/latency validation |
-| Other services and security interfaces | Documented interfaces and narrow open implementations | Board-specific capabilities and secure-world dependencies |
-| Embedded firmware and boot software | A separate feasibility assessment per processor/boot path | Source-built implementations where technically achievable |
-| Configuration and calibration | Documented formats and validated parsers/generators | Per-device data provenance and reproducible configuration |
+| Lights, vibration, sensors and touch | Small drivers/HALs with correct hardware behavior | Wakeup, batching and power management |
+| Audio | PCM playback, recording and routing | Call audio, effects and low-power operation |
+| Graphics | Suitable DRM/Mesa support and display output | Android buffer/fence integration, performance and power |
+| Wi-Fi, Bluetooth, FM and GNSS | Working host transport and services | Coexistence, suspend and additional hardware features |
+| Telephony | Host-side IPC/RIL, SIM and data | Voice, dual-SIM and IMS |
+| Camera | Sensor control and repeatable RAW/YUV capture | ISP processing, exposure/focus, tuning and Android HAL integration |
+| Video | Source-built playback and encode baseline | Hardware acceleration and power optimization |
+| Power and charging | Verified board resources and battery limits | Thermal management, suspend and battery-life testing |
+| Firmware and boot software | Identify interfaces and available source | Feasibility assessment per component |
 
-A host driver, Android HAL and embedded firmware are separate components.
-An open host implementation can still depend on closed firmware; that dependency
-remains visible in the progress record. A wrapper around an existing binary is
-useful compatibility work but does not count as replacing that binary.
+An open host driver may still need closed firmware. Sensor control alone does
+not provide a complete camera stack: processing, tuning and the application
+interface must also work. Calibration data and secure-world dependencies need
+separate treatment.
 
-The camera path has separate milestones: identify the exact sensor and rails;
-obtain a real captured frame; implement processing and controls; expose the
-Android/Linux interface; then assess image quality and sustained operation.
-A source-built sensor driver alone does not establish a complete camera stack.
+Shared code follows compatible hardware interfaces; board descriptions retain
+actual pins, regulators, sensors and memory layouts. MT6750 and MT6755 are related
+but are not interchangeable. MT6797 and Qualcomm devices keep separate ports.
 
-## Shared code with board-specific evidence
+Each implementation needs a clear license, reproducible build, functional tests
+and validation on its target hardware. Small driver fixes and board descriptions
+can reach upstream independently of larger camera or graphics work. Completely
+replacing embedded firmware is a longer-term investigation, not a prerequisite
+for useful Android releases.
 
-Common code follows verified hardware interfaces and ABI generations. Board
-configuration retains exact regulators, pins, sensors, firmware requirements
-and memory layout. MT6750 and MT6755 are related but not interchangeable.
-Existing common/thin device work is the starting point; Qualcomm and MT6797
-owners retain their separate device tracks.
-
-The implementation path is: reuse suitable upstream code; document the required
-interface; write a scoped openly licensed implementation; build it with pinned
-tools; test behavior and failure cases; then validate on the intended hardware.
-Larger components advance through independently useful milestones rather than
-holding up every practical Android release.
-
-## Acceptance
-
-Each replacement records its source/license, target boards, ABI, remaining
-firmware/data dependencies, build recipe, artifact identity and functional tests.
-Progress states distinguish inventory, implementation, compilation and verified
-hardware behavior. Acceptance requires the tested function to work without the
-replaced original component, with regression coverage and known limitations.
-
-CI can automate source checks, builds, evidence collection and failure triage.
-Hardware acceptance also needs exact device/image identity, partition readback
-where applicable, recovery and meaningful functional tests. Completing that
-loop is part of the roadmap, not a capability claimed for the whole fleet today.
-
-Upstream contributions should be small and reviewable: board descriptions,
-driver fixes, tests and then postmarketOS device support. Completely replacing
-all embedded firmware is an exploratory long-term objective, not a prerequisite
-for the first useful releases.
-
-Return to [project progress](PROJECT_STATUS.md) or the [source index](SOURCE_INDEX.md).
+[Device status](PROJECT_STATUS.md) · [Source repositories](SOURCE_INDEX.md)
