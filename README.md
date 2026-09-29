@@ -1,37 +1,29 @@
 # ReMeizu
 
-Custom LineageOS firmware for older MediaTek-based Meizu phones (bring-up). Live site via GitHub Pages.
+LineageOS and Linux development for older Meizu phones, with shared chipset
+support and device-specific ports.
 
-Unofficial, not affiliated with Meizu.
+[Project website](https://nomorecoolnicknames.github.io/remeizu/ReMeizu.dc.html) ·
+[Device status](PROJECT_STATUS.md) · [Source repositories](SOURCE_INDEX.md) ·
+[Open-component roadmap](OPEN_COMPONENTS_ROADMAP.md) · [Build infrastructure](BUILD_INFRASTRUCTURE.md)
 
-## Project status
+Maintained by [Vladislav](https://github.com/nomorecoolnicknames), with
+[M5c contributions from Dekompilyator](https://github.com/Dekompilyator).
+Updates: [Telegram](https://t.me/remeizu).
 
-The Russian and English device pages were refreshed on 29 September 2026.
-Hardware observations, compilation results and source preparation have separate
-labels. Android 13 has booted on M5c and MX6; this does not imply a stable
-Android 9/11/13 release across the fleet. M6's existing Android 8.1 release link
-is retained. Other source tracks do not offer an unverified ROM download.
+## Editing the site
 
-M5c, L681 and the cloud-port entries use the maintainers' 29 September status
-snapshot. A component that starts, or an object that compiles, is not listed as
-fully working on hardware. Earlier third-party M2 resources are identified as
-historical references.
-
-## Editing and publishing
-
-Edit the device data and localized copy in `ReMeizu.dc.html`. `support.js` is the
-generated page runtime and is unchanged by this content refresh. `index.html`
-redirects to the device catalogue. GitHub Pages serves the root of `main`.
+Device data and translations live in `ReMeizu.dc.html`; `support.js` provides
+the generated page runtime. `index.html` redirects to the device catalogue.
+GitHub Pages serves the root of `main`.
 
 Preview with `python -m http.server 8765`, then check both languages, device
-routes, source links and chipset filters before publishing. Keep source-only
-entries distinct from downloadable, device-tested releases.
+routes, source links and chipset filters. Keep development source links separate
+from downloadable releases that have been tested on hardware.
 
-## Device images
+## Image credit
 
-The MX6 product image is from the GSMArena device gallery:
+The MX6 product image is from the
+[GSMArena Meizu MX6 gallery](https://www.gsmarena.com/meizu_mx6-pictures-8078.php).
 
-- [Meizu MX6](https://www.gsmarena.com/meizu_mx6-pictures-8078.php)
-
-Keep public pages focused on device support, downloads and source repositories.
-Partner correspondence, resource requests and internal status reports belong outside this site.
+Unofficial; not affiliated with Meizu, LineageOS or postmarketOS.
