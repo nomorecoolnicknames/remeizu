@@ -1,6 +1,6 @@
 # Published source index
 
-Snapshot: 29 September 2026. **22 device/common branches + 3 kernel/source-series
+Snapshot: 29 September 2026. **23 device/common branches + 4 kernel/source-series
 branches.** Every listed publication was checked anonymously against its exact
 Git commit and provenance. Branches may advance later; commit links remain pinned.
 
@@ -34,6 +34,8 @@ See [current progress](PROJECT_STATUS.md) and [planned work](OPEN_COMPONENTS_ROA
 | M5s kernel 4.9 A4 | [source](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/codex/m5s-4.9-a4-source) | [e2a0b2e51b87](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/commit/e2a0b2e51b87ce7aca65775d92c9269df8f27201) | Source-equivalent to accepted kernel compilation; no boot validation |
 | u10 kernel work | [source](https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/codex/u10-stock-resource-patches-20260929) | [1fffb4f20a70](https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/commit/1fffb4f20a70addfc0c76ef5a00d25ace441646c) | Unapplied patch series; public-base apply gate open |
 | u20 kernel work | [source](https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/codex/u20-stock-resources-20260929) | [8cb971359b2f](https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/commit/8cb971359b2fcab12ffad92b953e6dceb78643d5) | Applied resource fragments; disabled/unselected; not compiled |
+| MX6 / M95 Android 13 | [source](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/tree/codex/lineage-20-source-20260929) | [827e1083db4d](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/commit/827e1083db4dfc961b26641fc77a052ac66f3872) | Native LOS20 development; build 23 observed, newer source fixes unverified |
+| MX6 / M95 kernel 3.18.22 | [source](https://github.com/nomorecoolnicknames/android_kernel_meizu_m95/tree/codex/lineage-20-source-20260929) | [9623a9c35b53](https://github.com/nomorecoolnicknames/android_kernel_meizu_m95/commit/9623a9c35b532453730235368d0a149291f4a1b9) | Corresponding Android 13 baseline; one logging delta withheld; no new build |
 
 Publication preserves original revision mappings and documents excluded inputs.
 A source-only device export is not a complete Android build environment, and
@@ -43,3 +45,10 @@ The U10 object-compilation result used the original development base and separat
 controller inputs; it does not validate the newly published unapplied series on
 its different public parent. U20's public branch records exact resource work;
 it is not a working charger or tested full kernel.
+
+MX6 publication preserves 89 device and 74 kernel-development commits with
+original authors and parent mappings. Private payloads and identifiers are
+excluded. The kernel inherits the official public Meizu BSP; one private
+logging-only modification is withheld and the original upstream file retained.
+Its source is not asserted byte-identical to every development input or wholly
+free of inherited vendor material. Branch documentation records these limits.

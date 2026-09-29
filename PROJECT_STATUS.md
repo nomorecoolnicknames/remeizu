@@ -11,24 +11,34 @@ families**. That is the project scope, not a claim that all 17 devices are suppo
 
 ## Published work
 
-**22 device/common source branches and three kernel-development/source-series
+**23 device/common source branches and four kernel-development/source-series
 branches are public.** They contain implemented work with revision provenance.
 The [source index](SOURCE_INDEX.md) lists every branch and exact published commit.
 
 | Track | Demonstrated result | Next milestone |
 |---|---|---|
+| MX6 / M95, native Android 13 | LOS20 userdebug boots; LTE data and IMS registration observed in build 23 on 26 September | Validate the built incoming-IMS-call fix and newer camera ownership fix; complete camera/power/suspend acceptance |
 | M5c, Android 13 / custom 4.9 | Hardware boot, visible display and touch confirmed; Wi-Fi scanning observed | Complete connectivity, audio, camera and power validation; reproducible integrated images |
 | M5s, custom 4.9 A4 | Full kernel linkage and Image.gz compilation; own panel selection, storage binding and corrected display address tables verified in compiled outputs | Complete board/DTB checks, boot-image packaging and first hardware validation |
 | U10, driver work | Touch/power objects compiled against the original development inputs | Complete the board port and full-kernel build; public patch series has a separate application prerequisite |
 | M3s / U10 / U20, LOS16 | Product/build-graph checks succeeded for Android 9 userdebug | Kernel/vendor integration and full-ROM builds |
 | M5s / M2 Note, LOS16 | Full-ROM build attempts reached framework/native compilation and produced actionable logs | M5s hit its three-hour job limit; M2 Note stopped on missing returns in libgem; neither run produced an accepted ROM |
-| Android 11 / 13 device sources | Real configuration, init/HAL and compatibility work for seven device tracks | Android 11 full builds and device validation; broaden Android 13 acceptance beyond the current M5c result |
+| Android 11 / 13 device sources | Real configuration, init/HAL and compatibility work for eight device tracks | Android 11 full builds and device validation; broaden Android 13 acceptance beyond the M5c and MX6 hardware baselines |
 
 The [M5s kernel branch](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/codex/m5s-4.9-a4-source)
 contains a [public compile receipt](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/blob/e2a0b2e51b87ce7aca65775d92c9269df8f27201/Documentation/remeizu-m5s/cloud-a4-compile-proof.json)
 with all 11 artifact hashes. Its kernel source matches the compiled development
 source plus the documented board patches; the publication is not a new build.
 It does not yet provide a validated DTB/boot image or hardware result.
+
+MX6 has native LineageOS 20 in addition to its earlier Android 13 GSI work.
+The [device source](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/tree/codex/lineage-20-source-20260929)
+and [kernel source](https://github.com/nomorecoolnicknames/android_kernel_meizu_m95/tree/codex/lineage-20-source-20260929)
+retain filtered development history and distinguish hardware-observed build 23,
+built-only build 24 and the later source fixes. The
+[runtime summary](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/blob/827e1083db4dfc961b26641fc77a052ac66f3872/RUNTIME_SUMMARY.json)
+records exact identities and limitations. The kernel baseline is Linux 3.18.22;
+this is not a claim of mainline support or a fully stable ROM.
 
 Source publication, compilation and hardware acceptance are tracked separately.
 Device exports are not standalone complete ROMs. U10's public kernel contribution
@@ -70,7 +80,8 @@ pilot would measure resource use and retain reproducible results.
 ## Project and contact
 
 Maintainer/contact: **Vladislav** ([nomorecoolnicknames](https://github.com/nomorecoolnicknames)).
-Development is maintainer-led and AI-assisted; release milestones follow device
+Development is maintainer-led and AI-assisted, with M5c collaboration with
+[Dekompilyator](https://github.com/Dekompilyator). Release milestones follow device
 validation. No regular release cadence or external contributor/tester count is
 claimed here.
 
