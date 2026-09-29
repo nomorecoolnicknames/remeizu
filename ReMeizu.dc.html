@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReMeizu — прошивки для Meizu на MediaTek</title>
+<meta name="description" content="ReMeizu: проверенные результаты Android 13 на M5c и MX6, исходники Android 9/11/13, статусы устройств и ограничения.">
 <script>
   window.copyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -31,6 +33,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Manrope',system-ui,sans-serif;color:#1a1d23;background:#fff;-webkit-font-smoothing:antialiased}
   ::selection{background:#2A6FDB;color:#fff}
+  @media(max-width:900px){.device-grid{grid-template-columns:repeat(2,1fr)!important}.site-header>div{height:auto!important;min-height:62px;flex-wrap:wrap;padding:12px 18px!important;gap:12px}.site-header>div>div{gap:16px!important}.site-header nav{gap:14px!important}}
+  @media(max-width:540px){.device-grid{grid-template-columns:1fr!important}.site-header nav button{font-size:12px!important}h1{font-size:30px!important}button[onClick]{max-width:100%}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   @keyframes slideDown{from{opacity:0;max-height:0}to{opacity:1;max-height:300px}}
 </style>
@@ -38,7 +42,7 @@
 
 <div style="min-height:100vh;background:#fff;display:flex;flex-direction:column">
 
-  <header style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #ededf0">
+  <header class="site-header" style="position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #ededf0">
     <div style="max-width:1180px;margin:0 auto;padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between">
       <div style="display:flex;align-items:center;gap:40px">
         <button onClick="{{ goHome }}" style="display:flex;align-items:center;gap:8px;background:none;border:0;cursor:pointer;font-family:inherit;padding:0">
@@ -69,6 +73,11 @@
         <p style="margin:16px auto 0;font-size:16px;color:#6b7280;font-weight:400;max-width:640px;line-height:1.55">{{ t.pageSub }}</p>
       </section>
 
+
+      <section style="max-width:1124px;margin:26px auto 0;padding:22px 24px;border:1px solid #e3e8f1;border-radius:16px;background:#f8faff">
+        <sc-if value="{{ lang === 'ru' }}"><h2 style="font-size:18px;margin-bottom:10px">Что уже есть</h2><p style="font-size:14px;line-height:1.7">Для M6 опубликована LineageOS 15.1 / Android 8.1. На M5c и MX6 запускается Android 13; поддержка оборудования ещё дорабатывается. В карточках устройств указаны доступные прошивки, исходники и проверенные функции.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Для многих плат нет полных исходников: адаптируем код чипсетов и пишем недостающие драйверы. Полные ROM пока зависят от проприетарных компонентов; публикация исходников не означает готовую прошивку.</p></sc-if>
+        <sc-if value="{{ lang === 'en' }}"><h2 style="font-size:18px;margin-bottom:10px">Available today</h2><p style="font-size:14px;line-height:1.7">LineageOS 15.1 / Android 8.1 is available for M6. Android 13 boots on M5c and MX6, with hardware support still in development. Each device page lists available releases, sources and tested features.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Many boards lack complete source releases: we adapt chipset code and write missing drivers. Full ROMs still depend on proprietary components; published sources do not mean a ready firmware release.</p></sc-if>
+      </section>
       <div style="max-width:1180px;margin:0 auto;padding:40px 28px 0">
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef0f2;padding-bottom:14px;flex-wrap:wrap;gap:14px">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -78,6 +87,7 @@
             <button onClick="{{ setFilter6753 }}" style="{{ filterStyle6753 }}">MT6753</button>
             <button onClick="{{ setFilter6735 }}" style="{{ filterStyle6735 }}">MT6735 / MT6737</button>
             <button onClick="{{ setFilter6752 }}" style="{{ filterStyle6752 }}">MT6752</button>
+            <button onClick="{{ setFilter6797 }}" style="{{ filterStyle6797 }}">MT6797</button>
           </div>
           <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;color:#9aa1ac;font-weight:500">
             <span style="width:7px;height:7px;border-radius:50%;background:#1f8a5b;display:inline-block"></span>{{ t.activeBuilds }}
@@ -86,7 +96,7 @@
       </div>
 
       <section style="max-width:1180px;margin:0 auto;padding:34px 28px 24px">
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
+        <div class="device-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
           <sc-for list="{{ devices }}" as="d" hint-placeholder-count="6">
             <button onClick="{{ d.open }}" style="background:#fff;border:1px solid #ebedf0;border-radius:18px;padding:30px 18px 22px;display:flex;flex-direction:column;align-items:center;gap:18px;cursor:pointer;font-family:inherit;transition:all .18s ease;text-align:center" style-hover="border-color:#c8d2e6;box-shadow:0 18px 40px -24px rgba(20,28,45,.3);transform:translateY(-3px)">
               <div style="width:100%;height:180px;display:flex;align-items:center;justify-content:center">
@@ -126,6 +136,8 @@
           </div>
           <div style="font-family:'Space Grotesk',monospace;font-size:13px;color:#9aa1ac;margin-top:6px">codename: {{ sel.codename }} · {{ sel.soc }}</div>
           <p style="margin-top:14px;font-size:15px;line-height:1.55;color:#6b7280;max-width:560px">{{ sel.desc }}</p>
+          <sc-if value="{{ sel.hasSource }}"><a href="{{ sel.src }}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;margin-right:18px;color:#2A6FDB;font-size:14px;font-weight:700">{{ t.srcBtn }}</a></sc-if>
+          <sc-if value="{{ sel.kernel }}"><a href="{{ sel.kernel }}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;color:#2A6FDB;font-size:14px;font-weight:700">{{ t.kernelLink }}</a></sc-if>
         </div>
       </div>
 
@@ -789,210 +801,1094 @@
 const GH = 'https://github.com/nomorecoolnicknames';
 
 const RAW = [
+  {
+    "name": "Meizu MX6",
+    "codename": "m95",
+    "photo": "./img/mx6.jpg",
+    "s": "runtime",
+    "soc": "MediaTek MT6797 (Helio X20)",
+    "sub": {
+      "ru": "LineageOS 20 · Android 13",
+      "en": "LineageOS 20 · Android 13"
+    },
+    "desc": {
+      "ru": "Нативная LineageOS 20 / Android 13 загружается на MX6 с ядром 3.18.22 и бэкпортами. Логи 26 сентября подтверждают LTE-трафик и регистрацию IMS. В проверенной сборке входящий IMS-вызов вызывает сбой; исправление собрано, но ещё не принято на телефоне. Камера, звонки и энергопотребление остаются в работе. Публичные исходники новее проверенной сборки.",
+      "en": "Native LineageOS 20 / Android 13 boots on MX6 with Linux 3.18.22 and backports. Captures from 26 September confirm LTE data and IMS registration. Incoming IMS calls crash in the tested build; a compiled fix awaits device validation. Camera, calls and power management still need work. Published sources are newer than the tested build."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/tree/codex/lineage-20-source-20260929",
+    "kernel": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m95/tree/codex/lineage-20-source-20260929",
+    "hw": {
+      "display": "ok",
+      "touch": "unknown",
+      "wifi": "unknown",
+      "bt": "unknown",
+      "ril": "wip",
+      "camera": "wip",
+      "audio": "unknown",
+      "gps": "unknown",
+      "charge": "unknown"
+    },
+    "vers": [
       {
-        name: 'Meizu M6', codename: 'meizu_m6', s: 'alpha', soc: 'MediaTek MT6750',
-        sub: { ru: 'LineageOS 15.1 · A8.1', en: 'LineageOS 15.1 · A8.1' },
-        desc: {
-          ru: 'Самое продвинутое устройство проекта. LineageOS 15.1 грузится в систему: дисплей, Wi-Fi и сенсор работают. Камера (HAL3) и отпечаток (Goodix + TEE) — в активной доработке.',
-          en: 'The most advanced device in the project. LineageOS 15.1 boots to UI: display, Wi-Fi and touch work. Camera (HAL3) and fingerprint (Goodix + TEE) are actively being fixed.',
+        "os": "LineageOS 20",
+        "android": "13",
+        "ver": {
+          "ru": "Разработка",
+          "en": "Development"
         },
-        src: GH + '/android_kernel_meizu_m6',
-        hw: { display: 'ok', touch: 'ok', wifi: 'ok', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
-        vers: [
-          { os: 'LineageOS 15.1', ver: '15.1-20260622', android: '8.1', date: '22 Jun 2026', size: '570 MB', file: 'lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip', dl: 'https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/meizu_m6-lineage-15.1-20260622/lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip',
-            cl: {
-              ru: ['Дисплей полностью починен: аппаратный поворот 180°, убран джиттер (GPU-композиция), без чёрного экрана', 'Wi-Fi поднят (wlan0 UP)', 'Собран полный установочный OTA (548 МБ), ставится через TWRP (sideload)', 'Камера: диагностирована цепочка HAL3, добавлены blob-ы и shim-ы (в работе)', 'Отпечаток Goodix + MicroTrust TEE: стек установлен, enroll в работе'],
-              en: ['Display fully fixed: hardware 180° rotation, jitter removed (GPU composition), no black screen', 'Wi-Fi up (wlan0 UP)', 'Full installable OTA built (548 MB), flashes via TWRP (sideload)', 'Camera: HAL3 chain diagnosed, blobs and shims added (WIP)', 'Fingerprint Goodix + MicroTrust TEE: stack installed, enroll WIP'],
-            } },
-        ],
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Исходники и статус",
+          "en": "Sources and status"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/tree/codex/lineage-20-source-20260929",
+        "cl": {
+          "ru": [
+            "На железе проверена сборка 20.0-20260925-UNOFFICIAL-m95 (build 23).",
+            "LTE data и IMS registration подтверждены; исправление входящих звонков из build 24 ещё не проверено на телефоне.",
+            "Опубликованы device и kernel с картой ревизий; для полной ROM остаются внешние зависимости."
+          ],
+          "en": [
+            "Build 20.0-20260925-UNOFFICIAL-m95 (build 23) was tested on hardware.",
+            "LTE data and IMS registration are confirmed; the incoming-call fix in build 24 awaits hardware testing.",
+            "Device and kernel sources include revision maps; a complete ROM still needs external inputs."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M6",
+    "codename": "meizu_m6",
+    "s": "runtime",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "Релиз A8.1 · исходники A9/11/13",
+      "en": "A8.1 release · A9/11/13 sources"
+    },
+    "desc": {
+      "ru": "Опубликована LineageOS 15.1 / Android 8.1: подтверждены загрузка, дисплей, тач и Wi-Fi. Камера и отпечаток требуют доработки. Ветки Android 9/11/13 опубликованы отдельно; они не являются новыми проверенными релизами.",
+      "en": "LineageOS 15.1 / Android 8.1 has a public release with confirmed boot, display, touch and Wi-Fi. Camera and fingerprint need work. Separate Android 9/11/13 source tracks are published; they are not new validated releases."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m6",
+    "hw": {
+      "display": "ok",
+      "touch": "ok",
+      "wifi": "ok",
+      "bt": "unknown",
+      "ril": "unknown",
+      "camera": "wip",
+      "fp": "wip",
+      "audio": "unknown",
+      "sensors": "unknown",
+      "gps": "unknown",
+      "charge": "unknown"
+    },
+    "vers": [
+      {
+        "os": "LineageOS 15.1",
+        "ver": "15.1-20260622",
+        "android": "8.1",
+        "date": "22 Jun 2026",
+        "size": "570 MB",
+        "file": "lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip",
+        "dl": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/meizu_m6-lineage-15.1-20260622/lineage-15.1-20260622-UNOFFICIAL-meizu_m6.zip",
+        "cl": {
+          "ru": [
+            "Дисплей полностью починен: аппаратный поворот 180°, убран джиттер (GPU-композиция), без чёрного экрана",
+            "Wi-Fi поднят (wlan0 UP)",
+            "Собран полный установочный OTA (548 МБ), ставится через TWRP (sideload)",
+            "Камера: диагностирована цепочка HAL3, добавлены blob-ы и shim-ы (в работе)",
+            "Отпечаток Goodix + MicroTrust TEE: стек установлен, enroll в работе"
+          ],
+          "en": [
+            "Display fully fixed: hardware 180° rotation, jitter removed (GPU composition), no black screen",
+            "Wi-Fi up (wlan0 UP)",
+            "Full installable OTA built (548 MB), flashes via TWRP (sideload)",
+            "Camera: HAL3 chain diagnosed, blobs and shims added (WIP)",
+            "Fingerprint Goodix + MicroTrust TEE: stack installed, enroll WIP"
+          ]
+        }
       },
       {
-        name: 'Meizu M3 Note (M681)', codename: 'm681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
-        sub: { ru: 'LineageOS 14.1 · A7.1 · China', en: 'LineageOS 14.1 · A7.1 · China' },
-        desc: {
-          ru: 'Китайская версия M3 Note (M91 / m681). Стабильная база — ядро 3.10.72 + LineageOS 14.1 — грузится в систему: дисплей работает, камера снимает реальные фото (с шероховатостями), GPS подтверждён. Параллельно эксперимент с ядром 3.18 (пока не загружается).',
-          en: 'The China M3 Note (M91 / m681). Stable base — kernel 3.10.72 + LineageOS 14.1 — boots to UI: display works, camera takes real photos (rough edges), GPS confirmed. A separate 3.18 kernel experiment is in progress (not booting yet).',
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH + '/android_kernel_meizu_m681',
-        hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
-        vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: { ru: 'remeizu-14.1-m681 (из исходников)', en: 'remeizu-14.1-m681 (from sources)' },
-            cl: {
-              ru: ['Камера ZSD делает реальные фото; авто-heal (watchdog) убирает зависания, задержка 45с→7с', 'GPS подтверждён', 'Дисплей работает на базе 3.10.72 + LineageOS 14.1', 'Задокументированы дефекты capture-P2 (фиолетовая дымка / зелёный кадр) — последний рычаг', 'Эксперимент с ядром 3.18 (m6-graft): локализована recovery-стена (initcall seq 50→100)'],
-              en: ['ZSD camera takes real photos; auto-heal (watchdog) clears wedges, latency 45s→7s', 'GPS confirmed', 'Display works on the 3.10.72 + LineageOS 14.1 base', 'capture-P2 defects documented (purple haze / green frame) — the last lever', '3.18 kernel experiment (m6-graft): recovery wall localized (initcall seq 50→100)'],
-            } },
-        ],
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M3 Note (L681)', codename: 'l681', s: 'alpha', soc: 'MediaTek MT6755 (Helio P10)',
-        sub: { ru: 'LineageOS 14.1 · A7.1 · Global', en: 'LineageOS 14.1 · A7.1 · Global' },
-        desc: {
-          ru: 'Глобальная версия M3 Note (L91 / l681) — другая ревизия M681 на той же базе LineageOS 14.1 (ядро 3.10.72). Дисплей и камера работают как на M681; отличия — в модеме и региональных блобах.',
-          en: 'The Global M3 Note (L91 / l681) — a different revision of M681 on the same LineageOS 14.1 base (kernel 3.10.72). Display and camera work as on M681; differences are in the modem and regional blobs.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH + '/android_kernel_meizu_l681',
-        hw: { display: 'ok', touch: 'ok', wifi: 'wip', bt: 'unknown', ril: 'wip', camera: 'wip', fp: 'wip', audio: 'unknown', sensors: 'unknown', gps: 'ok', charge: 'unknown' },
-        vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-20260613', android: '7.1', date: '13 Jun 2026', size: '~690 MB', file: { ru: 'remeizu-14.1-l681 (из исходников)', en: 'remeizu-14.1-l681 (from sources)' },
-            cl: {
-              ru: ['Та же база, что и M681: камера ZSD снимает реальные фото, GPS работает', 'Дисплей работает (3.10.72 + LineageOS 14.1)', 'Отдельные модемные / региональные блобы L91', 'Параллельно — эксперимент с ядром 3.18'],
-              en: ['Same base as M681: ZSD camera takes real photos, GPS works', 'Display works (3.10.72 + LineageOS 14.1)', 'Separate L91 modem / regional blobs', '3.18 kernel experiment in progress too'],
-            } },
-        ],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6-source/tree/codex/lineage-18.1-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M2 Note', codename: 'm2note', s: 'bringup', soc: 'MediaTek MT6753',
-        sub: { ru: 'LineageOS 15.1 · A8.1', en: 'LineageOS 15.1 · A8.1' },
-        desc: {
-          ru: 'LineageOS 15.1 bring-up. Загружается на устройстве; идёт перенос камеры на сборку из исходников (mtkcam). Делит дерево сборки с Meizu M6.',
-          en: 'LineageOS 15.1 bring-up. Boots on device; the camera is being moved to a source build (mtkcam). Shares the build tree with Meizu M6.',
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH + '/android_device_meizu_m2note',
-        hw: { display: 'ok', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'wip', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
-        vers: [
-          { os: 'LineageOS 15.1', ver: '15.1-bringup', android: '8.1', date: '27 Jun 2026', size: '—', file: { ru: 'boot v481 (на устройстве)', en: 'boot v481 (on device)' },
-            cl: {
-              ru: ['Загружается на устройстве (boot v481)', 'Идёт перенос камеры (mtkcam / libimageio) на сборку из исходников', 'Делит дерево сборки с Meizu M6 (LineageOS 15.1)'],
-              en: ['Boots on device (boot v481)', 'Camera (mtkcam / libimageio) being ported to a source build', 'Shares the build tree with Meizu M6 (LineageOS 15.1)'],
-            } },
-        ],
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6-source/tree/codex/lineage-20.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M3 Note (M681)",
+    "codename": "m681",
+    "s": "bringup",
+    "soc": "MediaTek MT6755 (Helio P10)",
+    "sub": {
+      "ru": "A7.1: прежний порт · A9/11/13: исходники",
+      "en": "A7.1: earlier port · A9/11/13: sources"
+    },
+    "desc": {
+      "ru": "Ранее на LineageOS 14.1 / ядре 3.10 подтверждались дисплей, фото и GPS. Это результаты старой ветки. Для Android 9/11/13 опубликованы исходники; успешная загрузка нового Android 13 не подтверждена. Аппаратные эксперименты и возврат в TWRP ведутся отдельно от облачной очереди.",
+      "en": "Display, photos and GPS were observed on the earlier LineageOS 14.1 / Linux 3.10 port. Those results apply to the old branch. Android 9/11/13 sources are published; a successful new Android 13 boot is not confirmed. Hardware experiments and recovery validation run separately from the cloud queue."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m681",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m681-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M5c', codename: 'm5c', s: 'bringup', soc: 'MediaTek MT6737m',
-        sub: { ru: 'LineageOS 14.1 · A7.1', en: 'LineageOS 14.1 · A7.1' },
-        desc: {
-          ru: 'LineageOS 14.1 / Nougat. Есть дерево device/vendor, патчи MTK и recovery OrangeFox. Под активной разработкой, загрузка на железе ещё не подтверждена.',
-          en: 'LineageOS 14.1 / Nougat. Device/vendor tree, MTK patches and OrangeFox recovery exist. Under active development; boot on hardware not yet confirmed.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH + '/android_device_meizu_m5c',
-        hw: { display: 'unknown', touch: 'unknown', wifi: 'unknown', bt: 'unknown', ril: 'unknown', camera: 'unknown', fp: 'unknown', audio: 'unknown', sensors: 'unknown', gps: 'unknown', charge: 'unknown' },
-        vers: [
-          { os: 'LineageOS 14.1', ver: '14.1-bringup', android: '7.1', date: '15 Jun 2026', size: '—', file: { ru: 'из исходников', en: 'from sources' },
-            cl: {
-              ru: ['Дерево device + vendor + патчи MTK', 'Recovery OrangeFox', 'Под активной разработкой'],
-              en: ['Device + vendor tree + MTK patches', 'OrangeFox recovery', 'Under active development'],
-            } },
-        ],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m681-source/tree/codex/lineage-18.1-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M5 Note', codename: 'm5note', s: 'planned', soc: 'MediaTek MT6755 (Helio P10)',
-        sub: { ru: 'В планах', en: 'Planned' },
-        desc: {
-          ru: 'В планах. Реально поднять на базе M3 Note — тот же Helio P10 (MT6755).',
-          en: 'Planned. Realistic to bring up on the M3 Note base — same Helio P10 (MT6755).',
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m681-source/tree/codex/lineage-20.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M3 Note (L681)",
+    "codename": "l681",
+    "s": "bringup",
+    "soc": "MediaTek MT6755 (Helio P10)",
+    "sub": {
+      "ru": "Android 9 · проверка на железе",
+      "en": "Android 9 · hardware bring-up"
+    },
+    "desc": {
+      "ru": "LOS16 / Android 9 прошит с проверкой обратного чтения; ADB и Android-службы запускались. Рабочий интерфейс ещё не подтверждён: попытка на 3.10 остановилась на несовместимости display ioctl / HWC. Автоматический возврат в TWRP проверен. Ветка 4.4 требует проверки графического стека. Результаты M681 сюда не переносятся.",
+      "en": "LOS16 / Android 9 was flashed and read back; ADB and Android services started. A working UI is not yet confirmed: the 3.10 attempt failed on a display ioctl / HWC mismatch. Automatic return to TWRP is verified. The 4.4 track needs graphics-stack validation. M681 results do not establish L681 hardware support."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_kernel_meizu_l681",
+    "hw": {
+      "display": "wip",
+      "touch": "unknown",
+      "wifi": "unknown",
+      "ril": "unknown",
+      "camera": "unknown",
+      "gps": "unknown"
+    },
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_l681-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M1 Note', codename: 'm1note', s: 'planned', soc: 'MediaTek MT6752',
-        sub: { ru: 'В планах', en: 'Planned' },
-        desc: {
-          ru: 'В планах. Отдельная платформа MT6752 (Mali-T760) — не порт с M2 Note, ближе к самостоятельному bring-up.',
-          en: 'Planned. A separate MT6752 platform (Mali-T760) — not an M2 Note port, closer to a standalone bring-up.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_l681-source/tree/codex/lineage-18.1-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M6T', codename: 'm6t', s: 'not_planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. Прямой кандидат на базе Meizu M6 — тот же MediaTek MT6750.',
-          en: 'Not planned. A direct candidate on the Meizu M6 base — the same MediaTek MT6750.',
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_l681-source/tree/codex/lineage-20.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M2 Note",
+    "codename": "m2note",
+    "s": "compile",
+    "soc": "MediaTek MT6753",
+    "sub": {
+      "ru": "LOS16 / Android 9 · сборка",
+      "en": "LOS16 / Android 9 · building"
+    },
+    "desc": {
+      "ru": "Новая LOS16 / userdebug проходит сборочные проверки. Ошибка libgem исправлена, настоящий ARM64-объект скомпилирован. Полный ROM ещё не принят; работающие функции старого Android 8.1 нельзя приписывать новой сборке. Опубликованы ветки Android 9/11/13.",
+      "en": "The new LOS16 / userdebug track passes build checks. The libgem error is fixed and its ARM64 object compiled. A complete ROM has not been accepted; hardware results from the earlier Android 8.1 port do not validate this new build. Android 9/11/13 source branches are published."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-16.0",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-16.0",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M5', codename: 'm5', s: 'not_planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. На базе Meizu M6 — тот же MT6750.',
-          en: 'Not planned. On the Meizu M6 base — the same MT6750.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-18.1",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M5s', codename: 'm5s', s: 'not_planned', soc: 'MediaTek MT6753',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. На базе M2 Note — тот же MT6753.',
-          en: 'Not planned. On the M2 Note base — the same MT6753.',
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-20.0",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M5c",
+    "codename": "m5c",
+    "s": "runtime",
+    "soc": "MediaTek MT6737m",
+    "sub": {
+      "ru": "Android 13 · ядро 4.9",
+      "en": "Android 13 · kernel 4.9"
+    },
+    "desc": {
+      "ru": "Android 13 на собственном ядре 4.9 загружается: экран и тач работают. Wi-Fi видит сети; подключение и трафик ещё проверяются. Bluetooth включается, SIM определяется, есть события датчиков. Это ещё не подтверждает сопряжение, звонки, GPS fix или звук. Камера пока не выдаёт полезное изображение. Работаем вместе с Dekompilyator.",
+      "en": "Android 13 boots on a custom 4.9 kernel with working display and touch. Wi-Fi scans networks; connection and traffic still need testing. Bluetooth enables, the SIM is detected and sensors report events. Pairing, calls, a GPS fix and audible sound remain unverified. The camera does not yet produce a usable image. Developed with Dekompilyator."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5c/tree/lineage-20-treble",
+    "hw": {
+      "display": "ok",
+      "touch": "ok",
+      "wifi": "wip",
+      "bt": "wip",
+      "ril": "wip",
+      "camera": "broken",
+      "audio": "unknown",
+      "sensors": "wip",
+      "gps": "wip",
+      "charge": "unknown"
+    },
+    "vers": [
+      {
+        "os": "LineageOS 20",
+        "android": "13",
+        "ver": {
+          "ru": "Разработка",
+          "en": "Development"
+        },
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Исходники и статус",
+          "en": "Sources and status"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5c/tree/lineage-20-treble",
+        "cl": {
+          "ru": [
+            "Загрузка, дисплей и тач подтверждены на телефоне.",
+            "Ядро 4.9; полный набор функций ещё проходит проверку.",
+            "Публичная ветка содержит исходники, а не готовый стабильный ROM."
+          ],
+          "en": [
+            "Boot, display and touch are confirmed on the phone.",
+            "Linux 4.9; full hardware validation is still in progress.",
+            "The public branch contains source code, not a stable ROM release."
+          ]
+        }
       },
       {
-        name: 'Meizu U10', codename: 'u10', s: 'not_planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. Стеклянный аналог Meizu M3s / M5, плата идентична Meizu M6. Легко поднимется на общей кодовой базе.',
-          en: 'Not planned. Glass-back counterpart of Meizu M3s / M5, shares layout with Meizu M6. Easy to bring up on the same codebase.',
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5c/tree/lineage-16.0",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu U20', codename: 'u20', s: 'not_planned', soc: 'MediaTek MT6755 (Helio P10)',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. Стеклянный аналог M3 Note на той же платформе Helio P10 (MT6755). Брингап пойдёт по следам M3 Note.',
-          en: 'Not planned. Glass-back counterpart of M3 Note on the same Helio P10 (MT6755) platform. Will follow the M3 Note bring-up path.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5c/tree/lineage-18.1",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M5 Note",
+    "codename": "m5note",
+    "s": "unverified",
+    "soc": "MediaTek MT6755 (Helio P10)",
+    "sub": {
+      "ru": "Нет свежей проверки",
+      "en": "No recent validation"
+    },
+    "desc": {
+      "ru": "В текущем срезе нет подтверждённой новой сборки или аппаратного результата для этой модели. Наличие похожего чипсета само по себе не подтверждает совместимость.",
+      "en": "No new build or hardware result for this model is confirmed in this snapshot. A related chipset alone does not establish compatibility."
+    },
+    "src": "https://github.com/nomorecoolnicknames",
+    "hw": {},
+    "vers": []
+  },
+  {
+    "name": "Meizu M1 Note",
+    "codename": "m1note",
+    "s": "unverified",
+    "soc": "MediaTek MT6752",
+    "sub": {
+      "ru": "Нет свежей проверки",
+      "en": "No recent validation"
+    },
+    "desc": {
+      "ru": "В текущем срезе нет подтверждённой новой сборки или аппаратного результата для этой модели. Наличие похожего чипсета само по себе не подтверждает совместимость.",
+      "en": "No new build or hardware result for this model is confirmed in this snapshot. A related chipset alone does not establish compatibility."
+    },
+    "src": "https://github.com/nomorecoolnicknames",
+    "hw": {},
+    "vers": []
+  },
+  {
+    "name": "Meizu M6T",
+    "codename": "m6t",
+    "s": "source",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "Исходники Android 9/11/13",
+      "en": "Android 9/11/13 sources"
+    },
+    "desc": {
+      "ru": "Опубликованы реальные device-ветки Android 9/11/13 с происхождением ревизий. Полная сборка и аппаратная проверка этих веток не подтверждены.",
+      "en": "Android 9/11/13 device branches are published with revision provenance. Complete builds and hardware validation of these branches are not confirmed."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6t-source",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6t-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M3s', codename: 'm3s', s: 'not_planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. Металлическая версия M3 на MT6750. Делит платформу с Meizu M5 / M6.',
-          en: 'Not planned. Metallic version of M3 on MT6750. Shares platform with Meizu M5 / M6.',
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6t-source/tree/codex/lineage-18.1-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
       {
-        name: 'Meizu M3', codename: 'm3', s: 'not_planned', soc: 'MediaTek MT6750',
-        sub: { ru: 'Не в планах', en: 'Not planned' },
-        desc: {
-          ru: 'Не в планах. Пластиковый предшественник M3s на чипе MT6750. Общая платформа с Meizu M5 / M6.',
-          en: 'Not planned. Plastic predecessor to M3s running MT6750. Common platform with Meizu M5 / M6.',
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: GH, hw: {}, vers: [],
-      },
-
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m6t-source/tree/codex/lineage-20.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M5",
+    "codename": "m5",
+    "s": "unverified",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "Нет свежей проверки",
+      "en": "No recent validation"
+    },
+    "desc": {
+      "ru": "В текущем срезе нет подтверждённой новой сборки или аппаратного результата для этой модели. Наличие похожего чипсета само по себе не подтверждает совместимость.",
+      "en": "No new build or hardware result for this model is confirmed in this snapshot. A related chipset alone does not establish compatibility."
+    },
+    "src": "https://github.com/nomorecoolnicknames",
+    "hw": {},
+    "vers": []
+  },
+  {
+    "name": "Meizu M5s",
+    "codename": "m5s",
+    "s": "compile",
+    "soc": "MediaTek MT6753",
+    "sub": {
+      "ru": "Ядро 4.9 собрано · LOS16 в работе",
+      "en": "Kernel 4.9 compiled · LOS16 in progress"
+    },
+    "desc": {
+      "ru": "Собрано custom-ядро 4.9 A4 с исправлениями панели, накопителя и дисплея. Goodix A5 прошёл отдельную ARM64-компиляцию. До проверки на телефоне нужны полный набор ресурсов платы, DTB и упаковка boot.img. Полная LOS16 ещё не принята.",
+      "en": "Custom Linux 4.9 A4 compiled with panel, storage and display fixes. Goodix A5 passed a separate ARM64 compilation. Board resources, DTB and boot.img packaging are still required before device testing. A full LOS16 ROM has not been accepted."
+    },
+    "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-16.0",
+    "hw": {},
+    "vers": [
       {
-        name: 'Meizu M2', codename: 'm2', s: 'beta', soc: 'MediaTek MT6735',
-        sub: { ru: 'LineageOS 15.1 · A8.1 · GSI (ядро 3.18)', en: 'LineageOS 15.1 · A8.1 · GSI (kernel 3.18)' },
-        desc: {
-          ru: 'Рабочий порт Project Treble с ядром 3.18 и переразметкой памяти (создание разделов system/vendor). Позволяет полноценно запускать GSI-сборки Android 9.0/10.0. Исходные репозитории удалены/архивированы, но файлы и инструкции сохранены в теме неофициальных прошивок на 4PDA.',
-          en: 'Working Project Treble port with 3.18 kernel and re-partitioning (system/vendor setup). Enables running Android 9.0/10.0 GSI builds. Original repositories are deleted/archived, but files and guides are preserved in the unofficial ROMs thread on 4PDA.',
+        "os": "LineageOS 16.0",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
         },
-        src: 'https://github.com/divis1969/android_device_meizu_meilan2', hw: { display: 'ok', touch: 'ok', wifi: 'ok', bt: 'ok', ril: 'wip', camera: 'wip', fp: 'unknown', audio: 'ok', sensors: 'ok', gps: 'ok', charge: 'ok' },
-        vers: [
-          { os: 'LineageOS 16.0 / GSI (Treble)', ver: '3.18-treble', android: '9.0 / 10.0', date: '4PDA', size: '—', file: 'm2repos-lineage-16.0.zip', dl: 'https://4pda.to/forum/index.php?showtopic=710550&st=12660#entry90740547', src: 'https://4pda.to/forum/index.php?showtopic=710550&st=12660#entry90740547',
-            cl: {
-              ru: ['Неофициальная LineageOS 16.0 на ядре 3.18.119', 'Скрипт переразметки разделов и вендор-патчи для стабильного GSI', 'Прошивка выложена на Google Диск (ссылка в посте)'],
-              en: ['Unofficial LineageOS 16.0 on 3.18.119 kernel', 'Re-partition script and vendor fixes for stable GSI support', 'ROM hosted on Google Drive (link inside the post)'],
-            } },
-          { os: 'TWRP Recovery + Treble', ver: '3.3.1-0', android: '8.1 / 9.0', date: 'GitHub', size: '—', file: 'mrtwrp_device_mblu2', dl: 'https://github.com/XRedCubeX/mrtwrp_device_mblu2', src: 'https://github.com/XRedCubeX/mrtwrp_device_mblu2',
-            cl: {
-              ru: ['Дерево сборки TWRP 3.3.1-0 с поддержкой Treble от XRedCubeX на GitHub', 'Используется для переразметки разделов и прошивки GSI'],
-              en: ['TWRP 3.3.1-0 device tree with Treble support by XRedCubeX on GitHub', 'Used for partition re-layout and GSI flashing'],
-            } },
-          { os: { ru: 'Дерево устройства (Device Tree)', en: 'Device Tree' }, ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_device_meizu_meilan2', dl: 'https://github.com/divis1969/android_device_meizu_meilan2', src: 'https://github.com/divis1969/android_device_meizu_meilan2',
-            cl: {
-              ru: ['Репозиторий дерева устройства device/meizu/meilan2 от divis1969', 'Основа для сборки CyanogenMod / LineageOS'],
-              en: ['Device tree repository device/meizu/meilan2 by divis1969', 'Base for building CyanogenMod / LineageOS'],
-            } },
-          { os: { ru: 'Ядро (Kernel Source)', en: 'Kernel Source' }, ver: '3.10.x', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_kernel_meizu_meilan2', dl: 'https://github.com/divis1969/android_kernel_meizu_meilan2', src: 'https://github.com/divis1969/android_kernel_meizu_meilan2',
-            cl: {
-              ru: ['Исходный код ядра Linux 3.10 для Meizu M2 Mini от divis1969'],
-              en: ['Linux 3.10 kernel source code for Meizu M2 Mini by divis1969'],
-            } },
-          { os: { ru: 'Вендорские блобы (Vendor Blobs)', en: 'Vendor Blobs' }, ver: 'meilan2', android: '5.1/7.1', date: 'GitHub (Архив)', size: '—', file: 'android_vendor_meizu_meilan2', dl: 'https://github.com/divis1969/android_vendor_meizu_meilan2', src: 'https://github.com/divis1969/android_vendor_meizu_meilan2',
-            cl: {
-              ru: ['Проприетарные библиотеки и бинарники vendor/meizu/meilan2 от divis1969'],
-              en: ['Proprietary blobs and binaries vendor/meizu/meilan2 by divis1969'],
-            } },
-        ],
+        "android": "9",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-16.0",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
       },
-    ];
+      {
+        "os": "LineageOS 18.1",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "11",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-18.1",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      },
+      {
+        "os": "LineageOS 20",
+        "ver": {
+          "ru": "Исходники",
+          "en": "Source track"
+        },
+        "android": "13",
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Публичная ветка",
+          "en": "Public branch"
+        },
+        "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-20.0",
+        "cl": {
+          "ru": [
+            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
+            "Внешние зависимости и границы публикации описаны в репозитории."
+          ],
+          "en": [
+            "Device sources are published. A complete build and working hardware require separate validation.",
+            "The repository documents external dependencies and publication scope."
+          ]
+        }
+      }
+    ],
+    "kernel": "https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/codex/m5s-4.9-a4-source"
+  },
+  {
+    "name": "Meizu U10",
+    "codename": "u10",
+    "s": "compile",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "LOS16 / Android 9 · разработка",
+      "en": "LOS16 / Android 9 · development"
+    },
+    "desc": {
+      "ru": "Граф LOS16 проверен; touch-драйверы и API питания скомпилированы на рабочей базе. Публичная серия патчей пока не интегрирована в свою публичную базу и отдельно не собрана. Готового boot.img нет.",
+      "en": "The LOS16 graph passes; touch drivers and the power API compiled on the development base. The public patch series still needs integration and compilation against its public base. No ready boot.img."
+    },
+    "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "android": "9",
+        "ver": {
+          "ru": "Разработка",
+          "en": "Development"
+        },
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Исходники и статус",
+          "en": "Sources and status"
+        },
+        "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Граф LOS16 проверен; touch-драйверы и API питания скомпилированы на рабочей базе. Публичная серия патчей пока не интегрирована в свою публичную базу и отдельно не собрана. Готового boot.img нет.",
+            "Общий конфиг не заменяет порт под конкретную плату."
+          ],
+          "en": [
+            "The LOS16 graph passes; touch drivers and the power API compiled on the development base. The public patch series still needs integration and compilation against its public base. No ready boot.img.",
+            "A common configuration does not replace a board-specific port."
+          ]
+        }
+      }
+    ],
+    "kernel": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/codex/u10-stock-resource-patches-20260929"
+  },
+  {
+    "name": "Meizu U20",
+    "codename": "u20",
+    "s": "compile",
+    "soc": "MediaTek MT6755 (Helio P10)",
+    "sub": {
+      "ru": "LOS16 / Android 9 · разработка",
+      "en": "LOS16 / Android 9 · development"
+    },
+    "desc": {
+      "ru": "Граф LOS16 проверен. Транспорт драйвера BQ24196 прошёл тесты и ARM64-компиляцию на тестовой базе API 3.18. Полная интеграция зарядки, battery policy, DTB и boot.img ещё впереди; зарядка на телефоне не проверена.",
+      "en": "The LOS16 graph passes. BQ24196 transport passed tests and ARM64 compilation against a 3.18 API fixture. Full charger integration, battery policy, DTB and boot.img are still pending; charging on hardware is not verified."
+    },
+    "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "android": "9",
+        "ver": {
+          "ru": "Разработка",
+          "en": "Development"
+        },
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Исходники и статус",
+          "en": "Sources and status"
+        },
+        "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Граф LOS16 проверен. Транспорт драйвера BQ24196 прошёл тесты и ARM64-компиляцию на тестовой базе API 3.18. Полная интеграция зарядки, battery policy, DTB и boot.img ещё впереди; зарядка на телефоне не проверена.",
+            "Общий конфиг не заменяет порт под конкретную плату."
+          ],
+          "en": [
+            "The LOS16 graph passes. BQ24196 transport passed tests and ARM64 compilation against a 3.18 API fixture. Full charger integration, battery policy, DTB and boot.img are still pending; charging on hardware is not verified.",
+            "A common configuration does not replace a board-specific port."
+          ]
+        }
+      }
+    ],
+    "kernel": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/codex/u20-stock-resources-20260929"
+  },
+  {
+    "name": "Meizu M3s",
+    "codename": "m3s",
+    "s": "source",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "LOS16 / Android 9 · разработка",
+      "en": "LOS16 / Android 9 · development"
+    },
+    "desc": {
+      "ru": "Граф сборки LOS16 / Android 9 проверен. Полный порт платы, ядро и прошиваемый образ ещё не готовы.",
+      "en": "The LOS16 / Android 9 build graph passes. A complete board port, kernel and flashable image are not ready."
+    },
+    "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0",
+        "android": "9",
+        "ver": {
+          "ru": "Разработка",
+          "en": "Development"
+        },
+        "date": "29 Sep 2026",
+        "size": "—",
+        "file": {
+          "ru": "Исходники и статус",
+          "en": "Sources and status"
+        },
+        "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/codex/lineage-16.0-source-20260929",
+        "cl": {
+          "ru": [
+            "Граф сборки LOS16 / Android 9 проверен. Полный порт платы, ядро и прошиваемый образ ещё не готовы.",
+            "Общий конфиг не заменяет порт под конкретную плату."
+          ],
+          "en": [
+            "The LOS16 / Android 9 build graph passes. A complete board port, kernel and flashable image are not ready.",
+            "A common configuration does not replace a board-specific port."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "Meizu M3",
+    "codename": "m3",
+    "s": "unverified",
+    "soc": "MediaTek MT6750",
+    "sub": {
+      "ru": "Нет свежей проверки",
+      "en": "No recent validation"
+    },
+    "desc": {
+      "ru": "В текущем срезе нет подтверждённой новой сборки или аппаратного результата для этой модели. Наличие похожего чипсета само по себе не подтверждает совместимость.",
+      "en": "No new build or hardware result for this model is confirmed in this snapshot. A related chipset alone does not establish compatibility."
+    },
+    "src": "https://github.com/nomorecoolnicknames",
+    "hw": {},
+    "vers": []
+  },
+  {
+    "name": "Meizu M2 Mini",
+    "codename": "m2",
+    "s": "source",
+    "soc": "MediaTek MT6735",
+    "sub": {
+      "ru": "Android 9 · подготовка порта",
+      "en": "Android 9 · port preparation"
+    },
+    "desc": {
+      "ru": "Для нового LOS16 проверены stock-входы M578H, разметка и подготовлена поправка размера cache. Новый ROM не собран. Ниже сохранены ссылки на прежние сторонние разработки; их работоспособность этой серией ReMeizu не проверялась.",
+      "en": "Stock M578H inputs and partition layout were checked for the new LOS16 port, with a cache-size correction prepared. No new ROM has been built. Earlier third-party resources are retained below; this ReMeizu series has not validated their hardware support."
+    },
+    "src": "https://github.com/divis1969/android_device_meizu_meilan2",
+    "hw": {},
+    "vers": [
+      {
+        "os": "LineageOS 16.0 / GSI (Treble)",
+        "ver": "3.18-treble",
+        "android": "9.0 / 10.0",
+        "date": "4PDA",
+        "size": "—",
+        "file": "m2repos-lineage-16.0.zip",
+        "src": "https://4pda.to/forum/index.php?showtopic=710550&st=12660#entry90740547",
+        "cl": {
+          "ru": [
+            "Архивный сторонний проект; не новый релиз ReMeizu.",
+            "Совместимость с вашим устройством и доступность образов требуют проверки в исходной теме."
+          ],
+          "en": [
+            "Archived third-party work; not a new ReMeizu release.",
+            "Check device compatibility and image availability in the original project."
+          ]
+        }
+      },
+      {
+        "os": "TWRP Recovery + Treble",
+        "ver": "3.3.1-0",
+        "android": "8.1 / 9.0",
+        "date": "GitHub",
+        "size": "—",
+        "file": "mrtwrp_device_mblu2",
+        "src": "https://github.com/XRedCubeX/mrtwrp_device_mblu2",
+        "cl": {
+          "ru": [
+            "Архивный сторонний проект; не новый релиз ReMeizu.",
+            "Совместимость с вашим устройством и доступность образов требуют проверки в исходной теме."
+          ],
+          "en": [
+            "Archived third-party work; not a new ReMeizu release.",
+            "Check device compatibility and image availability in the original project."
+          ]
+        }
+      },
+      {
+        "os": {
+          "ru": "Дерево устройства (Device Tree)",
+          "en": "Device Tree"
+        },
+        "ver": "meilan2",
+        "android": "5.1/7.1",
+        "date": "GitHub (Архив)",
+        "size": "—",
+        "file": "android_device_meizu_meilan2",
+        "src": "https://github.com/divis1969/android_device_meizu_meilan2",
+        "cl": {
+          "ru": [
+            "Архивный сторонний проект; не новый релиз ReMeizu.",
+            "Совместимость с вашим устройством и доступность образов требуют проверки в исходной теме."
+          ],
+          "en": [
+            "Archived third-party work; not a new ReMeizu release.",
+            "Check device compatibility and image availability in the original project."
+          ]
+        }
+      },
+      {
+        "os": {
+          "ru": "Ядро (Kernel Source)",
+          "en": "Kernel Source"
+        },
+        "ver": "3.10.x",
+        "android": "5.1/7.1",
+        "date": "GitHub (Архив)",
+        "size": "—",
+        "file": "android_kernel_meizu_meilan2",
+        "src": "https://github.com/divis1969/android_kernel_meizu_meilan2",
+        "cl": {
+          "ru": [
+            "Архивный сторонний проект; не новый релиз ReMeizu.",
+            "Совместимость с вашим устройством и доступность образов требуют проверки в исходной теме."
+          ],
+          "en": [
+            "Archived third-party work; not a new ReMeizu release.",
+            "Check device compatibility and image availability in the original project."
+          ]
+        }
+      },
+      {
+        "os": {
+          "ru": "Вендорские блобы (Vendor Blobs)",
+          "en": "Vendor Blobs"
+        },
+        "ver": "meilan2",
+        "android": "5.1/7.1",
+        "date": "GitHub (Архив)",
+        "size": "—",
+        "file": "android_vendor_meizu_meilan2",
+        "src": "https://github.com/divis1969/android_vendor_meizu_meilan2",
+        "cl": {
+          "ru": [
+            "Архивный сторонний проект; не новый релиз ReMeizu.",
+            "Совместимость с вашим устройством и доступность образов требуют проверки в исходной теме."
+          ],
+          "en": [
+            "Archived third-party work; not a new ReMeizu release.",
+            "Check device compatibility and image availability in the original project."
+          ]
+        }
+      }
+    ]
+  }
+];
 
 class Component extends DCLogic {
   parseHash() {
@@ -1072,12 +1968,12 @@ class Component extends DCLogic {
 
     const STR = {
       ru: {
-        navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
+        kernelLink: 'Исходники ядра и патчи', navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
         pageTitle: 'Кастомные прошивки ReMeizu',
-        pageSub: 'Сборки LineageOS из исходников для старых телефонов Meizu. Это bring-up: не всё железо ещё работает — у каждого устройства честно указан статус и что именно функционирует.',
-        socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'В активной разработке', loadMore: 'Больше устройств позже',
-        firmwares: 'Прошивки', archive: 'Архив версий', latest: 'Последняя', changelog: 'Что нового',
-        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Публичной загрузки пока нет — сборка из исходников.',
+        pageSub: 'Продлеваем жизнь старых Meizu: Android 13 уже загружается на M5c и MX6. Для остальных моделей публикуем исходники и проверяем сборки. Стабильная линейка Android 9/11/13 ещё в разработке.',
+        socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'Срез: 29 сентября 2026', loadMore: 'Статус уточняется по результатам проверок',
+        firmwares: 'Прошивки', archive: 'Сборки и исходники', latest: 'Основной трек', changelog: 'Что нового',
+        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Готовый ROM для загрузки здесь не опубликован. Исходники могут требовать внешних зависимостей и доработки.',
         hwTitle: 'Что работает', hwLegend: 'Зелёный — работает, оранжевый — в работе, красный — не работает, серый — не проверено.',
         plannedNote: 'Это устройство в планах. Работа над портом ещё не начиналась.',
         notPlannedNote: 'Это устройство не в планах. Разработка под него пока не планируется.',
@@ -1086,12 +1982,12 @@ class Component extends DCLogic {
         footNote: 'Неофициальный проект. Не связан с Meizu. © 2026 ReMeizu',
       },
       en: {
-        navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
+        kernelLink: 'Kernel sources and patches', navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
         pageTitle: 'ReMeizu custom firmware',
-        pageSub: 'LineageOS builds from source for older Meizu phones. This is bring-up: not all hardware works yet — every device shows an honest status and exactly what functions.',
-        socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Under active development', loadMore: 'More devices later',
-        firmwares: 'Firmware', archive: 'Version archive', latest: 'Latest', changelog: "What's new",
-        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No public download yet — build from source.',
+        pageSub: 'Extending the life of older Meizu phones: Android 13 boots on M5c and MX6. Other models have source tracks and build validation in progress. A stable Android 9/11/13 lineup is still in development.',
+        socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Snapshot: 29 September 2026', loadMore: 'Status follows verified results',
+        firmwares: 'Firmware', archive: 'Builds and sources', latest: 'Primary track', changelog: "What's new",
+        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No ready ROM download is published here. Sources may require external inputs and further work.',
         hwTitle: 'What works', hwLegend: 'Green — working, orange — in progress, red — broken, grey — untested.',
         plannedNote: 'This device is planned. Porting work has not started yet.',
         notPlannedNote: 'This device is not planned. Development is not currently scheduled.',
@@ -1109,14 +2005,15 @@ class Component extends DCLogic {
       bringup: { bg: '#f3eefe', fg: '#7a4fd0' },
       planned: { bg: '#e8f4fd', fg: '#1d63b8' },
       not_planned: { bg: '#f1f2f4', fg: '#9aa1ac' },
+      runtime: { bg: '#e7f6ee', fg: '#1f8a5b' }, compile: { bg: '#eef3fd', fg: '#2A6FDB' }, source: { bg: '#f3eefe', fg: '#7a4fd0' }, unverified: { bg: '#f1f2f4', fg: '#687180' },
     };
     const statusLabel = {
-      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах', not_planned: 'Не в планах' },
-      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned', not_planned: 'Not planned' },
+      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах', not_planned: 'Не в планах', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
+      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned', not_planned: 'Not planned', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
     };
     const branchLabel = {
-      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах', not_planned: 'Не в планах' },
-      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned', not_planned: 'Not planned' },
+      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах', not_planned: 'Не в планах', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
+      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned', not_planned: 'Not planned', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
     };
 
     const hwState = {
@@ -1145,8 +2042,8 @@ class Component extends DCLogic {
     
 
     const devices = RAW.map((d, i) => ({
-      name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg',
-      sub: (d.s === 'planned' || d.s === 'not_planned') ? d.soc : d.sub[lang],
+      name: d.name, codename: d.codename, photo: d.photo || './img/' + d.codename + '.jpg',
+      sub: (d.s === 'planned' || d.s === 'not_planned' || d.s === 'unverified') ? d.soc : d.sub[lang],
       status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
       soc: d.soc,
       open: () => { window.location.hash = '#/device/' + d.codename; },
@@ -1157,6 +2054,7 @@ class Component extends DCLogic {
       if (f === 'mt6753') return d.soc.includes('MT6753');
       if (f === 'mt6735') return d.soc.includes('MT6735') || d.soc.includes('MT6737');
       if (f === 'mt6752') return d.soc.includes('MT6752');
+      if (f === 'mt6797') return d.soc.includes('MT6797');
       return true;
     });
 
@@ -1166,6 +2064,7 @@ class Component extends DCLogic {
     const setFilter6753 = () => this.setState({ socFilter: 'mt6753' });
     const setFilter6735 = () => this.setState({ socFilter: 'mt6735' });
     const setFilter6752 = () => this.setState({ socFilter: 'mt6752' });
+    const setFilter6797 = () => this.setState({ socFilter: 'mt6797' });
 
     const filterBtnStyle = (active) => "font-size:13px;font-weight:" + (active ? 600 : 500) + ";color:" + (active ? '#fff' : '#525862') + ";background:" + (active ? '#2A6FDB' : 'none') + ";border:" + (active ? '1px solid #2A6FDB' : '1px solid #ebedf0') + ";padding:7px 16px;border-radius:999px;cursor:pointer;font-family:inherit;transition:all 0.15s ease;";
     const filterStyleAll = filterBtnStyle(socFilter === 'all');
@@ -1173,6 +2072,7 @@ class Component extends DCLogic {
     const filterStyle6753 = filterBtnStyle(socFilter === 'mt6753');
     const filterStyle6735 = filterBtnStyle(socFilter === 'mt6735');
     const filterStyle6752 = filterBtnStyle(socFilter === 'mt6752');
+    const filterStyle6797 = filterBtnStyle(socFilter === 'mt6797');
 
     let sel = null;
     if (this.state.selected != null) {
@@ -1182,7 +2082,7 @@ class Component extends DCLogic {
         label: hwLabel[k][lang], dot: hwState[d.hw[k]].dot, state: hwState[d.hw[k]][lang],
       }));
       sel = {
-        name: d.name, codename: d.codename, photo: './img/' + d.codename + '.jpg', soc: d.soc, desc: d.desc[lang],
+        name: d.name, codename: d.codename, photo: d.photo || './img/' + d.codename + '.jpg', soc: d.soc, desc: d.desc[lang], kernel: d.kernel || '', src: d.src, hasSource: d.vers.length > 0 || !!d.kernel,
         status: statusLabel[lang][d.s], badgeBg: badge[d.s].bg, badgeFg: badge[d.s].fg,
         branchLabel: branchLabel[lang][d.s],
         hw: hwList, hasHw: hwList.length > 0,
@@ -1202,7 +2102,7 @@ class Component extends DCLogic {
             srcBtnText = lang === 'ru' ? 'Ссылка' : 'Link';
           }
           return {
-            os: typeof v.os === 'object' ? v.os[lang] : v.os, ver: v.ver, android: v.android, date: v.date, size: v.size,
+            os: typeof v.os === 'object' ? v.os[lang] : v.os, ver: typeof v.ver === 'object' ? v.ver[lang] : v.ver, android: v.android, date: v.date, size: v.size,
             changelog: v.cl[lang], fileName: typeof v.file === 'object' ? v.file[lang] : v.file, src: srcUrl, dl: v.dl || '',
             hasDl: !!v.dl && v.dl !== srcUrl, noDl: !v.dl || v.dl === srcUrl,
             srcBtnText,
@@ -1352,7 +2252,7 @@ class Component extends DCLogic {
     const GUIDE = {
       ru: {
                 title: 'Как установить ReMeizu',
-        intro: 'Сначала открой страницу своего устройства и посмотри статус и «Что работает» — на части моделей ещё нет камеры/связи. Установка занимает 10–15 минут.',
+        intro: 'Устанавливай только опубликованный образ для своей точной модели и ревизии платы. Ветка исходников или успешная компиляция ещё не являются готовой прошивкой. Сначала проверь примечания, способ восстановления и инструкцию конкретного образа.',
         reqTitle: 'Что понадобится',
         req: ['ПК с установленными adb и fastboot', 'USB-кабель и заряд телефона выше 50%', 'Разблокированный загрузчик', 'Резервная копия всех важных данных'],
         steps: [
@@ -1366,7 +2266,7 @@ class Component extends DCLogic {
       },
       en: {
                 title: 'How to install ReMeizu',
-        intro: 'First open your device page and check the status and "What works" — some models still lack camera/cellular. The install takes 10–15 minutes.',
+        intro: 'Use a guide only for a published image matching your exact board. A source branch or successful compilation is not an installable release. Check the device notes, recovery path and image-specific instructions first.',
         reqTitle: 'What you need',
         req: ['A PC with adb and fastboot installed', 'A USB cable and phone charge above 50%', 'An unlocked bootloader', 'A backup of all important data'],
         steps: [
@@ -1381,27 +2281,61 @@ class Component extends DCLogic {
     };
 
     const COMMUNITY = {
-      ru: {
-        title: 'Сообщество',
-        intro: 'Открытые исходники, заметки по bring-up и баг-репорты. Всё разрабатывается в открытую.',
-        cards: [
-          { tag: 'GH', h: 'Исходники', d: 'Деревья ядра/device/vendor и заметки по bring-up на GitHub.', cta: 'GitHub', url: GH },
-          { tag: 'TG', h: 'Telegram', d: 'Канал с анонсами и чат (если включён).', cta: 'Открыть', url: 'https://t.me/remeizu' },
-          { tag: 'BUG', h: 'Баг-трекер', d: 'Нашёл проблему — заведи issue в нужном репозитории на GitHub.', cta: 'Сообщить', url: GH },
-          { tag: 'FRM', h: 'Форум', d: 'Темы по устройствам на 4PDA / XDA (ссылки появятся позже).', cta: 'Скоро', url: '#' },
-        ],
+  "ru": {
+    "title": "Сообщество",
+    "intro": "Проект ведёт Vladislav (nomorecoolnicknames). Над M5c работаем вместе с Dekompilyator. В разработке используется ИИ; результаты сборок и аппаратные проверки описываем отдельно.",
+    "cards": [
+      {
+        "tag": "SRC",
+        "h": "Исходники",
+        "d": "Репозитории устройств, ядер и инструментов ReMeizu.",
+        "cta": "Открыть GitHub",
+        "url": "https://github.com/nomorecoolnicknames?tab=repositories"
       },
-      en: {
-        title: 'Community',
-        intro: 'Open sources, bring-up notes and bug reports. Everything is developed in the open.',
-        cards: [
-          { tag: 'GH', h: 'Sources', d: 'Kernel/device/vendor trees and bring-up notes on GitHub.', cta: 'GitHub', url: GH },
-          { tag: 'TG', h: 'Telegram', d: 'Channel with announcements plus chat (if enabled).', cta: 'Open', url: 'https://t.me/remeizu' },
-          { tag: 'BUG', h: 'Bug tracker', d: 'Found a problem? File an issue in the relevant GitHub repo.', cta: 'Report', url: GH },
-          { tag: 'FRM', h: 'Forum', d: 'Per-device threads on 4PDA / XDA (links coming later).', cta: 'Soon', url: '#' },
-        ],
+      {
+        "tag": "TG",
+        "h": "Telegram",
+        "d": "Канал с анонсами ReMeizu.",
+        "cta": "Открыть",
+        "url": "https://t.me/remeizu"
       },
-    };
+      {
+        "tag": "M5C",
+        "h": "Dekompilyator",
+        "d": "Совместная работа над M5c; device-деревья и recovery.",
+        "cta": "GitHub",
+        "url": "https://github.com/Dekompilyator"
+      }
+    ]
+  },
+  "en": {
+    "title": "Community",
+    "intro": "Maintained by Vladislav (nomorecoolnicknames), with Dekompilyator collaborating on M5c. Development is AI-assisted; build results and hardware tests are reported separately.",
+    "cards": [
+      {
+        "tag": "SRC",
+        "h": "Sources",
+        "d": "ReMeizu device, kernel and tool repositories.",
+        "cta": "Open GitHub",
+        "url": "https://github.com/nomorecoolnicknames?tab=repositories"
+      },
+      {
+        "tag": "TG",
+        "h": "Telegram",
+        "d": "ReMeizu announcement channel.",
+        "cta": "Open",
+        "url": "https://t.me/remeizu"
+      },
+      {
+        "tag": "M5C",
+        "h": "Dekompilyator",
+        "d": "M5c collaboration, device trees and recovery.",
+        "cta": "GitHub",
+        "url": "https://github.com/Dekompilyator"
+      }
+    ]
+  }
+};
 
     return {
       t, devices, sel,
@@ -1411,8 +2345,8 @@ class Component extends DCLogic {
       guide: { ...GUIDE[lang], steps: GUIDE[lang].steps.map((s, i) => ({ ...s, n: i + 1 })) },
       community: COMMUNITY[lang],
       setRu, setEn, goHome, goGuide, goCommunity,
-      setFilterAll, setFilter6755, setFilter6753, setFilter6735, setFilter6752,
-      filterStyleAll, filterStyle6755, filterStyle6753, filterStyle6735, filterStyle6752,
+      setFilterAll, setFilter6755, setFilter6753, setFilter6735, setFilter6752, setFilter6797,
+      filterStyleAll, filterStyle6755, filterStyle6753, filterStyle6735, filterStyle6752, filterStyle6797,
       navFwStyle: navStyle(page === 'firmware'),
       navGuideStyle: navStyle(page === 'guide'),
       navCommStyle: navStyle(page === 'community'),
