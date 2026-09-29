@@ -10,11 +10,12 @@ covers 17 models across six chipset families; support varies by device.
 |---|---|---|
 | MX6 / M95, Android 13 | Native LOS20 boots; LTE data and IMS registration observed on build 23 | Test incoming-call and camera changes; camera, suspend and battery validation |
 | M5c, Android 13 / Linux 4.9 | Boot, display, touch and Wi-Fi scanning observed on hardware | Complete connectivity, audio, camera and power testing |
+| M3 Note L681, Android 9 / Linux 4.4 | Boots to the launcher with verified boot readback; nine sensors reported and Wi-Fi scanning observed | Cameras unavailable; test Wi-Fi connection, audio and power behavior |
 | M5s, Linux 4.9 | Kernel links and produces Image.gz; board/display work compiles | Validate the DTB and boot image, then test on hardware |
 | U10, Linux 3.18 | Touch and power objects compile | Apply the published patch series and complete the board port |
 | U20, Linux 3.18 | Charger transport compiles against the kernel API; board resource and status-read work in development | Complete charger ownership and battery policy, then full board build |
 | M3s / U10 / U20, Android 9 | Product and build-graph checks pass | Kernel/vendor integration and complete ROM builds |
-| M5s / M2 Note, Android 9 | Full-ROM build work in progress | Resolve remaining build failures and produce testable images |
+| M5s / M2 Note, Android 9 | Bounded full-ROM build attempts timed out; build caches retained | Resume builds and package test images |
 | Other Android 11 / 13 tracks | Device configuration and compatibility sources published | Complete builds and device testing |
 
 A compiled object or kernel is not a tested phone image. The source repositories
