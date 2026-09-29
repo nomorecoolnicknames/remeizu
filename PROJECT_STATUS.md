@@ -9,7 +9,7 @@ covers 17 models across six chipset families; support varies by device.
 | Device / track | Working result | Next work |
 |---|---|---|
 | MX6 / M95, Android 13 | Native LOS20 boots; LTE data and IMS registration observed on build 23 | Test incoming-call and camera changes; camera, suspend and battery validation |
-| M5c, Android 13 / Linux 4.9 | Boot, display, touch and Wi-Fi scanning observed on hardware | Complete connectivity, audio, camera and power testing |
+| M5c, Android 13 / Linux 4.9 | Boot, display, touch and ADB; Wi-Fi scan, Bluetooth enabled and LTE registration/data context observed; SELinux permissive | No usable camera image; microphone capture fails; test Wi-Fi association, Bluetooth pairing and cellular traffic |
 | M3 Note L681, Android 9 / Linux 4.4 | Boots to the launcher with verified boot readback; nine sensors reported and Wi-Fi scanning observed | Cameras unavailable; test Wi-Fi connection, audio and power behavior |
 | M5s, Linux 4.9 | Kernel links and produces Image.gz; board/display work compiles | Validate the DTB and boot image, then test on hardware |
 | U10, Linux 3.18 | Touch and power objects compile | Apply the published patch series and complete the board port |
@@ -18,10 +18,15 @@ covers 17 models across six chipset families; support varies by device.
 | M5s / M2 Note, Android 9 | Bounded full-ROM build attempts timed out; build caches retained | Resume builds and package test images |
 | Other Android 11 / 13 tracks | Device configuration and compatibility sources published | Complete builds and device testing |
 
-A compiled object or kernel is not a tested phone image. The source repositories
-contain development work and may require additional kernel, vendor and common-tree
-inputs. Downloadable releases are listed separately in
+Hardware observations can come from newer development images than the source
+revisions listed in the index. A compiled object or kernel is not a tested phone
+image. The source repositories contain development work and may require additional
+kernel, vendor and common-tree inputs. Downloadable releases are listed separately in
 [remeizu-releases](https://github.com/nomorecoolnicknames/remeizu-releases/releases).
+
+Component-level implementation and test status is documented in the
+[M5s kernel README](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/m5s-linux-4.9#readme)
+and [Thorium shared-device README](https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0#readme).
 
 ## Priorities
 
