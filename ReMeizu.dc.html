@@ -75,9 +75,8 @@
 
 
       <section style="max-width:1124px;margin:26px auto 0;padding:22px 24px;border:1px solid #e3e8f1;border-radius:16px;background:#f8faff">
-        <sc-if value="{{ lang === 'ru' }}"><h2 style="font-size:18px;margin-bottom:10px">Что уже есть</h2><p style="font-size:14px;line-height:1.7">27 публичных записей: 23 ветки устройств и общих конфигураций, 4 ветки ядер и патчей. Android 11 пока представлен исходниками без принятой полной сборки этой серии. Для новых MTK-портов ядра 5+ и полностью автономный цикл тестирования ещё не подтверждены на телефонах.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Для многих плат нет полных исходников: адаптируем код чипсетов и пишем недостающие драйверы. Полные ROM пока зависят от проприетарных компонентов; публикация исходников не означает готовую прошивку.</p></sc-if>
-        <sc-if value="{{ lang === 'en' }}"><h2 style="font-size:18px;margin-bottom:10px">Available today</h2><p style="font-size:14px;line-height:1.7">27 public entries: 23 device/common branches and 4 kernel/patch branches. Android 11 currently has source tracks, with no accepted full build in this series. Linux 5+ for the new MTK ports and a fully autonomous testing cycle are not yet validated on phones.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Many boards lack complete source releases: we adapt chipset code and write missing drivers. Full ROMs still depend on proprietary components; published sources do not mean a ready firmware release.</p></sc-if>
-        <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:14px"><a href="https://github.com/nomorecoolnicknames/remeizu/blob/codex/progress-and-roadmap-20260929/SOURCE_INDEX.md" target="_blank" rel="noopener noreferrer" style="color:#2A6FDB;font-size:14px;font-weight:700">{{ t.sourceIndex }}</a><a href="https://github.com/nomorecoolnicknames/remeizu/blob/codex/progress-and-roadmap-20260929/PROJECT_STATUS.md" target="_blank" rel="noopener noreferrer" style="color:#2A6FDB;font-size:14px;font-weight:700">{{ t.progressLink }}</a></div>
+        <sc-if value="{{ lang === 'ru' }}"><h2 style="font-size:18px;margin-bottom:10px">Что уже есть</h2><p style="font-size:14px;line-height:1.7">Для M6 опубликована LineageOS 15.1 / Android 8.1. На M5c и MX6 запускается Android 13; поддержка оборудования ещё дорабатывается. В карточках устройств указаны доступные прошивки, исходники и проверенные функции.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Для многих плат нет полных исходников: адаптируем код чипсетов и пишем недостающие драйверы. Полные ROM пока зависят от проприетарных компонентов; публикация исходников не означает готовую прошивку.</p></sc-if>
+        <sc-if value="{{ lang === 'en' }}"><h2 style="font-size:18px;margin-bottom:10px">Available today</h2><p style="font-size:14px;line-height:1.7">LineageOS 15.1 / Android 8.1 is available for M6. Android 13 boots on M5c and MX6, with hardware support still in development. Each device page lists available releases, sources and tested features.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Many boards lack complete source releases: we adapt chipset code and write missing drivers. Full ROMs still depend on proprietary components; published sources do not mean a ready firmware release.</p></sc-if>
       </section>
       <div style="max-width:1180px;margin:0 auto;padding:40px 28px 0">
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef0f2;padding-bottom:14px;flex-wrap:wrap;gap:14px">
@@ -805,7 +804,7 @@ const RAW = [
   {
     "name": "Meizu MX6",
     "codename": "m95",
-    "photo": "./img/device-placeholder.svg",
+    "photo": "./img/mx6.jpg",
     "s": "runtime",
     "soc": "MediaTek MT6797 (Helio X20)",
     "sub": {
@@ -862,7 +861,7 @@ const RAW = [
   {
     "name": "Meizu M6 Note",
     "codename": "m1721",
-    "photo": "./img/m1721-placeholder.svg",
+    "photo": "./img/m1721.jpg",
     "s": "source",
     "soc": "Qualcomm MSM8953 (Snapdragon 625)",
     "sub": {
@@ -870,8 +869,8 @@ const RAW = [
       "en": "Separate Linux / mainline track"
     },
     "desc": {
-      "ru": "Работа по M1721 ведётся в собственных репозиториях Linux и pmaports. Этот трек не входит в новую MTK-серию Android 9/11/13; актуальная аппаратная готовность здесь не переоценивалась. AI-assisted изменения пока не отправляются в Nura/postmarketOS из-за политики проекта.",
-      "en": "M1721 work is maintained in our Linux and pmaports repositories. This track is separate from the new MTK Android 9/11/13 series; its current hardware readiness was not reassessed for this snapshot. AI-assisted changes are not being submitted to Nura/postmarketOS under its current policy."
+      "ru": "Работа по M1721 ведётся в собственных репозиториях Linux и pmaports. Это экспериментальный порт Linux; готовый образ для установки на этой странице пока не опубликован.",
+      "en": "M1721 work is maintained in our Linux and pmaports repositories. This is an experimental Linux port; an installable image is not yet available on this page."
     },
     "src": "https://github.com/nomorecoolnicknames/meizu-m1721-pmaports",
     "kernel": "https://github.com/nomorecoolnicknames/linux-meizu-m1721-mainline",
@@ -1988,7 +1987,7 @@ class Component extends DCLogic {
 
     const STR = {
       ru: {
-        sourceIndex: 'Все исходники и ревизии', progressLink: 'Результаты и план', kernelLink: 'Исходники ядра и патчи', navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
+        kernelLink: 'Исходники ядра и патчи', navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
         pageTitle: 'Кастомные прошивки ReMeizu',
         pageSub: 'Продлеваем жизнь старых Meizu: Android 13 уже загружается на M5c и MX6. Для остальных моделей публикуем исходники и проверяем сборки. Стабильная линейка Android 9/11/13 ещё в разработке.',
         socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'Срез: 29 сентября 2026', loadMore: 'Статус уточняется по результатам проверок',
@@ -2002,7 +2001,7 @@ class Component extends DCLogic {
         footNote: 'Неофициальный проект. Не связан с Meizu. © 2026 ReMeizu',
       },
       en: {
-        sourceIndex: 'All sources and revisions', progressLink: 'Progress and roadmap', kernelLink: 'Kernel sources and patches', navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
+        kernelLink: 'Kernel sources and patches', navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
         pageTitle: 'ReMeizu custom firmware',
         pageSub: 'Extending the life of older Meizu phones: Android 13 boots on M5c and MX6. Other models have source tracks and build validation in progress. A stable Android 9/11/13 lineup is still in development.',
         socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Snapshot: 29 September 2026', loadMore: 'Status follows verified results',
@@ -2308,9 +2307,9 @@ class Component extends DCLogic {
       {
         "tag": "SRC",
         "h": "Исходники",
-        "d": "Индекс веток устройств, ядер и точных ревизий.",
-        "cta": "Открыть индекс",
-        "url": "https://github.com/nomorecoolnicknames/remeizu/blob/codex/progress-and-roadmap-20260929/SOURCE_INDEX.md"
+        "d": "Репозитории устройств, ядер и инструментов ReMeizu.",
+        "cta": "Открыть GitHub",
+        "url": "https://github.com/nomorecoolnicknames?tab=repositories"
       },
       {
         "tag": "TG",
@@ -2328,10 +2327,10 @@ class Component extends DCLogic {
       },
       {
         "tag": "PLAN",
-        "h": "Linux и дальнейшая работа",
-        "d": "M1721/MSM8953 ведётся в собственном репозитории. Отправка AI-assisted работы в Nura/postmarketOS ограничена их политикой.",
-        "cta": "Политика Nura",
-        "url": "https://docs.nura.eco/policies-and-processes/development/ai-policy.html"
+        "h": "Linux на M6 Note",
+        "d": "Разработка ядра Linux для M1721 / Snapdragon 625.",
+        "cta": "Исходники ядра",
+        "url": "https://github.com/nomorecoolnicknames/linux-meizu-m1721-mainline"
       }
     ]
   },
@@ -2342,9 +2341,9 @@ class Component extends DCLogic {
       {
         "tag": "SRC",
         "h": "Sources",
-        "d": "Device and kernel branches with exact revisions.",
-        "cta": "Open index",
-        "url": "https://github.com/nomorecoolnicknames/remeizu/blob/codex/progress-and-roadmap-20260929/SOURCE_INDEX.md"
+        "d": "ReMeizu device, kernel and tool repositories.",
+        "cta": "Open GitHub",
+        "url": "https://github.com/nomorecoolnicknames?tab=repositories"
       },
       {
         "tag": "TG",
@@ -2362,10 +2361,10 @@ class Component extends DCLogic {
       },
       {
         "tag": "PLAN",
-        "h": "Linux and future work",
-        "d": "M1721/MSM8953 work is maintained in our own repository. Nura/postmarketOS policy restricts submitting AI-assisted work.",
-        "cta": "Nura policy",
-        "url": "https://docs.nura.eco/policies-and-processes/development/ai-policy.html"
+        "h": "Linux on M6 Note",
+        "d": "Linux kernel development for M1721 / Snapdragon 625.",
+        "cta": "Kernel sources",
+        "url": "https://github.com/nomorecoolnicknames/linux-meizu-m1721-mainline"
       }
     ]
   }
