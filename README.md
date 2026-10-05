@@ -11,6 +11,13 @@ Maintained by [Vladislav](https://github.com/nomorecoolnicknames), with
 [M5c contributions from Dekompilyator](https://github.com/Dekompilyator).
 Updates: [Telegram](https://t.me/remeizu).
 
+## Downloads
+
+Experimental LineageOS 16.0 / Android 9 userdebug builds for M2 Note, U10 and U20
+are available in [ReMeizu releases](https://github.com/nomorecoolnicknames/remeizu-releases/releases).
+Archive, signing, boot and OTA checks passed; boot and hardware operation of these
+exact builds still need device testing. M5s is being built.
+
 ## Editing the site
 
 Device data and translations live in `ReMeizu.dc.html`; `support.js` provides

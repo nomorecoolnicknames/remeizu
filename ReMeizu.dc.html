@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ReMeizu — прошивки для Meizu на MediaTek</title>
-<meta name="description" content="ReMeizu: проверенные результаты Android 13 на M5c и MX6, исходники Android 9/11/13, статусы устройств и ограничения.">
+<meta name="description" content="ReMeizu: экспериментальные LineageOS 16.0 для M2 Note, U10 и U20; Android 13 на M5c и MX6, исходники и поддержка устройств.">
 <script>
   window.copyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -74,9 +74,9 @@
       </section>
 
 
-      <section style="max-width:1124px;margin:26px auto 0;padding:22px 24px;border:1px solid #e3e8f1;border-radius:16px;background:#f8faff">
-        <sc-if value="{{ lang === 'ru' }}"><h2 style="font-size:18px;margin-bottom:10px">Что уже есть</h2><p style="font-size:14px;line-height:1.7">Для M6 опубликована LineageOS 15.1 / Android 8.1. На M5c и MX6 запускается Android 13; поддержка оборудования ещё дорабатывается. В карточках устройств указаны доступные прошивки, исходники и проверенные функции.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Для многих плат нет полных исходников: адаптируем код чипсетов и пишем недостающие драйверы. Полные ROM пока зависят от проприетарных компонентов; публикация исходников не означает готовую прошивку.</p></sc-if>
-        <sc-if value="{{ lang === 'en' }}"><h2 style="font-size:18px;margin-bottom:10px">Available today</h2><p style="font-size:14px;line-height:1.7">LineageOS 15.1 / Android 8.1 is available for M6. Android 13 boots on M5c and MX6, with hardware support still in development. Each device page lists available releases, sources and tested features.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Many boards lack complete source releases: we adapt chipset code and write missing drivers. Full ROMs still depend on proprietary components; published sources do not mean a ready firmware release.</p></sc-if>
+      <section style="max-width:1124px;width:calc(100% - 56px);margin:26px auto 0;padding:22px 24px;border:1px solid #e3e8f1;border-radius:16px;background:#f8faff">
+        <sc-if value="{{ lang === 'ru' }}"><h2 style="font-size:18px;margin-bottom:10px">Что уже есть</h2><p style="font-size:14px;line-height:1.7">Опубликованы полные экспериментальные LineageOS 16.0 / Android 9 для M2 Note, U10 и U20. Архивы и OTA проверены; аппаратные тесты этих сборок ещё впереди. Для M6 доступна LineageOS 15.1, на M5c и MX6 запускается Android 13. В карточках устройств указаны доступные прошивки, исходники и проверенные функции.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Для многих плат нет полных исходников: адаптируем код чипсетов и пишем недостающие драйверы. Полные ROM пока зависят от проприетарных компонентов; публикация исходников не означает готовую прошивку.</p></sc-if>
+        <sc-if value="{{ lang === 'en' }}"><h2 style="font-size:18px;margin-bottom:10px">Available today</h2><p style="font-size:14px;line-height:1.7">Complete experimental LineageOS 16.0 / Android 9 builds are available for M2 Note, U10 and U20. Archives and OTA contents checked; device testing of these builds is still pending. M6 has LineageOS 15.1, while Android 13 boots on M5c and MX6. Each device page lists available releases, sources and tested features.</p><p style="font-size:14px;line-height:1.7;margin-top:10px">Many boards lack complete source releases: we adapt chipset code and write missing drivers. Full ROMs still depend on proprietary components; published sources do not mean a ready firmware release.</p></sc-if>
       </section>
       <div style="max-width:1180px;margin:0 auto;padding:40px 28px 0">
         <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef0f2;padding-bottom:14px;flex-wrap:wrap;gap:14px">
@@ -168,7 +168,7 @@
         <div style="display:flex;flex-direction:column;gap:14px">
           <sc-for list="{{ sel.versions }}" as="v" hint-placeholder-count="2">
             <div style="border:1px solid #ebedf0;border-radius:16px;overflow:hidden;background:#fff">
-              <button onClick="{{ v.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left">
+              <button onClick="{{ v.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:20px 24px;background:none;border:0;cursor:pointer;font-family:inherit;text-align:left">
                 <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
                   <span style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#10131a">{{ v.os }}</span>
                   <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac">{{ v.ver }}</span>
@@ -176,7 +176,7 @@
                     <span style="font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:#eef3fd;color:#2A6FDB;letter-spacing:.02em">{{ t.latest }}</span>
                   </sc-if>
                 </div>
-                <div style="display:flex;align-items:center;gap:22px;flex-shrink:0">
+                <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
                   <span style="font-size:13px;color:#9aa1ac;font-weight:500">Android {{ v.android }}</span>
                   <span style="font-size:13px;color:#9aa1ac;font-weight:500">{{ v.date }}</span>
                   <span style="font-size:13px;color:#9aa1ac;font-weight:500">{{ v.size }}</span>
@@ -198,9 +198,15 @@
                     <sc-if value="{{ v.hasDl }}" hint-placeholder-val="{{ true }}">
                       <a href="{{ v.dl }}" target="_blank" style="font-size:14px;font-weight:700;color:#fff;background:#2A6FDB;padding:12px 24px;border-radius:11px;text-decoration:none;box-shadow:0 8px 20px rgba(42,111,219,.26)">{{ t.dlBtn }}</a>
                     </sc-if>
+                    <sc-if value="{{ v.hasRelease }}" hint-placeholder-val="{{ false }}">
+                      <a href="{{ v.release }}" target="_blank" style="font-size:14px;font-weight:700;color:#2A6FDB;text-decoration:none">{{ t.releaseBtn }}</a>
+                    </sc-if>
                     <a href="{{ v.src }}" target="_blank" style="font-size:14px;font-weight:700;color:#2A6FDB;background:#eef3fd;padding:12px 24px;border-radius:11px;text-decoration:none">{{ v.srcBtnText }}</a>
-                    <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac">{{ v.fileName }}</span>
+                    <span style="font-family:'Space Grotesk',monospace;font-size:12.5px;color:#9aa1ac;overflow-wrap:anywhere;max-width:100%">{{ v.fileName }}</span>
                   </div>
+                  <sc-if value="{{ v.hasSha256 }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin-top:14px;font-family:monospace;font-size:12px;line-height:1.6;color:#687180;overflow-wrap:anywhere">SHA-256: {{ v.sha256 }}</div>
+                  </sc-if>
                   <sc-if value="{{ v.noDl }}" hint-placeholder-val="{{ false }}">
                     <div style="margin-top:12px;font-size:12.5px;color:#c2731f;font-weight:600">{{ t.noBuild }}</div>
                   </sc-if>
@@ -1184,41 +1190,55 @@ const RAW = [
   {
     "name": "Meizu M2 Note",
     "codename": "m2note",
-    "s": "compile",
+    "s": "build",
     "soc": "MediaTek MT6753",
     "sub": {
-      "ru": "LOS16 / Android 9 · сборка",
-      "en": "LOS16 / Android 9 · building"
+      "ru": "LOS16 / Android 9 · ROM опубликован",
+      "en": "LOS16 / Android 9 · ROM published"
     },
     "desc": {
-      "ru": "Новая LOS16 / userdebug проходит сборочные проверки. Ошибка libgem исправлена, настоящий ARM64-объект скомпилирован. Полный ROM ещё не принят; работающие функции старого Android 8.1 нельзя приписывать новой сборке. Опубликованы ветки Android 9/11/13.",
-      "en": "The new LOS16 / userdebug track passes build checks. The libgem error is fixed and its ARM64 object compiled. A complete ROM has not been accepted; hardware results from the earlier Android 8.1 port do not validate this new build. Android 9/11/13 source branches are published."
+      "ru": "Опубликована полная экспериментальная LineageOS 16.0 / Android 9 userdebug с ядром Linux 3.18. Проверены архив, подпись, boot.img и содержимое OTA. Загрузка и работа оборудования именно этой сборки на телефоне ещё не проверены.",
+      "en": "A complete experimental LineageOS 16.0 / Android 9 userdebug ROM with Linux 3.18 is available. The archive, signature, boot.img and OTA contents were checked. Boot and hardware operation on this exact build have not yet been tested on a phone."
     },
     "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-16.0",
-    "hw": {},
+    "hw": {
+      "display": "unknown",
+      "touch": "unknown",
+      "wifi": "unknown",
+      "bt": "unknown",
+      "ril": "unknown",
+      "camera": "unknown",
+      "fp": "unknown",
+      "audio": "unknown",
+      "sensors": "unknown",
+      "gps": "unknown",
+      "charge": "unknown"
+    },
     "vers": [
       {
         "os": "LineageOS 16.0",
         "ver": {
-          "ru": "Исходники",
-          "en": "Source track"
+          "ru": "Экспериментальная · userdebug",
+          "en": "Experimental · userdebug"
         },
         "android": "9",
-        "date": "29 Sep 2026",
-        "size": "—",
-        "file": {
-          "ru": "Публичная ветка",
-          "en": "Public branch"
-        },
+        "date": "2026-10-02",
+        "size": "685.6 MiB",
+        "file": "lineage-16.0-20261002-UNOFFICIAL-m2note.zip",
+        "dl": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/m2note-lineage-16.0-20261002/lineage-16.0-20261002-UNOFFICIAL-m2note.zip",
+        "release": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/tag/m2note-lineage-16.0-20261002",
+        "sha256": "3b63f6dee22cf179112d5eb8dffcfe09d87e22402297586cb6b5359fe96bfefd",
         "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-16.0",
         "cl": {
           "ru": [
-            "Опубликованы исходники устройства. Полная сборка и работа функций требуют отдельной проверки.",
-            "Внешние зависимости и границы публикации описаны в репозитории."
+            "Полная сборка с собственным ядром Linux 3.18; boot.img входит в ROM и доступен отдельно.",
+            "Проверены целостность, подпись, образ загрузки и OTA. Аппаратные тесты этой сборки ещё впереди.",
+            "Сборка подписана тестовым ключом. Указанный уровень патчей безопасности Android: 2022-01-05."
           ],
           "en": [
-            "Device sources are published. A complete build and working hardware require separate validation.",
-            "The repository documents external dependencies and publication scope."
+            "Complete build with the device Linux 3.18 kernel; boot.img is included in the ROM and available separately.",
+            "Integrity, signature, boot image and OTA contents checked. Device testing of this build is still pending.",
+            "Signed with a development test key. Declared Android security patch level: 2022-01-05."
           ]
         }
       },
@@ -1272,7 +1292,8 @@ const RAW = [
           ]
         }
       }
-    ]
+    ],
+    "kernel": "https://github.com/ReMeizu/android_kernel_meizu_mt6753/tree/m2note-3.18-native"
   },
   {
     "name": "Meizu M5c",
@@ -1530,12 +1551,12 @@ const RAW = [
     "s": "compile",
     "soc": "MediaTek MT6753",
     "sub": {
-      "ru": "Ядро 4.9 собрано · LOS16 в работе",
-      "en": "Kernel 4.9 compiled · LOS16 in progress"
+      "ru": "LOS16 / Android 9 · сборка в работе",
+      "en": "LOS16 / Android 9 · build in progress"
     },
     "desc": {
-      "ru": "Собрано custom-ядро 4.9 A4 с исправлениями панели, накопителя и дисплея. Goodix A5 прошёл отдельную ARM64-компиляцию. До проверки на телефоне нужны полный набор ресурсов платы, DTB и упаковка boot.img. Полная LOS16 ещё не принята.",
-      "en": "Custom Linux 4.9 A4 compiled with panel, storage and display fixes. Goodix A5 passed a separate ARM64 compilation. Board resources, DTB and boot.img packaging are still required before device testing. A full LOS16 ROM has not been accepted."
+      "ru": "Для базовой LOS16 выбран собственный Linux 3.18 с драйверами панели Yassy и тача FT5346. Исправлены конфигурация USB и совместимость дисплейного интерфейса. Полный ROM собирается; загрузки пока нет. Отдельный порт Linux 4.9 остаётся в разработке.",
+      "en": "The LOS16 baseline uses the device Linux 3.18 kernel with Yassy panel and FT5346 touch drivers. USB configuration and display interface compatibility were corrected. The complete ROM build is in progress; no download is available yet. The separate Linux 4.9 port remains in development."
     },
     "src": "https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-16.0",
     "hw": {},
@@ -1616,95 +1637,123 @@ const RAW = [
         }
       }
     ],
-    "kernel": "https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/m5s-linux-4.9"
+    "kernel": "https://github.com/ReMeizu/android_kernel_meizu_mt6753/tree/m5s-3.18-native"
   },
   {
     "name": "Meizu U10",
     "codename": "u10",
-    "s": "compile",
+    "s": "build",
     "soc": "MediaTek MT6750",
     "sub": {
-      "ru": "LOS16 / Android 9 · разработка",
-      "en": "LOS16 / Android 9 · development"
+      "ru": "LOS16 / Android 9 · ROM опубликован",
+      "en": "LOS16 / Android 9 · ROM published"
     },
     "desc": {
-      "ru": "Граф LOS16 проверен; touch-драйверы и API питания скомпилированы на рабочей базе. Публичная серия патчей пока не интегрирована в свою публичную базу и отдельно не собрана. Готового boot.img нет.",
-      "en": "The LOS16 graph passes; touch drivers and the power API compiled on the development base. The public patch series still needs integration and compilation against its public base. No ready boot.img."
+      "ru": "Опубликована полная экспериментальная LineageOS 16.0 / Android 9 userdebug с ядром Linux 3.18. Проверены архив, подпись, boot.img и содержимое OTA. Загрузка и работа оборудования именно этой сборки на телефоне ещё не проверены.",
+      "en": "A complete experimental LineageOS 16.0 / Android 9 userdebug ROM with Linux 3.18 is available. The archive, signature, boot.img and OTA contents were checked. Boot and hardware operation on this exact build have not yet been tested on a phone."
     },
     "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0",
-    "hw": {},
+    "hw": {
+      "display": "unknown",
+      "touch": "unknown",
+      "wifi": "unknown",
+      "bt": "unknown",
+      "ril": "unknown",
+      "camera": "unknown",
+      "fp": "unknown",
+      "audio": "unknown",
+      "sensors": "unknown",
+      "gps": "unknown",
+      "charge": "unknown"
+    },
     "vers": [
       {
         "os": "LineageOS 16.0",
-        "android": "9",
         "ver": {
-          "ru": "Разработка",
-          "en": "Development"
+          "ru": "Экспериментальная · userdebug",
+          "en": "Experimental · userdebug"
         },
-        "date": "29 Sep 2026",
-        "size": "—",
-        "file": {
-          "ru": "Исходники и статус",
-          "en": "Sources and status"
-        },
+        "android": "9",
+        "date": "2026-10-05",
+        "size": "589.4 MiB",
+        "file": "lineage-16.0-20261005-UNOFFICIAL-u10.zip",
+        "dl": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/u10-lineage-16.0-20261005/lineage-16.0-20261005-UNOFFICIAL-u10.zip",
+        "release": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/tag/u10-lineage-16.0-20261005",
+        "sha256": "dc1363b160c1068fb5c3cc23fee8ec55d13fa07c401da0c964a22f9795aefcfc",
         "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0",
         "cl": {
           "ru": [
-            "Граф LOS16 проверен; touch-драйверы и API питания скомпилированы на рабочей базе. Публичная серия патчей пока не интегрирована в свою публичную базу и отдельно не собрана. Готового boot.img нет.",
-            "Общий конфиг не заменяет порт под конкретную плату."
+            "Полная сборка с собственным ядром Linux 3.18; boot.img входит в ROM и доступен отдельно.",
+            "Проверены целостность, подпись, образ загрузки и OTA. Аппаратные тесты этой сборки ещё впереди.",
+            "Сборка подписана тестовым ключом. Указанный уровень патчей безопасности Android: 2022-01-05."
           ],
           "en": [
-            "The LOS16 graph passes; touch drivers and the power API compiled on the development base. The public patch series still needs integration and compilation against its public base. No ready boot.img.",
-            "A common configuration does not replace a board-specific port."
+            "Complete build with the device Linux 3.18 kernel; boot.img is included in the ROM and available separately.",
+            "Integrity, signature, boot image and OTA contents checked. Device testing of this build is still pending.",
+            "Signed with a development test key. Declared Android security patch level: 2022-01-05."
           ]
         }
       }
     ],
-    "kernel": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/u10-linux-3.18-patches"
+    "kernel": "https://github.com/ReMeizu/android_kernel_meizu_mt675x/tree/u10-3.18"
   },
   {
     "name": "Meizu U20",
     "codename": "u20",
-    "s": "compile",
+    "s": "build",
     "soc": "MediaTek MT6755 (Helio P10)",
     "sub": {
-      "ru": "LOS16 / Android 9 · разработка",
-      "en": "LOS16 / Android 9 · development"
+      "ru": "LOS16 / Android 9 · ROM опубликован",
+      "en": "LOS16 / Android 9 · ROM published"
     },
     "desc": {
-      "ru": "Граф LOS16 проверен. Транспорт драйвера BQ24196 прошёл тесты и ARM64-компиляцию на тестовой базе API 3.18. Полная интеграция зарядки, battery policy, DTB и boot.img ещё впереди; зарядка на телефоне не проверена.",
-      "en": "The LOS16 graph passes. BQ24196 transport passed tests and ARM64 compilation against a 3.18 API fixture. Full charger integration, battery policy, DTB and boot.img are still pending; charging on hardware is not verified."
+      "ru": "Опубликована полная экспериментальная LineageOS 16.0 / Android 9 userdebug с ядром Linux 3.18. Проверены архив, подпись, boot.img и содержимое OTA. Загрузка и работа оборудования именно этой сборки на телефоне ещё не проверены.",
+      "en": "A complete experimental LineageOS 16.0 / Android 9 userdebug ROM with Linux 3.18 is available. The archive, signature, boot.img and OTA contents were checked. Boot and hardware operation on this exact build have not yet been tested on a phone."
     },
     "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0",
-    "hw": {},
+    "hw": {
+      "display": "unknown",
+      "touch": "unknown",
+      "wifi": "unknown",
+      "bt": "unknown",
+      "ril": "unknown",
+      "camera": "unknown",
+      "fp": "unknown",
+      "audio": "unknown",
+      "sensors": "unknown",
+      "gps": "unknown",
+      "charge": "unknown"
+    },
     "vers": [
       {
         "os": "LineageOS 16.0",
-        "android": "9",
         "ver": {
-          "ru": "Разработка",
-          "en": "Development"
+          "ru": "Экспериментальная · userdebug",
+          "en": "Experimental · userdebug"
         },
-        "date": "29 Sep 2026",
-        "size": "—",
-        "file": {
-          "ru": "Исходники и статус",
-          "en": "Sources and status"
-        },
+        "android": "9",
+        "date": "2026-10-05",
+        "size": "585.9 MiB",
+        "file": "lineage-16.0-20261005-UNOFFICIAL-u20.zip",
+        "dl": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/download/u20-lineage-16.0-20261005/lineage-16.0-20261005-UNOFFICIAL-u20.zip",
+        "release": "https://github.com/nomorecoolnicknames/remeizu-releases/releases/tag/u20-lineage-16.0-20261005",
+        "sha256": "1c0e5757c623929e0ed85cde5e8d254218d3a4b46aadde3e5943bcb48dab40b3",
         "src": "https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0",
         "cl": {
           "ru": [
-            "Граф LOS16 проверен. Транспорт драйвера BQ24196 прошёл тесты и ARM64-компиляцию на тестовой базе API 3.18. Полная интеграция зарядки, battery policy, DTB и boot.img ещё впереди; зарядка на телефоне не проверена.",
-            "Общий конфиг не заменяет порт под конкретную плату."
+            "Полная сборка с собственным ядром Linux 3.18; boot.img входит в ROM и доступен отдельно.",
+            "Проверены целостность, подпись, образ загрузки и OTA. Аппаратные тесты этой сборки ещё впереди.",
+            "Сборка подписана тестовым ключом. Указанный уровень патчей безопасности Android: 2022-01-05."
           ],
           "en": [
-            "The LOS16 graph passes. BQ24196 transport passed tests and ARM64 compilation against a 3.18 API fixture. Full charger integration, battery policy, DTB and boot.img are still pending; charging on hardware is not verified.",
-            "A common configuration does not replace a board-specific port."
+            "Complete build with the device Linux 3.18 kernel; boot.img is included in the ROM and available separately.",
+            "Integrity, signature, boot image and OTA contents checked. Device testing of this build is still pending.",
+            "Signed with a development test key. Declared Android security patch level: 2022-01-05."
           ]
         }
       }
     ],
-    "kernel": "https://github.com/nomorecoolnicknames/android_kernel_meizu_m6/tree/u20-linux-3.18"
+    "kernel": "https://github.com/ReMeizu/android_kernel_meizu_mt675x/tree/u20-3.18"
   },
   {
     "name": "Meizu M3s",
@@ -1970,10 +2019,10 @@ class Component extends DCLogic {
       ru: {
         kernelLink: 'Исходники ядра и патчи', navFirmware: 'Прошивки', navGuide: 'Инструкция', navCommunity: 'Сообщество',
         pageTitle: 'Кастомные прошивки ReMeizu',
-        pageSub: 'Продлеваем жизнь старых Meizu: Android 13 уже загружается на M5c и MX6. Для остальных моделей публикуем исходники и проверяем сборки. Стабильная линейка Android 9/11/13 ещё в разработке.',
-        socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'Срез: 29 сентября 2026', loadMore: 'Статус уточняется по результатам проверок',
+        pageSub: 'Продлеваем жизнь старых Meizu: Android 13 уже загружается на M5c и MX6. Полные экспериментальные Android 9 ROM доступны для M2 Note, U10 и U20. Стабильная линейка Android 9/11/13 ещё в разработке.',
+        socFamily: 'Платформа:', filterAll: 'Все', activeBuilds: 'Обновлено: 6 октября 2026', loadMore: 'Статус уточняется по результатам проверок',
         firmwares: 'Прошивки', archive: 'Сборки и исходники', latest: 'Основной трек', changelog: 'Что нового',
-        dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Готовый ROM для загрузки здесь не опубликован. Исходники могут требовать внешних зависимостей и доработки.',
+        releaseBtn: 'Релиз и контрольные суммы', dlBtn: 'Скачать', srcBtn: 'Исходники на GitHub', noBuild: 'Готовый ROM для загрузки здесь не опубликован. Исходники могут требовать внешних зависимостей и доработки.',
         hwTitle: 'Что работает', hwLegend: 'Зелёный — работает, оранжевый — в работе, красный — не работает, серый — не проверено.',
         plannedNote: 'Это устройство в планах. Работа над портом ещё не начиналась.',
         notPlannedNote: 'Это устройство не в планах. Разработка под него пока не планируется.',
@@ -1984,10 +2033,10 @@ class Component extends DCLogic {
       en: {
         kernelLink: 'Kernel sources and patches', navFirmware: 'Firmware', navGuide: 'Install guide', navCommunity: 'Community',
         pageTitle: 'ReMeizu custom firmware',
-        pageSub: 'Extending the life of older Meizu phones: Android 13 boots on M5c and MX6. Other models have source tracks and build validation in progress. A stable Android 9/11/13 lineup is still in development.',
-        socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Snapshot: 29 September 2026', loadMore: 'Status follows verified results',
+        pageSub: 'Extending the life of older Meizu phones: Android 13 boots on M5c and MX6. Complete experimental Android 9 ROMs are available for M2 Note, U10 and U20. A stable Android 9/11/13 lineup is still in development.',
+        socFamily: 'SoC Family:', filterAll: 'All', activeBuilds: 'Updated: 6 October 2026', loadMore: 'Status follows verified results',
         firmwares: 'Firmware', archive: 'Builds and sources', latest: 'Primary track', changelog: "What's new",
-        dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No ready ROM download is published here. Sources may require external inputs and further work.',
+        releaseBtn: 'Release and checksums', dlBtn: 'Download', srcBtn: 'Sources on GitHub', noBuild: 'No ready ROM download is published here. Sources may require external inputs and further work.',
         hwTitle: 'What works', hwLegend: 'Green — working, orange — in progress, red — broken, grey — untested.',
         plannedNote: 'This device is planned. Porting work has not started yet.',
         notPlannedNote: 'This device is not planned. Development is not currently scheduled.',
@@ -2005,15 +2054,15 @@ class Component extends DCLogic {
       bringup: { bg: '#f3eefe', fg: '#7a4fd0' },
       planned: { bg: '#e8f4fd', fg: '#1d63b8' },
       not_planned: { bg: '#f1f2f4', fg: '#9aa1ac' },
-      runtime: { bg: '#e7f6ee', fg: '#1f8a5b' }, compile: { bg: '#eef3fd', fg: '#2A6FDB' }, source: { bg: '#f3eefe', fg: '#7a4fd0' }, unverified: { bg: '#f1f2f4', fg: '#687180' },
+      build: { bg: '#eef3fd', fg: '#2A6FDB' }, runtime: { bg: '#e7f6ee', fg: '#1f8a5b' }, compile: { bg: '#eef3fd', fg: '#2A6FDB' }, source: { bg: '#f3eefe', fg: '#7a4fd0' }, unverified: { bg: '#f1f2f4', fg: '#687180' },
     };
     const statusLabel = {
-      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах', not_planned: 'Не в планах', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
-      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned', not_planned: 'Not planned', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
+      ru: { stable: 'Стабильная', beta: 'Бета', alpha: 'Альфа', bringup: 'Bring-up', planned: 'В планах', not_planned: 'Не в планах', build: 'ROM · аппаратные тесты впереди', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
+      en: { stable: 'Stable', beta: 'Beta', alpha: 'Alpha', bringup: 'Bring-up', planned: 'Planned', not_planned: 'Not planned', build: 'ROM · device tests pending', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
     };
     const branchLabel = {
-      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах', not_planned: 'Не в планах', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
-      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned', not_planned: 'Not planned', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
+      ru: { stable: 'Стабильная ветка', beta: 'Бета-ветка', alpha: 'Альфа-сборки', bringup: 'Экспериментальная ветка', planned: 'В планах', not_planned: 'Не в планах', build: 'ROM · аппаратные тесты впереди', runtime: 'Проверялось на телефоне', compile: 'Компиляция', source: 'Исходники / подготовка', unverified: 'Нет свежей проверки' },
+      en: { stable: 'Stable channel', beta: 'Beta channel', alpha: 'Alpha builds', bringup: 'Experimental channel', planned: 'Planned', not_planned: 'Not planned', build: 'ROM · device tests pending', runtime: 'Tested on hardware', compile: 'Compilation', source: 'Sources / preparation', unverified: 'No recent validation' },
     };
 
     const hwState = {
@@ -2104,6 +2153,7 @@ class Component extends DCLogic {
           return {
             os: typeof v.os === 'object' ? v.os[lang] : v.os, ver: typeof v.ver === 'object' ? v.ver[lang] : v.ver, android: v.android, date: v.date, size: v.size,
             changelog: v.cl[lang], fileName: typeof v.file === 'object' ? v.file[lang] : v.file, src: srcUrl, dl: v.dl || '',
+            release: v.release || '', hasRelease: !!v.release, sha256: v.sha256 || '', hasSha256: !!v.sha256,
             hasDl: !!v.dl && v.dl !== srcUrl, noDl: !v.dl || v.dl === srcUrl,
             srcBtnText,
             isLatest: j === 0, expanded,
