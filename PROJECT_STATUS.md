@@ -15,11 +15,24 @@ covers 16 catalogue entries across five chipset groups; support varies by device
 | M3s, Android 9 | Product and build-graph checks pass | Kernel/vendor integration and complete ROM build |
 | M2 Note, Android 9 / Linux 3.18 | Full 2 October userdebug ROM published; archive, signature, native boot and OTA checks passed | Verify boot and the complete hardware matrix on the exact board |
 | U10 / U20, Android 9 / Linux 3.18 | Full 5 October userdebug ROMs published; archive, signature, native boot, OTA and build-component checks passed | Verify boot and the complete hardware matrix on each board |
-| M5s, Android 9 / Linux 3.18 | Native Yassy/FT5346 kernel selected; USB and display interface corrections prepared; full ROM build in progress | Finish the complete build, publish checked artifacts, then test on hardware |
+| M3 Note unified M681/L681, Android 9 / Linux 4.4 | Shared device and board/driver source published; kernel export is partial | Resolve restricted controller and board-generation dependencies; complete joint board acceptance |
+| M3 Note unified M681/L681, Android 13 / Linux 4.9 | Common core compiled with separate board DTBs; selected source/configuration export is partial | Resolve external build inputs, touch and power behavior, then complete both hardware matrices |
+| M5s, Android 9 / Linux 3.18 | Native Yassy/FT5346 kernel selected; USB and display interface corrections prepared; native HWC objects compile for ARM and AArch64, full ROM work continues | Finish the complete build, publish checked artifacts, then test on hardware |
 | Other Android 11 / 13 tracks | Device configuration and compatibility sources published | Complete builds and device testing |
 
 The MX6, M5c and L681 hardware observations above retain their 29 September
 baseline; they do not validate the new M2 Note, U10 or U20 downloads.
+
+The fresh MX6 kernel candidate has a checked native build and packaged boot
+image, but has not been flashed. Its source is separate from the earlier
+full-ROM prebuilt. The M5c source index distinguishes the selected ROM baseline
+from the newer development kernel. The common Linux 6.18 port has a complete
+ARM64 compile check; Meizu hardware integration remains open.
+
+Both M3 Note kernel exports are incomplete as public build inputs. Restricted
+controller source and opaque board data are withheld, and the Linux 4.9 public
+factory table is empty. Source publication does not establish new M3 Note
+hardware acceptance or a public ROM download.
 
 Hardware observations can come from newer development images than the source
 revisions listed in the index. A compiled object or kernel is not a tested phone

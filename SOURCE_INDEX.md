@@ -14,15 +14,43 @@ for this index.
 |---|---|---|---|
 | M2 Note device | [lineage-16.0](https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/tree/lineage-16.0) | [d912799658a2](https://github.com/nomorecoolnicknames/android_device_meizu_m2note-source/commit/d912799658a29280b97f30c9f881abdad6b1dfab) | Current native-kernel selection and full-ROM build notes |
 | M2 Note | [m2note-3.18-native](https://github.com/ReMeizu/android_kernel_meizu_mt6753/tree/m2note-3.18-native) | [be24834072fc](https://github.com/ReMeizu/android_kernel_meizu_mt6753/commit/be24834072fcafa234e61092b7f8b6a0f60a5b78) | Corresponding kernel source for the 2 October experimental ROM |
-| U10 / U20 shared device support | [lineage-16.0](https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0) | [9b094f04471a](https://github.com/nomorecoolnicknames/remeizu-thorium-source/commit/9b094f04471a25e47450a176b659e12b399c2fa1) | Current device, shared-platform and build compatibility sources for the 5 October ROMs |
+| U10 / U20 shared device support | [lineage-16.0](https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0) | [9b094f04471a](https://github.com/nomorecoolnicknames/remeizu-thorium-source/commit/9b094f04471a25e47450a176b659e12b399c2fa1) | Corresponding device, shared-platform and build compatibility sources for the 5 October ROMs |
 | U10 kernel | [u10-3.18](https://github.com/ReMeizu/android_kernel_meizu_mt675x/tree/u10-3.18) | [efeee9b5883c](https://github.com/ReMeizu/android_kernel_meizu_mt675x/commit/efeee9b5883c7f1e11904ce4ae076e5a7aaa2b2a) | Corresponding kernel code for the 5 October experimental ROM |
 | U20 kernel | [u20-3.18](https://github.com/ReMeizu/android_kernel_meizu_mt675x/tree/u20-3.18) | [b86c36b01ef0](https://github.com/ReMeizu/android_kernel_meizu_mt675x/commit/b86c36b01ef08399f064cd2f60cb8fcf6d0b164c) | Corresponding kernel code for the 5 October experimental ROM |
-| M5s device | [lineage-16.0](https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-16.0) | [a2e280f6b39c](https://github.com/nomorecoolnicknames/android_device_meizu_m5s/commit/a2e280f6b39c3f7e9bf6c0d548e770247d4219b7) | Native-kernel, USB and display compatibility updates; full ROM pending |
+| M5s device | [lineage-16.0](https://github.com/nomorecoolnicknames/android_device_meizu_m5s/tree/lineage-16.0) | [4b8e2aacdec1](https://github.com/nomorecoolnicknames/android_device_meizu_m5s/commit/4b8e2aacdec1c201345547b547373dbe88a92221) | Native-kernel, USB and display updates; native HWC objects compiled for ARM and AArch64, full ROM pending |
 | M5s | [m5s-3.18-native](https://github.com/ReMeizu/android_kernel_meizu_mt6753/tree/m5s-3.18-native) | [6a4373fd09b7](https://github.com/ReMeizu/android_kernel_meizu_mt6753/commit/6a4373fd09b75f1ca4025a9311a2c5b97cb810f6) | Selected kernel for the LOS16 build in progress; no complete ROM release yet |
 
 Published code and successful compilation do not establish hardware operation.
 Complete-ROM prereleases and checksum files are available separately in
 [ReMeizu releases](https://github.com/nomorecoolnicknames/remeizu-releases/releases).
+
+## Current development sources
+
+| Device / track | Branch | Checked revision | Status |
+|---|---|---|---|
+| Shared LOS16 platform and M3 Note unified device | [lineage-16.0](https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-16.0) | [e914ef28e127](https://github.com/nomorecoolnicknames/remeizu-thorium-source/commit/e914ef28e1278aa618106764aa512d2364f25319) | Current shared platform, U10/U20 and M3 Note M681/L681 sources |
+| M3 Note / Linux 4.4 | [m3note-4.4](https://github.com/ReMeizu/android_kernel_meizu_mt675x/tree/m3note-4.4) | [30262b66d6e1](https://github.com/ReMeizu/android_kernel_meizu_mt675x/commit/30262b66d6e1097d99389b180f78048dee117087) | Partial selected board/driver export; restricted touch and opaque board inputs omitted |
+| M3 Note unified / Android 13 device | [lineage-20.0](https://github.com/nomorecoolnicknames/remeizu-thorium-source/tree/lineage-20.0/device/meizu/m3note) | [618f11bc58e1](https://github.com/nomorecoolnicknames/remeizu-thorium-source/commit/618f11bc58e13a89ce0f596780312e27f0a730e6) | Current shared M681/L681 device support; newer than the earlier full-ROM input |
+| M3 Note unified / Linux 4.9 | [m3note-4.9-unified](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/m3note-4.9-unified) | [c0b017105b9b](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/commit/c0b017105b9b20f262cab887f1b3c03e5334fb5a) | Partial selected unified source/configuration; restricted controller and per-unit factory inputs omitted |
+| M5c / Android 13 device | [lineage-20-treble](https://github.com/nomorecoolnicknames/android_device_meizu_m5c/tree/lineage-20-treble) | [42dc308c6146](https://github.com/nomorecoolnicknames/android_device_meizu_m5c/commit/42dc308c6146bbcebaebd590f50fe5ca88883504) | Current device configuration with the selected Linux 4.9 baseline |
+| M5c / selected Linux 4.9 baseline | [m5c-4.9-a13-rom](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/m5c-4.9-a13-rom) | [b256a404e931](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/commit/b256a404e931f75e85a5debf9b2693b6a6fcffbf) | Selected ROM kernel runtime source and generated configuration; no new hardware acceptance |
+| M5c / newer Linux 4.9 development | [m5c-4.9-a13](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/tree/m5c-4.9-a13) | [b79584f2610a](https://github.com/nomorecoolnicknames/mtk-t-alps-release-q0-kernel-4.9-lc/commit/b79584f2610a7e68f8ffa4577f7826af84203455) | Later fence diagnostics, CPU accounting and build changes; distinct from the selected ROM baseline |
+| MX6 / Android 13 device | [lineage-20.0](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/tree/lineage-20.0) | [f10b6a1a4689](https://github.com/nomorecoolnicknames/android_device_meizu_m95-source/commit/f10b6a1a4689cf58047a1273b550b8d36e4f9082) | Current native device tree; the existing full ROM uses an earlier prebuilt kernel |
+| MX6 / current Linux 3.18 development | [mx6-3.18-a13](https://github.com/ReMeizu/android_kernel_meizu_mt6797/tree/mx6-3.18-a13) | [d36cce4263df](https://github.com/ReMeizu/android_kernel_meizu_mt6797/commit/d36cce4263dff5d30b5e7fdca6dc1b2eecdae1e8) | Native full kernel and boot image compiled at 56c36fdf665a; latest change documents status, candidate unflashed |
+| Shared upstream Linux 6.18 port | [remeizu-6.18](https://github.com/ReMeizu/linux-remeizu/tree/remeizu-6.18) | [b82a7ece2830](https://github.com/ReMeizu/linux-remeizu/commit/b82a7ece2830f57896d79939547941698260e041) | Complete ARM64 compile checked at 9a1fe1954a16; Meizu board integration and hardware acceptance pending |
+
+The M3 Note 4.4 and 4.9 exports are partial. Withheld restricted controller
+sources and opaque board-generation inputs prevent standalone build and complete
+corresponding-source claims. The 4.9 public factory table is empty; selected
+per-unit diagnostic identities remain external. No new M3 Note ROM download is
+published here.
+
+The MX6 native candidate is separate from the older full-ROM prebuilt. Its
+compiled source is [56c36fdf665a](https://github.com/ReMeizu/android_kernel_meizu_mt6797/commit/56c36fdf665af1daa2ab79b2d25c3112c7a5c4eb);
+the latest branch update changes only its README. The common Linux 6.18 Image
+was compiled at [9a1fe1954a16](https://github.com/ReMeizu/linux-remeizu/commit/9a1fe1954a161d15ebdbfc530aeaba73f28e393e);
+its newer branch update also changes only documentation. Neither compile proves
+that these kernels run on a phone or provide GKI compatibility.
 
 ## Earlier source tracks
 
